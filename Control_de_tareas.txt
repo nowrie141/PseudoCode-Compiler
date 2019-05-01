@@ -19,27 +19,27 @@ NO EXISTEN CONFLICTOS EN LAS REGLAS DE PRODUCCIÓN:		[ ]
 -----------------------------------------------------------------
 PALABRAS RESERVADAS:		[ ]							CHECK
 -----------------------------------------------------------------
-	_mod												[ ]
-	_div												[ ]
+	_mod												[X]
+	_div												[X]
 
-	_o 													[ ]
-	_y													[ ]
-	_no													[ ]
+	_o 													[X]
+	_y													[X]
+	_no													[X]
 
-	leer												[ ]
+	leer												[X]
 	leer_cadena											[ ]
 
-	escribir											[ ]
+	escribir											[X]
 	escribir_cadena										[ ]
 
 	SENTENCIA CONDICIONAL:								[ ]
-		si												[ ]
+		si												[X]
 		entonces										[ ]
-		si_no											[ ]
+		si_no											[X]
 		fin_si											[ ]
 
 	SENTENCIA DE BUCLE MIENTRAS:						[ ]
-		mientras										[ ]
+		mientras										[X]
 		hacer											[ ]
 		fin_mientras									[ ]
 
@@ -65,10 +65,10 @@ PALABRAS RESERVADAS:		[ ]							CHECK
 -----------------------------------------------------------------
 IDENTIFICADORES:		[ ]								CHECK
 -----------------------------------------------------------------
-	COMPUESTOS POR LETRAS, DIGITOS Y SUBRAYADOS 		[ ]
-	COMIENZA POR UNA LETRA								[ ]
-	NO TERMINAN  EN SUBRAYADA							[ ]
-	NO CONTIENEN DOS SUBRAYADOS SEGUIDOS				[ ]
+	COMPUESTOS POR LETRAS, DIGITOS Y SUBRAYADOS 		[X]
+	COMIENZA POR UNA LETRA								[X]
+	NO TERMINAN  EN SUBRAYADA							[X]
+	NO CONTIENEN DOS SUBRAYADOS SEGUIDOS				[X]
 
 	NO SE DISTINGUE ENTRE MAYÚSCULAS Y MINÚSCULAS		[ ]
 
@@ -76,8 +76,8 @@ IDENTIFICADORES:		[ ]								CHECK
 -----------------------------------------------------------------
 NÚMERO:					[ ]								CHECK
 -----------------------------------------------------------------
-	ENTEROS 											[ ]
-	REALES DE PUNTO FIJO								[ ]
+	ENTEROS 											[X]
+	REALES DE PUNTO FIJO								[X]
 	REALES NOTACION CIENTIFICA							[ ]
 
 	TODOS SON TRATADOS COMO NÚMERO						[ ]

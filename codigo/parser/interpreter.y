@@ -149,7 +149,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %type <stmts> stmtlist
 
 // New in example 17: if, while, block
-%type <st> stmt asgn print leer if while block
+%type <st> stmt asgn print read if while block
 
 %type <prog> program
 
@@ -277,7 +277,7 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	  }
-	| leer SEMICOLON
+	| read SEMICOLON
 	  {
 		// Default action
 		// $$ = $1;
@@ -374,7 +374,7 @@ print:  PRINT exp
 		}
 ;	
 
-leer:  READ LPAREN VARIABLE RPAREN  
+read:  READ LPAREN VARIABLE RPAREN  
 		{
 			// Create a new read node
 			 $$ = new lp::ReadStmt($3);
