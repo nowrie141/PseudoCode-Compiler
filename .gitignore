@@ -1,0 +1,14 @@
+
+*.o
+
+codigo/\.nfs00000000020c1f31000667b1
+
+codigo/interpreter\.exe
+
+codigo/parser/interpreter\.dot
+
+codigo/parser/interpreter\.tab\.c
+
+codigo/parser/interpreter\.tab\.h
+
+codigo/parser/lex\.yy\.c
