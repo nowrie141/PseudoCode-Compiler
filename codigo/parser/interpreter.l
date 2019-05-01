@@ -153,7 +153,7 @@ IDENTIFIER  {LETTER}({LETTER}|{DIGIT})*
 
 
 
-"%"     { return MODULO; }			/* NEW in example 5 */
+"_mod"     { return MODULO; }			/* NEW in example 5 */
 
 "^"	    { return POWER; }			/* NEW in example 5 */
 
@@ -172,11 +172,11 @@ IDENTIFIER  {LETTER}({LETTER}|{DIGIT})*
 
 "<"		{ return LESS_THAN; }		/* NEW in example 15 */
 
-"!"		{ return NOT; }				/* NEW in example 15 */
+"_no"		{ return NOT; }				/* NEW in example 15 */
 
-"||"	{ return OR; }				/* NEW in example 15 */
+"_o"	{ return OR; }				/* NEW in example 15 */
 
-"&&"	{ return AND; }				/* NEW in example 15 */
+"_y"	{ return AND; }				/* NEW in example 15 */
 
 "{"		{ return LETFCURLYBRACKET; } 	/* NEW in example 17 */
 
