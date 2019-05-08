@@ -62,10 +62,29 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 /* NEW in example 3 */
 /* STATE  */
-%x ERROR
-
+%x ERROR ESTADO_COMENTARIO ESTADO_COMENTARIO_SIMPLE
 /*! \name REGULAR EXPRESSIONS  */
 %%
+
+"@"	      	{
+			  		/* Se activa el reconocimiento de un comentario */
+			  		BEGIN ESTADO_COMENTARIO_SIMPLE; 
+			  	}
+<ESTADO_COMENTARIO_SIMPLE>"\n" { /* Fin del comentario: se vuelve al estado por defecto */
+		BEGIN 0;
+		return SIMPLE_COMENTARIO;
+		}
+
+"#"			{
+		/* Se activa el reconocimiento de un comentario multiple*/
+			BEGIN ESTADO_COMENTARIO; 
+	}
+
+
+<ESTADO_COMENTARIO>"#"          { /* Fin del comentario: se vuelve al estado por defecto */
+				  BEGIN 0;
+				  return MULTIPLE_COMENTARIO;
+				  }
 
 [ \t] 	{ ; }    /* skip white space and tabular */
 
@@ -89,6 +108,9 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 			return COMMA;
 		}
 
+
+
+
 {NUMBER1}|{NUMBER2}  {
 					  /* MODIFIED in example 4 */
 					  /* Conversion of type and sending of the numerical value to the parser */
@@ -99,6 +121,10 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 
 {IDENTIFIER}   		 {
+						for (int i = 0; i < strlen(yytext); ++i)
+						{
+							yytext[i]=tolower(yytext[i]);
+						}
 						 /* NEW in example 7 */
 						 std::string identifier(yytext);
 
@@ -152,9 +178,9 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 "("     { return LPAREN; } 			/* NEW in example 3 */
 ")"	    { return RPAREN; } 			/* NEW in example 3 */
 
+(?i:_div)	{ return DIVISION_INT; }
 
-
-"_mod"     { return MODULO; }			/* NEW in example 5 */
+(?i:_mod)     { return MODULO; }			/* NEW in example 5 */
 
 "^"	    { return POWER; }			/* NEW in example 5 */
 
@@ -173,29 +199,15 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 "<"		{ return LESS_THAN; }		/* NEW in example 15 */
 
-"_no"		{ return NOT; }				/* NEW in example 15 */
+(?i:_no)		{ return NOT; }				/* NEW in example 15 */
 
-"_o"	{ return OR; }				/* NEW in example 15 */
+(?i:_o)	{ return OR; }				/* NEW in example 15 */
 
-"_y"	{ return AND; }				/* NEW in example 15 */
+(?i:_y)	{ return AND; }				/* NEW in example 15 */
 
 "{"		{ return LETFCURLYBRACKET; } 	/* NEW in example 17 */
 
 "}"		{ return RIGHTCURLYBRACKET; }	/* NEW in example 17 */
-
-
-
-^# { /* The interpreter finishes when the symbol # is written at the beginning of the line */
-	// std::cout << CLEAR_SCREEN; 
-	//  PLACE(24,10);
-  	  std::cout <<  BIYELLOW;
-   	  std::cout <<  ">>>>>>> End of program <<<<<<<";
- 	  std::cout << std::endl;
-   	  std::cout << RESET;
-	 // PLACE(25,1);
-
-  	  return 0;
-	}
 
 <<EOF>> { /* The interpreter finishes when finds the end of file character */
 		/*  PLACE(24,10);

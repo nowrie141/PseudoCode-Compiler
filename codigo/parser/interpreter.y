@@ -148,8 +148,8 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 %type <stmts> stmtlist
 
-// New in example 17: if, while, block
-%type <st> stmt asgn print read if while block
+// New in example 17: if, while
+%type <st> stmt asgn print read if while
 
 %type <prog> program
 
@@ -198,13 +198,15 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %nonassoc GREATER_OR_EQUAL LESS_OR_EQUAL GREATER_THAN LESS_THAN  EQUAL NOT_EQUAL
 
 %left NOT
+
+%left MULTIPLE_COMENTARIO SIMPLE_COMENTARIO
 /*******************************************************/
 
 /* MODIFIED in example 3 */
 %left PLUS MINUS 
 
 /* MODIFIED in example 5 */
-%left MULTIPLICATION DIVISION MODULO
+%left MULTIPLICATION DIVISION DIVISION_INT MODULO 
 
 %left LPAREN RPAREN
 
@@ -294,20 +296,6 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	 }
-	/*  NEW in example 17 */
-	| block 
-	 {
-		// Default action
-		// $$ = $1;
-	 }
-;
-
-
-block: LETFCURLYBRACKET stmtlist RIGHTCURLYBRACKET  
-		{
-			// Create a new block of statements node
-			$$ = new lp::BlockStmt($2); 
-		}
 ;
  
 	/*  NEW in example 17 */
@@ -417,7 +405,11 @@ exp:	NUMBER
 		  // Create a new division node	
 		  $$ = new lp::DivisionNode($1, $3);
 	   }
-
+	|
+		exp DIVISION_INT exp{
+			// Create a new division int node	
+			$$ = new lp::DivisionIntNode($1, $3);
+		}
 	| 	LPAREN exp RPAREN
        	{ 
 		    // just copy up the expression node 
@@ -448,7 +440,6 @@ exp:	NUMBER
 		  // Create a new power node	
   		  $$ = new lp::PowerNode($1, $3);
 		}
-
 	 | VARIABLE
 		{
 		  // Create a new variable node	

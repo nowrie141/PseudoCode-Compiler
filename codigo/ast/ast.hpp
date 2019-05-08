@@ -720,6 +720,41 @@ class DivisionNode : public NumericOperatorNode
 };
 
 
+/*!	
+  \class   DivisionNode
+  \brief   Definition of atributes and methods of DivisionNode class
+  \note    DivisionNode Class publicly inherits from NumericOperatorNode class 
+		   and adds its own print and evaluate functions
+*/
+class DivisionIntNode : public NumericOperatorNode 
+{
+  public:
+/*!		
+	\brief Constructor of DivisionIntNode uses NumericOperatorNode's constructor as members initializer
+	\param L: pointer to ExpNode
+	\param R: pointer to ExpNode
+	\post  A new DivisionIntNode is created with the parameter
+*/
+  DivisionIntNode(ExpNode *L, ExpNode *R): NumericOperatorNode(L,R) 
+  {
+		// Empty
+  }
+/*!
+	\brief   Print the DivisionIntNode
+	\return  void
+	\sa		 evaluate()
+*/
+  void print();
+
+/*!	
+	\brief   Evaluate the DivisionIntNode
+	\return  double
+	\sa		 print
+*/
+  double evaluateNumber();
+};
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 

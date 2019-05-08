@@ -1,0 +1,1 @@
+escribir ( 6 _div 3);
