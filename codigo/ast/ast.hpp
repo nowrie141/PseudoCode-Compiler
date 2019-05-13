@@ -111,7 +111,7 @@ public:
 		\post  A new NumericVariableNode is created with the name of the parameter
 		\note  Inline function
 	*/
-	VariableNode(std::string const &value)
+	VariableNode ( std::string const &value )
 	{
 		this->_id = value;
 	}
@@ -144,6 +144,13 @@ public:
 	*/
 	bool evaluateBool();
 
+	/*!
+	\brief   Evaluate the expression
+	\return  string
+	\sa		 print
+	*/
+	std::string evaluateString();
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -166,7 +173,7 @@ public:
 		\param value: double
 		\post  A new ConstantNode is created with the name of the parameter
 	*/
-	ConstantNode(std::string value)
+	ConstantNode ( std::string value )
 	{
 		this->_id = value;
 	}
@@ -225,7 +232,7 @@ public:
 		\post  A new NumberNode is created with the value of the parameter
 		\note  Inline function
 	*/
-	NumberNode(double value)
+	NumberNode ( double value )
 	{
 		this->_number = value;
 	}
@@ -265,7 +272,7 @@ public:
 class StringNode : public ExpNode
 {
 private:
-	std::string _string; //!< \brief number of the StringNode
+	std::string *_string; //!< \brief number of the StringNode
 
 public:
 
@@ -275,7 +282,7 @@ public:
 		\post  A new StringNode is created with the value of the parameter
 		\note  Inline function
 	*/
-	StringNode(std::string value)
+	StringNode ( std::string *value )
 	{
 		this->_string = value;
 	}
@@ -328,7 +335,7 @@ public:
 		\post  A new OperatorNode is created with the parameters
 		\note  Inline function
 	*/
-	UnaryOperatorNode(ExpNode * expression)
+	UnaryOperatorNode ( ExpNode * expression )
 	{
 		this->_exp = expression;
 	}
@@ -364,7 +371,7 @@ public:
 		\post  A new NumericUnaryOperatorNode is created with the parameters
 		\note  Inline function
 	*/
-	NumericUnaryOperatorNode(ExpNode * expression): UnaryOperatorNode(expression)
+	NumericUnaryOperatorNode ( ExpNode * expression ) : UnaryOperatorNode ( expression )
 	{
 		// Empty
 	}
@@ -398,7 +405,7 @@ public:
 		\post  A new NumericUnaryOperatorNode is created with the parameters
 		\note  Inline function
 	*/
-	LogicalUnaryOperatorNode(ExpNode * expression): UnaryOperatorNode(expression)
+	LogicalUnaryOperatorNode ( ExpNode * expression ) : UnaryOperatorNode ( expression )
 	{
 		// Empty
 	}
@@ -433,7 +440,7 @@ public:
 		\post  A new UnaryMinusNode is created with the parameter
 		\note  Inline function: the NumericUnaryOperatorNode's constructor is used ad member initializer
 	*/
-	UnaryMinusNode(ExpNode * expression): NumericUnaryOperatorNode(expression)
+	UnaryMinusNode ( ExpNode * expression ) : NumericUnaryOperatorNode ( expression )
 	{
 		// empty
 	}
@@ -471,7 +478,7 @@ public:
 		\param expression: pointer to ExpNode
 		\post  A new UnaryPlusNode is created with the parameter
 	*/
-	UnaryPlusNode(ExpNode * expression): NumericUnaryOperatorNode(expression)
+	UnaryPlusNode ( ExpNode * expression ) : NumericUnaryOperatorNode ( expression )
 	{
 		// empty
 	}
@@ -516,7 +523,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new OperatorNode is created with the parameters
 	*/
-	OperatorNode(ExpNode * L, ExpNode * R)
+	OperatorNode ( ExpNode * L, ExpNode * R )
 	{
 		this->_left  = L;
 		this->_right = R;
@@ -545,7 +552,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new NumericOperatorNode is created with the parameters
 	*/
-	NumericOperatorNode(ExpNode * L, ExpNode * R): OperatorNode(L,R)
+	NumericOperatorNode ( ExpNode * L, ExpNode * R ) : OperatorNode ( L, R )
 	{
 		//	Empty
 	}
@@ -578,7 +585,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new RelationalOperatorNode is created with the parameters
 	*/
-	RelationalOperatorNode(ExpNode * L, ExpNode * R): OperatorNode(L,R)
+	RelationalOperatorNode ( ExpNode * L, ExpNode * R ) : OperatorNode ( L, R )
 	{
 		//	Empty
 	}
@@ -612,7 +619,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new NumericOperatorNode is created with the parameters
 	*/
-	LogicalOperatorNode(ExpNode * L, ExpNode * R): OperatorNode(L,R)
+	LogicalOperatorNode ( ExpNode * L, ExpNode * R ) : OperatorNode ( L, R )
 	{
 		//	Empty
 	}
@@ -645,7 +652,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new PlusNode is created with the parameter
 	*/
-	PlusNode(ExpNode * L, ExpNode * R) : NumericOperatorNode(L,R)
+	PlusNode ( ExpNode * L, ExpNode * R ) : NumericOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -685,7 +692,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new MinusNode is created with the parameter
 	*/
-	MinusNode(ExpNode * L, ExpNode * R): NumericOperatorNode(L,R)
+	MinusNode ( ExpNode * L, ExpNode * R ) : NumericOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -726,7 +733,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new MultiplicationNode is created with the parameter
 	*/
-	MultiplicationNode(ExpNode * L, ExpNode * R): NumericOperatorNode(L,R)
+	MultiplicationNode ( ExpNode * L, ExpNode * R ) : NumericOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -763,7 +770,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new DivisionNode is created with the parameter
 	*/
-	DivisionNode(ExpNode * L, ExpNode * R): NumericOperatorNode(L,R)
+	DivisionNode ( ExpNode * L, ExpNode * R ) : NumericOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -798,7 +805,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new DivisionIntNode is created with the parameter
 	*/
-	DivisionIntNode(ExpNode * L, ExpNode * R): NumericOperatorNode(L,R)
+	DivisionIntNode ( ExpNode * L, ExpNode * R ) : NumericOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -836,7 +843,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new ModuloNode is created with the parameter
 	*/
-	ModuloNode(ExpNode * L, ExpNode * R): NumericOperatorNode(L,R)
+	ModuloNode ( ExpNode * L, ExpNode * R ) : NumericOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -874,7 +881,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new PowerNode is created with the parameter
 	*/
-	PowerNode(ExpNode * L, ExpNode * R): NumericOperatorNode(L,R)
+	PowerNode ( ExpNode * L, ExpNode * R ) : NumericOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -914,7 +921,7 @@ public:
 		\param id: string, name of the BuiltinFunction
 		\post  A new BuiltinFunctionNode is created with the parameter
 	*/
-	BuiltinFunctionNode(std::string id)
+	BuiltinFunctionNode ( std::string id )
 	{
 		this->_id = id;
 	}
@@ -942,7 +949,7 @@ public:
 		\param id: string, name of the BuiltinFunction
 		\post  A new BuiltinFunctionNode_2 is created with the parameter
 	*/
-	BuiltinFunctionNode_0(std::string id): BuiltinFunctionNode(id)
+	BuiltinFunctionNode_0 ( std::string id ) : BuiltinFunctionNode ( id )
 	{
 		//
 	}
@@ -995,7 +1002,7 @@ public:
 		\param expression: pointer to ExpNode, argument of the BuiltinFunctionNode_1
 		\post  A new BuiltinFunctionNode_1 is created with the parameters
 	*/
-	BuiltinFunctionNode_1(std::string id, ExpNode * expression): BuiltinFunctionNode(id)
+	BuiltinFunctionNode_1 ( std::string id, ExpNode * expression ) : BuiltinFunctionNode ( id )
 	{
 		this->_exp = expression;
 	}
@@ -1048,7 +1055,7 @@ public:
 		\param expression2: pointer to ExpNode, second argument of the BuiltinFunctionNode
 		\post  A new BuiltinFunctionNode_2 is created with the parameters
 	*/
-	BuiltinFunctionNode_2(std::string id,ExpNode * expression1,ExpNode * expression2): BuiltinFunctionNode(id)
+	BuiltinFunctionNode_2 ( std::string id, ExpNode * expression1, ExpNode * expression2 ) : BuiltinFunctionNode ( id )
 	{
 		this->_exp1 = expression1;
 		this->_exp2 = expression2;
@@ -1099,7 +1106,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new GreaterThanNode is created with the parameter
 	*/
-	GreaterThanNode(ExpNode * L, ExpNode * R): RelationalOperatorNode(L,R)
+	GreaterThanNode ( ExpNode * L, ExpNode * R ) : RelationalOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -1142,7 +1149,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new GreaterOrEqualNode is created with the parameter
 	*/
-	GreaterOrEqualNode(ExpNode * L, ExpNode * R): RelationalOperatorNode(L,R)
+	GreaterOrEqualNode ( ExpNode * L, ExpNode * R ) : RelationalOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -1183,7 +1190,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new LessThanNode is created with the parameter
 	*/
-	LessThanNode(ExpNode * L, ExpNode * R): RelationalOperatorNode(L,R)
+	LessThanNode ( ExpNode * L, ExpNode * R ) : RelationalOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -1224,7 +1231,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new LessOrEqualNode is created with the parameter
 	*/
-	LessOrEqualNode(ExpNode * L, ExpNode * R): RelationalOperatorNode(L,R)
+	LessOrEqualNode ( ExpNode * L, ExpNode * R ) : RelationalOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -1264,7 +1271,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new EqualNode is created with the parameter
 	*/
-	EqualNode(ExpNode * L, ExpNode * R): RelationalOperatorNode(L,R)
+	EqualNode ( ExpNode * L, ExpNode * R ) : RelationalOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -1304,7 +1311,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new NotEqualNode is created with the parameter
 	*/
-	NotEqualNode(ExpNode * L, ExpNode * R): RelationalOperatorNode(L,R)
+	NotEqualNode ( ExpNode * L, ExpNode * R ) : RelationalOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -1346,7 +1353,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new AndNode is created with the parameter
 	*/
-	AndNode(ExpNode * L, ExpNode * R): LogicalOperatorNode(L,R)
+	AndNode ( ExpNode * L, ExpNode * R ) : LogicalOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -1389,7 +1396,7 @@ public:
 		\param R: pointer to ExpNode
 		\post  A new AndNode is created with the parameter
 	*/
-	OrNode(ExpNode * L, ExpNode * R): LogicalOperatorNode(L,R)
+	OrNode ( ExpNode * L, ExpNode * R ) : LogicalOperatorNode ( L, R )
 	{
 		// Empty
 	}
@@ -1429,7 +1436,7 @@ public:
 		\param expression: pointer to ExpNode
 		\post  A new NotNode is created with the parameter
 	*/
-	NotNode(ExpNode * expression): LogicalUnaryOperatorNode(expression)
+	NotNode ( ExpNode * expression ) : LogicalUnaryOperatorNode ( expression )
 	{
 		// empty
 	}
@@ -1508,7 +1515,7 @@ public:
 		\param expression: pointer to ExpNode
 		\post  A new AssignmentStmt is created with the parameters
 	*/
-	AssignmentStmt(std::string id, ExpNode * expression): _id(id), _exp(expression)
+	AssignmentStmt ( std::string id, ExpNode * expression ) : _id ( id ), _exp ( expression )
 	{
 		this->_asgn = NULL;
 	}
@@ -1521,7 +1528,7 @@ public:
 		\note  Allow multiple assigment -> a = b = 2
 	*/
 
-	AssignmentStmt(std::string id, AssignmentStmt * asgn): _id(id), _asgn(asgn)
+	AssignmentStmt ( std::string id, AssignmentStmt * asgn ) : _id ( id ), _asgn ( asgn )
 	{
 		this->_exp = NULL;
 	}
@@ -1564,7 +1571,7 @@ public:
 		\param expression: pointer to ExpNode
 		\post  A new PrintStmt is created with the parameter
 	*/
-	PrintStmt(ExpNode * expression)
+	PrintStmt ( ExpNode * expression )
 	{
 		this->_exp = expression;
 	}
@@ -1607,7 +1614,7 @@ public:
 		\param id: string, name of the variable of the ReadStmt
 		\post  A new ReadStmt is created with the parameter
 	*/
-	ReadStmt(std::string id)
+	ReadStmt ( std::string id )
 	{
 		this->_id = id;
 	}
@@ -1692,7 +1699,7 @@ public:
 		\param statement1: Statement of the consequent
 		\post  A new IfStmt is created with the parameters
 	*/
-	IfStmt(ExpNode * condition, std::list<Statement *> * statement1)
+	IfStmt ( ExpNode * condition, std::list<Statement *> * statement1 )
 	{
 		this->_cond = condition;
 		this->_stmt1 = statement1;
@@ -1707,7 +1714,7 @@ public:
 		\param statement2: Statement of the alternative
 		\post  A new IfStmt is created with the parameters
 	*/
-	IfStmt(ExpNode * condition, std::list<Statement *> * statement1, std::list<Statement *> * statement2)
+	IfStmt ( ExpNode * condition, std::list<Statement *> * statement1, std::list<Statement *> * statement2 )
 	{
 		this->_cond = condition;
 		this->_stmt1 = statement1;
@@ -1757,7 +1764,7 @@ public:
 		\param statement: Statement of the body of the loop
 		\post  A new WhileStmt is created with the parameters
 	*/
-	WhileStmt(ExpNode * condition, std::list<Statement *> * statementlist)
+	WhileStmt ( ExpNode * condition, std::list<Statement *> * statementlist )
 	{
 		this->_cond = condition;
 		this->_stmtlist = statementlist;
@@ -1798,7 +1805,7 @@ public:
 		\param statement: Statement of the body of the loop
 		\post  A new RepeatStmt is created with the parameters
 	*/
-	RepeatStmt(ExpNode * condition, std::list<Statement *> * statementlist)
+	RepeatStmt ( ExpNode * condition, std::list<Statement *> * statementlist )
 	{
 		this->_cond = condition;
 		this->_stmtlist = statementlist;
@@ -1814,50 +1821,6 @@ public:
 
 	/*!
 		\brief   Evaluate the RepeatStmt
-		\return  void
-		\sa		 print
-	*/
-	void evaluate();
-};
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-// NEW in example 17
-
-/*!
-  \class   BlockStmt
-  \brief   Definition of atributes and methods of BlockStmt class
-  \note    BlockStmt Class publicly inherits from Statement class
-		   and adds its own print and evaluate functions
-*/
-class BlockStmt : public Statement
-{
-private:
-	std::list<Statement *> * _stmts; //!< List of statements
-
-public:
-	/*!
-		\brief Constructor of  WhileStmt
-		\param stmtList: list of Statement
-		\post  A new BlockStmt is created with the parameters
-	*/
-	BlockStmt(std::list<Statement *> * stmtList): _stmts(stmtList)
-	{
-		// Empty
-	}
-
-
-	/*!
-		\brief   Print the BlockStmt
-		\return  void
-		\sa		 evaluate
-	*/
-	void print();
-
-	/*!
-		\brief   Evaluate the BlockStmt
 		\return  void
 		\sa		 print
 	*/
@@ -1885,7 +1848,7 @@ public:
 		\param stmtList: pointer to a list of pointers to Statement
 		\post  A new PrintStmt is created with the parameter
 	*/
-	AST(std::list<Statement *> * stmtList): stmts(stmtList)
+	AST ( std::list<Statement *> * stmtList ) : stmts ( stmtList )
 	{
 		// Empty
 	}

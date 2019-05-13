@@ -64,19 +64,29 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 /* NEW in example 3 */
 /* STATE  */
-%x ERROR ESTADO_COMENTARIO ESTADO_COMENTARIO_SIMPLE 
+%x ERROR ESTADO_COMENTARIO ESTADO_COMENTARIO_SIMPLE ESTADO_CADENA
 /*! \name REGULAR EXPRESSIONS  */
 %%
+ 
+"'"			   {
+			    /* Se activa el reconocimiento de la cadena */
+			    BEGIN ESTADO_CADENA; 
+			  }
 
-\'(\\.|[^'\\])*\'  { /* Fin de la cadena: se vuelve al estado por defecto */
-				         std::string auxiliarString(yytext);
-				         auxiliarString=auxiliarString.substr(1, auxiliarString.size()-2);
-				         yylval.strings = strdup(auxiliarString.c_str());
-				         return STRING;
+
+<ESTADO_CADENA>"'"  { /* Fin de la cadena: se vuelve al estado por defecto */
+			         BEGIN 0; 
+
+			         yytext[yyleng-1]='\0';
+				     yylval.strings = new std::string(yytext);
+				     return STRING;
 					}      
 
+<ESTADO_CADENA>"\\\'"     {yymore();}
 
+<ESTADO_CADENA>.          {yymore();}
 
+<ESTADO_CADENA>\n         {yymore();}
 
 "@"	      	{
 			  		/* Se activa el reconocimiento de un comentario */

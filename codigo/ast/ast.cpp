@@ -27,6 +27,7 @@
 //
 #include "../table/numericVariable.hpp"
 #include "../table/logicalVariable.hpp"
+#include "../table/stringVariable.hpp"
 
 #include "../table/numericConstant.hpp"
 #include "../table/logicalConstant.hpp"
@@ -102,6 +103,28 @@ bool lp::VariableNode::evaluateBool()
 	{
 		// Get the identifier in the table of symbols as LogicalVariable
 		lp::LogicalVariable * var = ( lp::LogicalVariable * ) table.getSymbol ( this->_id );
+
+		// Copy the value of the LogicalVariable
+		result = var->getValue();
+	}
+	else
+	{
+		warning ( "Runtime error in evaluateBool(): the variable is not boolean",
+		          this->_id );
+	}
+
+	// Return the value of the LogicalVariable
+	return result;
+}
+
+std::string lp::VariableNode::evaluateString()
+{
+	std::string result = "";
+
+	if ( this->getType() == STRING )
+	{
+		// Get the identifier in the table of symbols as LogicalVariable
+		lp::StringVariable * var = ( lp::StringVariable * ) table.getSymbol ( this->_id );
 
 		// Copy the value of the LogicalVariable
 		result = var->getValue();
@@ -214,12 +237,12 @@ int lp::StringNode::getType()
 
 void lp::StringNode::print()
 {
-	std::cout << "StringNode: " << this->_string << std::endl;
+	std::cout << "StringNode: " << *(this->_string) << std::endl;
 }
 
 std::string lp::StringNode::evaluateString()
 {
-	return this->_string;
+	return *(this->_string);
 }
 
 
@@ -1111,6 +1134,35 @@ void lp::AssignmentStmt::evaluate()
 		}
 		break;
 
+		case STRING:
+		{
+			std::string value;
+			// evaluate the expression as STRING
+			value = this->_exp->evaluateString();
+
+			if ( firstVar->getType() == STRING )
+			{
+				// Get the identifier in the table of symbols as StringVariable
+				lp::StringVariable * v = ( lp::StringVariable * ) table.getSymbol ( this->_id );
+
+				// Assignment the value to the identifier in the table of symbols
+				v->setValue ( value );
+			}
+			// The type of variable is not BOOL
+			else
+			{
+				// Delete the variable from the table of symbols
+				table.eraseSymbol ( this->_id );
+				// Insert the variable in the table of symbols as NumericVariable
+				// with the type BOOL and the value
+				lp::StringVariable * v = new lp::StringVariable ( this->_id,
+				        VARIABLE, STRING, value );
+
+				table.installSymbol ( v );
+			}
+		}
+		break;
+
 		default:
 			warning ( "Runtime error: incompatible type of expression for ", "Assigment" );
 		}
@@ -1195,6 +1247,36 @@ void lp::AssignmentStmt::evaluate()
 		}
 		break;
 
+		case STRING:
+		{
+			/* Get the identifier of the previous asgn in the table of symbols as StringVariable */
+			lp::StringVariable * secondVar = ( lp::StringVariable * ) table.getSymbol ( this->_asgn->_id );
+			// Check the type of the first variable
+			if ( firstVar->getType() == NUMBER )
+			{
+				/* Get the identifier of the first variable in the table of symbols as StringVariable */
+				lp::StringVariable * firstVar = ( lp::StringVariable * ) table.getSymbol ( this->_id );
+				// Get the identifier o f the in the table of symbols as NumericVariable
+//					lp::NumericVariable *n = (lp::NumericVariable *) table.getSymbol(this->_id);
+
+				// Assignment the value of the second variable to the first variable
+				firstVar->setValue ( secondVar->getValue() );
+
+			}
+			// The type of variable is not NUMBER
+			else
+			{
+				// Delete the first variable from the table of symbols
+				table.eraseSymbol ( this->_id );
+
+				// Insert the first variable in the table of symbols as NumericVariable
+				// with the type BOOL and the value of the previous variable
+				lp::StringVariable * firstVar = new lp::StringVariable ( this->_id,
+				        VARIABLE, BOOL, secondVar->getValue() );
+				table.installSymbol ( firstVar );
+			}
+		}
+		break;
 		default:
 			warning ( "Runtime error: incompatible type of expression for ", "Assigment" );
 		}
@@ -1232,7 +1314,9 @@ void lp::PrintStmt::evaluate()
 			std::cout << "false" << std::endl;
 
 		break;
-
+	case STRING:
+		std::cout << this->_exp->evaluateString() << std::endl;
+		break;
 	default:
 		warning ( "Runtime error: incompatible type for ", "print" );
 	}
@@ -1425,40 +1509,6 @@ void lp::RepeatStmt::evaluate()
 	while ( this->_cond->evaluateBool() == true );
 
 }
-
-
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-// NEW in example 17
-
-void lp::BlockStmt::print()
-{
-	std::list<Statement *>::iterator stmtIter;
-
-	std::cout << "BlockStmt: "  << std::endl;
-
-	for ( stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++ )
-	{
-		( *stmtIter )->print();
-	}
-}
-
-
-void lp::BlockStmt::evaluate()
-{
-	std::list<Statement *>::iterator stmtIter;
-
-	for ( stmtIter = this->_stmts->begin(); stmtIter != this->_stmts->end(); stmtIter++ )
-	{
-		( *stmtIter )->evaluate();
-	}
-}
-
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

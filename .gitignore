@@ -12,3 +12,5 @@ codigo/parser/interpreter\.tab\.c
 codigo/parser/interpreter\.tab\.h
 
 codigo/parser/lex\.yy\.c
+
+codigo/html/

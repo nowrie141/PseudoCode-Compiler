@@ -50,6 +50,8 @@
 /* NEW in example 15 */
 #include "../table/logicalVariable.hpp"
 
+#include "../table/stringVariable.hpp"
+
 /*******************************************/
 /* NEW in example 11 */
 #include "../table/numericConstant.hpp"
@@ -132,7 +134,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
   char * identifier; 				 /* NEW in example 7 */
   double number;  
   bool logic;						 /* NEW in example 15 */
-  char * strings;
+  std::string * strings;
   lp::ExpNode *expNode;  			 /* NEW in example 16 */
   std::list<lp::ExpNode *>  *parameters;    // New in example 16; NOTE: #include<list> must be in interpreter.l, init.cpp, interpreter.cpp
   std::list<lp::Statement *> *stmts; /* NEW in example 16 */
@@ -170,7 +172,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 %token <logic> BOOL
 
-%token <string> STRING
+%token <strings> STRING
 
 /* MODIFIED in examples 11, 13 */
 %token <identifier> VARIABLE UNDEFINED CONSTANT BUILTIN
@@ -284,6 +286,9 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	 }
+	| repeat{
+		
+	}
 ;
  
 	/*  NEW in example 17 */
@@ -381,7 +386,7 @@ exp:	NUMBER
 
 	|
 		STRING{
-
+			$$ = new lp::StringNode($1);
 		}
 	| 	exp PLUS exp 
 		{ 

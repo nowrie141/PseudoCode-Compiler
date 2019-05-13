@@ -43,9 +43,9 @@ PALABRAS RESERVADAS:		[ ]							CHECK
 		hacer											[X]
 		fin_mientras									[X]
 
-	SENTENCIA DE BUCLE REPETIR:							[ ]
-		repetir											[ ]
-		hasta											[ ]
+	SENTENCIA DE BUCLE REPETIR:							[X]
+		repetir											[X]
+		hasta											[X]
 
 	SENTENCIA DE BUCLE PARA:							[ ]
 		para											[ ]
@@ -63,7 +63,7 @@ PALABRAS RESERVADAS:		[ ]							CHECK
 
 
 -----------------------------------------------------------------
-IDENTIFICADORES:		[ ]								CHECK
+IDENTIFICADORES:		[X]								CHECK
 -----------------------------------------------------------------
 	COMPUESTOS POR LETRAS, DIGITOS Y SUBRAYADOS 		[X]
 	COMIENZA POR UNA LETRA								[X]
@@ -78,7 +78,7 @@ NÚMERO:					[ ]								CHECK
 -----------------------------------------------------------------
 	ENTEROS 											[X]
 	REALES DE PUNTO FIJO								[X]
-	REALES NOTACION CIENTIFICA							[ ]
+	REALES NOTACION CIENTIFICA							[X]
 
 	TODOS SON TRATADOS COMO NÚMERO						[ ]
 
@@ -94,18 +94,18 @@ CADENA:					[ ]								CHECK
 OPERADORES:				[ ]								CHECK
 -----------------------------------------------------------------
 	NUMERICOS											[ ]
-		ASIGNACION :=									[ ]
-		SUMA +											[ ]
+		ASIGNACION :=									[X]
+		SUMA +											[X]
 			UNARIO +2									[ ]
 			BINARIO 2+3									[ ]
-		RESTA -											[ ]
+		RESTA -											[X]
 			UNARIO -2									[ ]
 			BINARIO 2-3									[ ]
-		PRODUCTO *										[ ]
-		DIVISION /										[ ]
-		DIVISION_ENTERA _div							[ ]
-		MODULO _mod										[ ]
-		POTENCIA **										[ ]
+		PRODUCTO *										[X]
+		DIVISION /										[X]
+		DIVISION_ENTERA _div							[X]
+		MODULO _mod										[X]
+		POTENCIA **										[X]
 
 	ALFANUMERICOS										[ ]
 		CONCATENACION ||								[ ]
