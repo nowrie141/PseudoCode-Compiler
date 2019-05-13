@@ -57,14 +57,26 @@ NUMBER1 {DIGIT}+\.?
 
 NUMBER2 {DIGIT}*\.{DIGIT}+
 
+NUMBER3 {DIGIT}+(\.{DIGIT}+)?(E[+\-]?{DIGIT}+)?
+
 IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 
 /* NEW in example 3 */
 /* STATE  */
-%x ERROR ESTADO_COMENTARIO ESTADO_COMENTARIO_SIMPLE
+%x ERROR ESTADO_COMENTARIO ESTADO_COMENTARIO_SIMPLE 
 /*! \name REGULAR EXPRESSIONS  */
 %%
+
+\'(\\.|[^'\\])*\'  { /* Fin de la cadena: se vuelve al estado por defecto */
+				         std::string auxiliarString(yytext);
+				         auxiliarString=auxiliarString.substr(1, auxiliarString.size()-2);
+				         yylval.strings = strdup(auxiliarString.c_str());
+				         return STRING;
+					}      
+
+
+
 
 "@"	      	{
 			  		/* Se activa el reconocimiento de un comentario */
@@ -72,18 +84,16 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 			  	}
 <ESTADO_COMENTARIO_SIMPLE>"\n" { /* Fin del comentario: se vuelve al estado por defecto */
 		BEGIN 0;
-		return SIMPLE_COMENTARIO;
 		}
 
 "#"			{
-		/* Se activa el reconocimiento de un comentario multiple*/
+		
 			BEGIN ESTADO_COMENTARIO; 
 	}
 
 
-<ESTADO_COMENTARIO>"#"          { /* Fin del comentario: se vuelve al estado por defecto */
+<ESTADO_COMENTARIO>"#"          {
 				  BEGIN 0;
-				  return MULTIPLE_COMENTARIO;
 				  }
 
 [ \t] 	{ ; }    /* skip white space and tabular */
@@ -111,7 +121,7 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 
 
-{NUMBER1}|{NUMBER2}  {
+{NUMBER1}|{NUMBER2}|{NUMBER3}  {
 					  /* MODIFIED in example 4 */
 					  /* Conversion of type and sending of the numerical value to the parser */
 					   yylval.number = atof(yytext); 
@@ -184,12 +194,12 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 "^"	    { return POWER; }			/* NEW in example 5 */
 
-"=" 	{ return ASSIGNMENT; }		/* NEW in example 7 */
+":=" 	{ return ASSIGNMENT; }		/* NEW in example 7 */
 
 
 "=="	{ return EQUAL; }			/* NEW in example 15 */
 
-"!="	{ return NOT_EQUAL; }		/* NEW in example 15 */
+"<>"	{ return NOT_EQUAL; }		/* NEW in example 15 */
 
 ">="	{ return GREATER_OR_EQUAL; }/* NEW in example 15 */
 
@@ -205,9 +215,6 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 (?i:_y)	{ return AND; }				/* NEW in example 15 */
 
-"{"		{ return LETFCURLYBRACKET; } 	/* NEW in example 17 */
-
-"}"		{ return RIGHTCURLYBRACKET; }	/* NEW in example 17 */
 
 <<EOF>> { /* The interpreter finishes when finds the end of file character */
 		/*  PLACE(24,10);

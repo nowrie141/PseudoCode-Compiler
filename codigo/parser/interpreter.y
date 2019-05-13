@@ -132,6 +132,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
   char * identifier; 				 /* NEW in example 7 */
   double number;  
   bool logic;						 /* NEW in example 15 */
+  char * strings;
   lp::ExpNode *expNode;  			 /* NEW in example 16 */
   std::list<lp::ExpNode *>  *parameters;    // New in example 16; NOTE: #include<list> must be in interpreter.l, init.cpp, interpreter.cpp
   std::list<lp::Statement *> *stmts; /* NEW in example 16 */
@@ -149,7 +150,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %type <stmts> stmtlist
 
 // New in example 17: if, while
-%type <st> stmt asgn print read if while
+%type <st> stmt asgn print read if while repeat
 
 %type <prog> program
 
@@ -157,32 +158,19 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 /* Minimum precedence */
 
-/*******************************************/
-/* NEW in example 5 */
 %token SEMICOLON
-/*******************************************/
 
-// NEW in example 17: IF, ELSE, WHILE 
-%token PRINT READ IF ELSE WHILE
+%token PRINT READ PRINT_STRING READ_STRING IF THEN ELSE END_IF WHILE DO END_WHILE REPEAT UNTIL
 
-// NEW in example 17
-%token LETFCURLYBRACKET RIGHTCURLYBRACKET
-
-/* NEW in example 7 */
 %right ASSIGNMENT
 
-/* NEW in example 14 */
 %token COMMA
 
-/*******************************************/
-/* MODIFIED in example 4 */
 %token <number> NUMBER
-/*******************************************/
 
-/*******************************************/
-/* NEW in example 15 */
 %token <logic> BOOL
-/*******************************************/
+
+%token <string> STRING
 
 /* MODIFIED in examples 11, 13 */
 %token <identifier> VARIABLE UNDEFINED CONSTANT BUILTIN
@@ -300,27 +288,33 @@ stmt: SEMICOLON  /* Empty statement: ";" */
  
 	/*  NEW in example 17 */
 if:	/* Simple conditional statement */
-	IF cond stmt 
+	IF cond THEN stmtlist END_IF
     {
 		// Create a new if statement node
-		$$ = new lp::IfStmt($2, $3);
+		$$ = new lp::IfStmt($2, $4);
 	}
 
 	/* Compound conditional statement */
-	| IF cond stmt  ELSE stmt 
+	| IF cond THEN stmtlist ELSE stmtlist END_IF
 	 {
 		// Create a new if statement node
-		$$ = new lp::IfStmt($2, $3, $5);
+		$$ = new lp::IfStmt($2, $4, $6);
 	 }
 ;
 
 	/*  NEW in example 17 */
-while:  WHILE cond stmt 
+while:  WHILE cond DO stmtlist END_WHILE
 		{
 			// Create a new while statement node
-			$$ = new lp::WhileStmt($2, $3);
+			$$ = new lp::WhileStmt($2, $4);
         }
 ;
+
+repeat: REPEAT stmtlist UNTIL cond
+		{
+			$$=new lp::RepeatStmt($4,$2);
+		}
+;		
 
 	/*  NEW in example 17 */
 cond: 	LPAREN exp RPAREN
@@ -360,6 +354,10 @@ print:  PRINT exp
 			// Create a new print node
 			 $$ = new lp::PrintStmt($2);
 		}
+		| PRINT_STRING exp
+		{
+			$$ = new lp::PrintStmt($2);
+		}
 ;	
 
 read:  READ LPAREN VARIABLE RPAREN  
@@ -375,13 +373,16 @@ read:  READ LPAREN VARIABLE RPAREN
 		}
 ;
 
-
 exp:	NUMBER 
 		{ 
 			// Create a new number node
 			$$ = new lp::NumberNode($1);
 		}
 
+	|
+		STRING{
+
+		}
 	| 	exp PLUS exp 
 		{ 
 			// Create a new plus node

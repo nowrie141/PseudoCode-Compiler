@@ -1,1 +1,3 @@
-escribir ( 6 _div 3);
+repetir
+escribir(2);
+hasta(2<3)

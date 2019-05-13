@@ -75,9 +75,17 @@ static struct {
 	      } keyword[] = {
 	                    "escribir", PRINT,
 	                    "leer",  READ,
+	                    "escribir_cadena", PRINT_STRING,
+	                    "leer_cadena", READ_STRING,
 						"si",	 IF,   		// NEW in example 17
 						"si_no",	 ELSE, 		// NEW in example 17
+						"entonces", THEN,
+						"fin_si", END_IF,
 						"mientras",  WHILE,	// NEW in example 17
+						"hacer", DO,
+						"fin_mientras", END_WHILE,
+						"repetir", REPEAT,
+						"hasta", UNTIL,
 	                    "",      0
 	                   };
 

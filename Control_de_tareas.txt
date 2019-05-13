@@ -32,16 +32,16 @@ PALABRAS RESERVADAS:		[ ]							CHECK
 	escribir											[X]
 	escribir_cadena										[ ]
 
-	SENTENCIA CONDICIONAL:								[ ]
+	SENTENCIA CONDICIONAL:								[X]
 		si												[X]
-		entonces										[ ]
+		entonces										[X]
 		si_no											[X]
-		fin_si											[ ]
+		fin_si											[X]
 
-	SENTENCIA DE BUCLE MIENTRAS:						[ ]
+	SENTENCIA DE BUCLE MIENTRAS:						[X]
 		mientras										[X]
-		hacer											[ ]
-		fin_mientras									[ ]
+		hacer											[X]
+		fin_mientras									[X]
 
 	SENTENCIA DE BUCLE REPETIR:							[ ]
 		repetir											[ ]
