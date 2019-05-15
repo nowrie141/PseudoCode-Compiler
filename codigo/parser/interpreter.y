@@ -152,7 +152,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %type <stmts> stmtlist
 
 // New in example 17: if, while
-%type <st> stmt asgn print read if while repeat
+%type <st> stmt asgn print read if while repeat erase
 
 %type <prog> program
 
@@ -162,7 +162,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 %token SEMICOLON
 
-%token PRINT READ PRINT_STRING READ_STRING IF THEN ELSE END_IF WHILE DO END_WHILE REPEAT UNTIL
+%token PRINT READ PRINT_STRING READ_STRING IF THEN ELSE END_IF WHILE DO END_WHILE REPEAT UNTIL ERASE
 
 %right ASSIGNMENT
 
@@ -290,6 +290,9 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	}
+	| erase{
+		
+	}
 ;
  
 	/*  NEW in example 17 */
@@ -329,6 +332,10 @@ cond: 	LPAREN exp RPAREN
 		}
 ;
 
+erase:	ERASE
+		{
+			$$=new lp::EraseStmt();
+		}
 
 asgn:   VARIABLE ASSIGNMENT exp 
 		{ 
@@ -386,6 +393,8 @@ read:  READ LPAREN VARIABLE RPAREN
  			execerror("Semantic error in \"read statement\": it is not allowed to modify a constant ",$3);
 		}
 ;
+
+
 
 exp:	NUMBER 
 		{ 
