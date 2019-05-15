@@ -27,10 +27,10 @@ PALABRAS RESERVADAS:		[ ]							CHECK
 	_no													[X]
 
 	leer												[X]
-	leer_cadena											[ ]
+	leer_cadena											[X]
 
 	escribir											[X]
-	escribir_cadena										[ ]
+	escribir_cadena										[X]
 
 	SENTENCIA CONDICIONAL:								[X]
 		si												[X]
@@ -59,7 +59,7 @@ PALABRAS RESERVADAS:		[ ]							CHECK
 		_lugar											[ ]
 
 	NO SE DISTINGUE ENTRE MAYÚSCULAS Y MINÚSCULAS		[X]
-	LAS PALABRAS RESERVADAS NO SON IDENTIFICADORES		[ ]
+	LAS PALABRAS RESERVADAS NO SON IDENTIFICADORES		[X]
 
 
 -----------------------------------------------------------------
@@ -85,10 +85,10 @@ NÚMERO:					[ ]								CHECK
 -----------------------------------------------------------------
 CADENA:					[ ]								CHECK
 -----------------------------------------------------------------
-	CARACTERES DELIMITADOS POR COMILLAS SIMPLES 		[ ]
+	CARACTERES DELIMITADOS POR COMILLAS SIMPLES 		[X]
 	INCLUYE COMILLA SIMPLE CON \ \'						[ ]
 
-	COMILLAS EXTERIORES NO SON PARTE DE LA CADENA 		[ ]
+	COMILLAS EXTERIORES NO SON PARTE DE LA CADENA 		[X]
 
 -----------------------------------------------------------------
 OPERADORES:				[ ]								CHECK
@@ -97,30 +97,30 @@ OPERADORES:				[ ]								CHECK
 		ASIGNACION :=									[X]
 		SUMA +											[X]
 			UNARIO +2									[ ]
-			BINARIO 2+3									[ ]
-		RESTA -											[X]
+			BINARIO 2+3									[X]
+		RESTA -											[ ]
 			UNARIO -2									[ ]
-			BINARIO 2-3									[ ]
+			BINARIO 2-3									[X]
 		PRODUCTO *										[X]
 		DIVISION /										[X]
 		DIVISION_ENTERA _div							[X]
 		MODULO _mod										[X]
 		POTENCIA **										[X]
 
-	ALFANUMERICOS										[ ]
-		CONCATENACION ||								[ ]
+	ALFANUMERICOS										[X]
+		CONCATENACION ||								[X]
 
-	RELACIONALES NÚMEROS Y CADENAS						[ ]
-		MENOR QUE <										[ ]
-		MENOR O IGUAL QUE <=							[ ]
-		MAYOR QUE >										[ ]
-		MAYOR O IGUAL QUE >=							[ ]
-		DISTINTO DE <>									[ ]
+	RELACIONALES NÚMEROS Y CADENAS						[X]
+		MENOR QUE <										[X]
+		MENOR O IGUAL QUE <=							[X]
+		MAYOR QUE >										[X]
+		MAYOR O IGUAL QUE >=							[X]
+		DISTINTO DE <>									[X]
 
-	LOGICOS												[ ]
-		DISYUNCIÓN _o									[ ]
-		CONJUNCIÓN _y									[ ]
-		NEGACIÓN   _no									[ ]
+	LOGICOS												[X]
+		DISYUNCIÓN _o									[X]
+		CONJUNCIÓN _y									[X]
+		NEGACIÓN   _no									[X]
 
 -----------------------------------------------------------------
 OTROS:					[ ]								CHECK

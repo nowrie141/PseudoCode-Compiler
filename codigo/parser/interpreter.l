@@ -70,6 +70,7 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
  
 "'"			   {
 			    /* Se activa el reconocimiento de la cadena */
+				yylval.strings = new std::string("");
 			    BEGIN ESTADO_CADENA; 
 			  }
 
@@ -78,13 +79,15 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 			         BEGIN 0; 
 
 			         yytext[yyleng-1]='\0';
-				     yylval.strings = new std::string(yytext);
+				     yylval.strings -> append(std::string(yytext));
 				     return STRING;
 					}      
 
-<ESTADO_CADENA>"\\\'"     {yymore();}
+<ESTADO_CADENA>"\\\'"     {yylval.strings->append("'");}
 
-<ESTADO_CADENA>.          {yymore();}
+<ESTADO_CADENA>.          {
+					yylval.strings->append(std::string(yytext));
+}
 
 <ESTADO_CADENA>\n         {yymore();}
 
@@ -96,15 +99,9 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 		BEGIN 0;
 		}
 
-"#"			{
-		
-			BEGIN ESTADO_COMENTARIO; 
-	}
+"#"			{	BEGIN ESTADO_COMENTARIO; }
 
-
-<ESTADO_COMENTARIO>"#"          {
-				  BEGIN 0;
-				  }
+<ESTADO_COMENTARIO>"#"          {	BEGIN 0;	}
 
 [ \t] 	{ ; }    /* skip white space and tabular */
 
@@ -189,6 +186,7 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 							}
                      }
 
+
 "-"		{ return MINUS;  } 			/* NEW in example 3 */
 "+"		{ return PLUS;   } 			/* NEW in example 3 */
 
@@ -202,7 +200,7 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 (?i:_mod)     { return MODULO; }			/* NEW in example 5 */
 
-"^"	    { return POWER; }			/* NEW in example 5 */
+"**"	    { return POWER; }			/* NEW in example 5 */
 
 ":=" 	{ return ASSIGNMENT; }		/* NEW in example 7 */
 
@@ -219,6 +217,8 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 "<"		{ return LESS_THAN; }		/* NEW in example 15 */
 
+"||"	{ return CONCATENATION;}
+
 (?i:_no)		{ return NOT; }				/* NEW in example 15 */
 
 (?i:_o)	{ return OR; }				/* NEW in example 15 */
@@ -226,14 +226,7 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 (?i:_y)	{ return AND; }				/* NEW in example 15 */
 
 
-<<EOF>> { /* The interpreter finishes when finds the end of file character */
-		/*  PLACE(24,10);
-	  	  std::cout <<  BICYAN;
-	   	  std::cout <<  ">>>>>>> End of file <<<<<<<";
-	 	  std::cout << std::endl;
-	   	  std::cout << RESET;
-		  PLACE(25,1);
-		*/
+<<EOF>> {
 	  	  return 0;
 	}
 

@@ -196,7 +196,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %left PLUS MINUS 
 
 /* MODIFIED in example 5 */
-%left MULTIPLICATION DIVISION DIVISION_INT MODULO 
+%left MULTIPLICATION DIVISION DIVISION_INT MODULO CONCATENATION 
 
 %left LPAREN RPAREN
 
@@ -287,7 +287,8 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// $$ = $1;
 	 }
 	| repeat{
-		
+		// Default action
+		// $$ = $1;
 	}
 ;
  
@@ -361,7 +362,7 @@ print:  PRINT exp
 		}
 		| PRINT_STRING exp
 		{
-			$$ = new lp::PrintStmt($2);
+			$$ = new lp::PrintStringStmt($2);
 		}
 ;	
 
@@ -369,6 +370,14 @@ read:  READ LPAREN VARIABLE RPAREN
 		{
 			// Create a new read node
 			 $$ = new lp::ReadStmt($3);
+		}
+
+		|
+
+		READ_STRING LPAREN VARIABLE RPAREN
+		{
+			// Create a new read node
+			 $$ = new lp::ReadStringStmt($3);
 		}
 
   	  /* NEW rule in example 11 */
@@ -392,7 +401,7 @@ exp:	NUMBER
 		{ 
 			// Create a new plus node
 			 $$ = new lp::PlusNode($1, $3);
-		 }
+		}
 
 	| 	exp MINUS exp
       	{
@@ -410,7 +419,7 @@ exp:	NUMBER
 		{
 		  // Create a new division node	
 		  $$ = new lp::DivisionNode($1, $3);
-	   }
+	    }
 	|
 		exp DIVISION_INT exp{
 			// Create a new division int node	
@@ -439,14 +448,19 @@ exp:	NUMBER
 		  // Create a new modulo node	
 
 		  $$ = new lp::ModuloNode($1, $3);
-       }
+        }
 
 	|	exp POWER exp 
      	{ 
 		  // Create a new power node	
   		  $$ = new lp::PowerNode($1, $3);
 		}
-	 | VARIABLE
+	|	exp CONCATENATION exp
+		{
+		  // Create a new concatenate node	
+  		  $$ = new lp::ConcatenateNode($1, $3);
+		}
+	| VARIABLE
 		{
 		  // Create a new variable node	
 		  $$ = new lp::VariableNode($1);

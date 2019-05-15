@@ -302,6 +302,21 @@ int lp::NumericOperatorNode::getType()
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+int lp::StringOperatorNode::getType()
+{
+	int result = 0;
+
+	if ( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
+		result = STRING;
+	else
+		warning ( "Runtime error: incompatible types for", "Numeric Operator" );
+
+	return	result;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 int lp::RelationalOperatorNode::getType()
 {
@@ -309,6 +324,8 @@ int lp::RelationalOperatorNode::getType()
 
 	if ( ( this->_left->getType() == NUMBER ) and ( this->_right->getType() == NUMBER ) )
 		result = BOOL;
+	else if( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
+		result = STRING;
 	else
 		warning ( "Runtime error: incompatible types for", "Relational Operator" );
 
@@ -416,6 +433,35 @@ double lp::PlusNode::evaluateNumber()
 	else
 	{
 		warning ( "Runtime error: the expressions are not numeric for ", "Plus" );
+	}
+
+	return result;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void lp::ConcatenateNode::print()
+{
+	std::cout << "ConcatenateNode: "  << std::endl;
+	this->_left->print();
+	std::cout << " || ";
+	this->_right->print();
+}
+
+std::string lp::ConcatenateNode::evaluateString()
+{
+	std::string result = "";
+
+	// Ckeck the types of the expressions
+	if ( this->getType() == STRING )
+	{
+		result = this->_left->evaluateString() + this->_right->evaluateString();
+	}
+	else
+	{
+		warning ( "Runtime error: the expressions are not numeric for ", "Concatenate" );
 	}
 
 	return result;
@@ -922,7 +968,7 @@ void lp::NotEqualNode::print()
 {
 	std::cout << "NotEqualNode: " << std::endl;
 	this->_left->print();
-	std::cout << " != ";
+	std::cout << " <> ";
 	this->_right->print();
 }
 
@@ -937,7 +983,15 @@ bool lp::NotEqualNode::evaluateBool()
 		rightNumber = this->_right->evaluateNumber();
 
 		// ERROR_BOUND to control the precision of real numbers
-		result = std::abs ( ( leftNumber - rightNumber ) >= ERROR_BOUND );
+		result = (std::abs ( leftNumber - rightNumber ) >= ERROR_BOUND );
+	}
+	else if( this->getType() == STRING )
+	{
+		std::string leftString, rightString;
+		leftString = this->_left->evaluateString();
+		rightString = this->_right->evaluateString();
+		result=!(leftString==rightString);
+
 	}
 	else
 	{
@@ -1298,10 +1352,6 @@ void lp::PrintStmt::print()
 
 void lp::PrintStmt::evaluate()
 {
-	std::cout << BIYELLOW;
-	std::cout << "Print: ";
-	std::cout << RESET;
-
 	switch ( this->_exp->getType() )
 	{
 	case NUMBER:
@@ -1314,11 +1364,32 @@ void lp::PrintStmt::evaluate()
 			std::cout << "false" << std::endl;
 
 		break;
-	case STRING:
-		std::cout << this->_exp->evaluateString() << std::endl;
-		break;
 	default:
 		warning ( "Runtime error: incompatible type for ", "print" );
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void lp::PrintStringStmt::print()
+{
+	std::cout << "PrintStringStmt: "  << std::endl;
+	std::cout << " PrintString ";
+	this->_exp->print();
+	std::cout << std::endl;
+}
+
+
+void lp::PrintStringStmt::evaluate()
+{
+	if( this->_exp->getType() == STRING )
+	{
+		std::cout << this->_exp->evaluateString() << std::endl;
+	}
+	else
+	{
+		warning ( "Runtime error: incompatible type for ", "escribir_cadena" );
 	}
 }
 
@@ -1337,9 +1408,6 @@ void lp::ReadStmt::print()
 void lp::ReadStmt::evaluate()
 {
 	double value;
-	std::cout << BIYELLOW;
-	std::cout << "Insert a numeric value --> " ;
-	std::cout << RESET;
 	std::cin >> value;
 
 	/* Get the identifier in the table of symbols as Variable */
@@ -1364,6 +1432,49 @@ void lp::ReadStmt::evaluate()
 		// with the type NUMBER and the read value
 		lp::NumericVariable * n = new lp::NumericVariable ( this->_id,
 		        VARIABLE, NUMBER, value );
+
+		table.installSymbol ( n );
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void lp::ReadStringStmt::print()
+{
+	std::cout << "ReadStringStmt: "  << std::endl;
+	std::cout << " leer_cadena (" << this->_id << ")";
+	std::cout << std::endl;
+}
+
+
+void lp::ReadStringStmt::evaluate()
+{
+	std::string value;
+	std::cin >> value;
+
+	/* Get the identifier in the table of symbols as Variable */
+	lp::Variable * var = ( lp::Variable * ) table.getSymbol ( this->_id );
+
+	// Check if the type of the variable is STRING
+	if ( var->getType() == STRING )
+	{
+		/* Get the identifier in the table of symbols as StringVariable */
+		lp::StringVariable * n = ( lp::StringVariable * ) table.getSymbol ( this->_id );
+
+		/* Assignment the read value to the identifier */
+		n->setValue ( value );
+	}
+	// The type of variable is not STRING
+	else
+	{
+		// Delete $1 from the table of symbols as Variable
+		table.eraseSymbol ( this->_id );
+
+		// Insert $1 in the table of symbols as StringVariable
+		// with the type STRING and the read value
+		lp::StringVariable * n = new lp::StringVariable ( this->_id,
+		        VARIABLE, STRING, value );
 
 		table.installSymbol ( n );
 	}
