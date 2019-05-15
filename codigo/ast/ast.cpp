@@ -237,12 +237,12 @@ int lp::StringNode::getType()
 
 void lp::StringNode::print()
 {
-	std::cout << "StringNode: " << *(this->_string) << std::endl;
+	std::cout << "StringNode: " << * ( this->_string ) << std::endl;
 }
 
 std::string lp::StringNode::evaluateString()
 {
-	return *(this->_string);
+	return * ( this->_string );
 }
 
 
@@ -324,8 +324,8 @@ int lp::RelationalOperatorNode::getType()
 
 	if ( ( this->_left->getType() == NUMBER ) and ( this->_right->getType() == NUMBER ) )
 		result = BOOL;
-	else if( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
-		result = STRING;
+	else if ( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
+		result = BOOL;
 	else
 		warning ( "Runtime error: incompatible types for", "Relational Operator" );
 
@@ -978,19 +978,22 @@ bool lp::NotEqualNode::evaluateBool()
 
 	if ( this->getType() == BOOL )
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		if ( ( this->_left->getType() == NUMBER ) and ( this->_right->getType() == NUMBER ) )
+		{
+			double leftNumber, rightNumber;
+			leftNumber = this->_left->evaluateNumber();
+			rightNumber = this->_right->evaluateNumber();
 
-		// ERROR_BOUND to control the precision of real numbers
-		result = (std::abs ( leftNumber - rightNumber ) >= ERROR_BOUND );
-	}
-	else if( this->getType() == STRING )
-	{
-		std::string leftString, rightString;
-		leftString = this->_left->evaluateString();
-		rightString = this->_right->evaluateString();
-		result=!(leftString==rightString);
+			// ERROR_BOUND to control the precision of real numbers
+			result = ( std::abs ( leftNumber - rightNumber ) >= ERROR_BOUND );
+		}
+		else if ( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
+		{
+			std::string leftString, rightString;
+			leftString = this->_left->evaluateString();
+			rightString = this->_right->evaluateString();
+			result = ! ( leftString == rightString );
+		}
 
 	}
 	else
@@ -1355,13 +1358,13 @@ void lp::PrintStmt::evaluate()
 	switch ( this->_exp->getType() )
 	{
 	case NUMBER:
-		std::cout << this->_exp->evaluateNumber() << std::endl;
+		std::cout << this->_exp->evaluateNumber();
 		break;
 	case BOOL:
 		if ( this->_exp->evaluateBool() )
-			std::cout << "true" << std::endl;
+			std::cout << "true";
 		else
-			std::cout << "false" << std::endl;
+			std::cout << "false";
 
 		break;
 	default:
@@ -1383,9 +1386,29 @@ void lp::PrintStringStmt::print()
 
 void lp::PrintStringStmt::evaluate()
 {
-	if( this->_exp->getType() == STRING )
+	if ( this->_exp->getType() == STRING )
 	{
-		std::cout << this->_exp->evaluateString() << std::endl;
+		std::string * auxiliar = new std::string ( this->_exp->evaluateString() );
+
+		for ( int i = 0; i < ( int ) auxiliar->length(); ++i )
+		{
+			if ( auxiliar->at ( i ) == '\\' && auxiliar->at ( i + 1 ) == 'n' )
+			{
+				std::cout << std::endl;
+				i++;
+			}
+			else if ( auxiliar->at ( i ) == '\\' && auxiliar->at ( i + 1 ) == '\'' )
+			{
+				std::cout << "'";
+				i++;
+			}
+			else
+			{
+				std::cout << auxiliar->at ( i );
+			}
+
+		}
+
 	}
 	else
 	{

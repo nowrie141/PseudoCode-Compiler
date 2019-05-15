@@ -77,19 +77,14 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 <ESTADO_CADENA>"'"  { /* Fin de la cadena: se vuelve al estado por defecto */
 			         BEGIN 0; 
-
 			         yytext[yyleng-1]='\0';
 				     yylval.strings -> append(std::string(yytext));
 				     return STRING;
 					}      
 
-<ESTADO_CADENA>"\\\'"     {yylval.strings->append("'");}
+<ESTADO_CADENA>"\\\'"     {yymore();}
 
-<ESTADO_CADENA>.          {
-					yylval.strings->append(std::string(yytext));
-}
-
-<ESTADO_CADENA>\n         {yymore();}
+<ESTADO_CADENA>.          {yymore();}
 
 "@"	      	{
 			  		/* Se activa el reconocimiento de un comentario */
@@ -100,6 +95,8 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 		}
 
 "#"			{	BEGIN ESTADO_COMENTARIO; }
+
+<ESTADO_COMENTARIO>[^#]          {;}
 
 <ESTADO_COMENTARIO>"#"          {	BEGIN 0;	}
 
