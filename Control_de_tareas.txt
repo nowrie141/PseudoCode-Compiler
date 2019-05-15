@@ -123,42 +123,42 @@ OPERADORES:				[ ]								CHECK
 		NEGACIÓN   _no									[X]
 
 -----------------------------------------------------------------
-OTROS:					[ ]								CHECK
+OTROS:					[X]								CHECK
 -----------------------------------------------------------------
-	COMENTARIOS											[ ]
-		VARIAS LINEAS: DELIMITADORES #	.... #			[ ]
-		UNA LÍNEA: DELIMITADOR @						[ ]
+	COMENTARIOS											[X]
+		VARIAS LINEAS: DELIMITADORES #	.... #			[X]
+		UNA LÍNEA: DELIMITADOR @						[X]
 
-	FIN DE LINEA ;										[ ]
+	FIN DE LINEA ;										[X]
 
 -----------------------------------------------------------------
 SENTENCIAS DE CONTROL:	[ ]								CHECK
 -----------------------------------------------------------------
-	ASIGNACION											[ ]
-		IDENTIFICADOR := EXPR NUMÉRICA					[ ]
-		IDENTIFICADOR := EXPR ALFANUMÉRICA				[ ]
+	ASIGNACION											[X]
+		IDENTIFICADOR := EXPR NUMÉRICA					[X]
+		IDENTIFICADOR := EXPR ALFANUMÉRICA				[X]
 
-	LECTURA												[ ]
-		Leer(identificador)								[ ]
-		Leer_cadena(identificador)						[ ]
+	LECTURA												[X]
+		Leer(identificador)								[X]
+		Leer_cadena(identificador)						[X]
 
-	ESCRITURA											[ ]
-		Escribir										[ ]
-		Escribir_cadena									[ ]
+	ESCRITURA											[X]
+		Escribir										[X]
+		Escribir_cadena									[X]
 
-	SENTENCIAS DE CONTROL								[ ]
-		CONDICIONAL SIMPLE								[ ]
+	SENTENCIAS DE CONTROL								[X]
+		CONDICIONAL SIMPLE								[X]
 			si cond
 				entonces sentencias
 			fin_si
 
-		CONDICIONAL COMPUESTA							[ ]
+		CONDICIONAL COMPUESTA							[X]
 			si cond
 				entonces sentencias
 				si_no sentencias
 			fin_si
 
-		BUCLE "mientras"								[ ]
+		BUCLE "mientras"								[X]
 			mientras cond hacer
 						sentencias
 			fin_mientras
