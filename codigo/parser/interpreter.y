@@ -152,17 +152,17 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %type <stmts> stmtlist
 
 // New in example 17: if, while
-%type <st> stmt asgn print read if while repeat erase
+%type <st> stmt asgn print read if while repeat for erase
 
 %type <prog> program
 
-// Defined token 
+// Defined token
 
 /* Minimum precedence */
 
 %token SEMICOLON
 
-%token PRINT READ PRINT_STRING READ_STRING IF THEN ELSE END_IF WHILE DO END_WHILE REPEAT UNTIL ERASE
+%token PRINT READ PRINT_STRING READ_STRING IF THEN ELSE END_IF WHILE DO END_WHILE REPEAT UNTIL FOR FROM STEP END_FOR ERASE
 
 %right ASSIGNMENT
 
@@ -280,20 +280,30 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	 }
-	/*  NEW in example 17 */
 	| while 
 	 {
 		// Default action
-		// $$ = $1;
 	 }
 	| repeat{
 		// Default action
-		// $$ = $1;
+	}
+	| for
+	{
+		// Default action
 	}
 	| erase{
-		
+		// Default action
 	}
 ;
+
+for: FOR VARIABLE FROM exp UNTIL exp STEP exp DO stmtlist END_FOR
+	{
+		$$ =new lp::ForStmt($2, $4, $6, $8, $10);
+	}
+	| FOR VARIABLE FROM exp UNTIL exp DO stmtlist END_FOR
+	{
+		$$ =new lp::ForStmt($2, $4, $6, $8);
+	}
  
 	/*  NEW in example 17 */
 if:	/* Simple conditional statement */
@@ -336,6 +346,7 @@ erase:	ERASE
 		{
 			$$=new lp::EraseStmt();
 		}
+;
 
 asgn:   VARIABLE ASSIGNMENT exp 
 		{ 

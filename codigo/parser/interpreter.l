@@ -132,7 +132,9 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
                        return NUMBER; 
                       }
-
+"_borrar"			 {
+	return ERASE;
+}
 
 {IDENTIFIER}   		 {
 						for (int i = 0; i < strlen(yytext); ++i)

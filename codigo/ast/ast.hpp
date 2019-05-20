@@ -274,7 +274,7 @@ public:
 class StringNode : public ExpNode
 {
 private:
-	std::string *_string; //!< \brief number of the StringNode
+	std::string * _string; //!< \brief number of the StringNode
 
 public:
 
@@ -284,7 +284,7 @@ public:
 		\post  A new StringNode is created with the value of the parameter
 		\note  Inline function
 	*/
-	StringNode ( std::string *value )
+	StringNode ( std::string * value )
 	{
 		this->_string = value;
 	}
@@ -1810,7 +1810,7 @@ class EmptyStmt : public Statement
 
 public:
 	/*!
-		\brief Constructor of  WhileStmt
+		\brief Constructor of  EmptyStmt
 		\post  A new EmptyStmt is created
 	*/
 	EmptyStmt()
@@ -1903,17 +1903,17 @@ class EraseStmt : public Statement
 {
 
 public:
-	EraseStmt(){};
+	EraseStmt() {};
 
-		/*!
-		\brief   Print the IfStmt
-		\return  void
-		\sa		 evaluate
+	/*!
+	\brief   Print the EraseStmt
+	\return  void
+	\sa		 evaluate
 	*/
 	void print();
 
 	/*!
-		\brief   Evaluate the IfStmt
+		\brief   Evaluate the EraseStmt
 		\return  void
 		\sa		 print
 	*/
@@ -1966,6 +1966,66 @@ public:
 	void evaluate();
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+/*!
+  \class   ForStmt
+  \brief   Definition of atributes and methods of ForStmt class
+  \note    ForStmt Class publicly inherits from Statement class
+		   and adds its own print and evaluate functions
+*/
+class ForStmt : public Statement
+{
+private:
+	std::string _variable;    //!< Name of the variable of the assignment statement
+	ExpNode * _from; //!< Start of the for statement
+	ExpNode * _until; //!< End of the for statement
+	ExpNode * _step; //!< Step of the for statement
+	std::list<Statement *> * _stmtlist; //!< Statement of the consequent //!< Statement of the body of the for loop
+
+public:
+	/*!
+		\brief Constructor of ForStmt
+		\param condition: ExpNode of the condition
+		\param statement: Statement of the body of the loop
+		\post  A new ForStmt is created with the parameters
+	*/
+	ForStmt ( std::string variable, ExpNode * from, ExpNode * until, ExpNode * step, std::list<Statement *> * statementlist )
+	{
+		this->_variable = variable;
+		this->_from = from;
+		this->_until = until;
+		this->_step = step;
+		this->_stmtlist = statementlist;
+	}
+
+	ForStmt ( std::string variable, ExpNode * from, ExpNode * until, std::list<Statement *> * statementlist )
+	{
+		this->_variable = variable;
+		this->_from = from;
+		this->_until = until;
+		this->_step = new NumberNode(1);
+		this->_stmtlist = statementlist;
+	}
+
+	/*!
+		\brief   Print the ForStmt
+		\return  void
+		\sa		 evaluate
+	*/
+	void print();
+
+	/*!
+		\brief   Evaluate the ForStmt
+		\return  void
+		\sa		 print
+	*/
+	void evaluate();
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 /*!
   \class   RepeatStmt
   \brief   Definition of atributes and methods of RepeatStmt class

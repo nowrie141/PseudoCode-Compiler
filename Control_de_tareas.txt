@@ -55,7 +55,7 @@ PALABRAS RESERVADAS:		[ ]							CHECK
 		fin_para										[ ]
 
 	MACROS:												[ ]
-		_borrar											[ ]
+		_borrar											[X]
 		_lugar											[ ]
 
 	NO SE DISTINGUE ENTRE MAYÚSCULAS Y MINÚSCULAS		[X]

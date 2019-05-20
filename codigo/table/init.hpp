@@ -86,7 +86,11 @@ static struct {
 						"fin_mientras", END_WHILE,
 						"repetir", REPEAT,
 						"hasta", UNTIL,
-						"_borrar", ERASE, 
+						"para", FOR,
+						"desde", FROM,
+						"paso", STEP,
+						"fin_para", END_FOR, 
+						"_borrar", ERASE,
 	                    "",      0
 	                   };
 

@@ -1609,6 +1609,78 @@ void lp::WhileStmt::evaluate()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
+void lp::ForStmt::print()
+{
+	std::cout << "ForStmt: "  << std::endl;
+	// Variable
+	std::cout << this->_variable << std::endl;
+	this->_from->print();
+	this->_until->print();
+	if ( this->_step != NULL )
+	{
+		this->_step->print();
+	}
+
+	// Body of the for loop
+	std::list<Statement *>::iterator stmtIter;
+	for ( stmtIter = this->_stmtlist->begin(); stmtIter != this->_stmtlist->end(); stmtIter++ )
+	{
+		( *stmtIter )->print();
+	}
+
+	std::cout << std::endl;
+}
+
+
+void lp::ForStmt::evaluate()
+{
+	// Get the identifier in the table of symbols as NumericVariable
+	lp::Variable * var = ( lp::Variable * ) table.getSymbol ( this->_variable );
+	int indexValue = this->_from->evaluateNumber(), stopValue = this->_until->evaluateNumber(), stepValue = this->_step->evaluateNumber();
+	lp::NumericVariable * v;
+	bool declared = true;
+	// Check the type of the first varible
+	if ( var->getType() == NUMBER )
+	{
+		// Get the identifier in the table of symbols as NumericVariable
+		v = ( lp::NumericVariable * ) table.getSymbol ( this->_variable );
+		// While the condition is true. the body is run
+		// Assignment the value to the identifier in the table of symbols
+	}
+	// The type of variable is not NUMBER or is declared
+	else
+	{
+		// Delete the variable from the table of symbols
+		table.eraseSymbol ( this->_variable );
+
+		// Insert the variable in the table of symbols as NumericVariable
+		// with the type NUMBER and the value
+		v = new lp::NumericVariable ( this->_variable,
+		                              VARIABLE, NUMBER, indexValue );
+		table.installSymbol ( v );
+		declared = false;
+	}
+
+	for ( indexValue = this->_from->evaluateNumber() ; indexValue < stopValue; indexValue = indexValue + stepValue )
+	{
+		v->setValue ( indexValue );
+		//Run the stmtlist
+		std::list<Statement *>::iterator stmtIter;
+		for ( stmtIter = this->_stmtlist->begin(); stmtIter != this->_stmtlist->end(); stmtIter++ )
+		{
+			( *stmtIter )->evaluate();
+		}
+	}
+	if ( declared == false )
+	{
+		table.eraseSymbol ( this->_variable );
+	}
+	
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 // NEW in example 17
 
 void lp::RepeatStmt::print()
@@ -1672,7 +1744,12 @@ void lp::AST::evaluate()
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+void lp::EraseStmt::print()
+{
+	std::cout << "EraseStmt"  << std::endl;
+}
+
 void lp::EraseStmt::evaluate()
 {
-	system("clear");
+	system ( "clear" );
 }
