@@ -41,11 +41,11 @@ static struct {
           std::string name ;
 	      double value;
 	      } numericConstant[] = { 
-	                    "PI",    3.14159265358979323846,
-	                    "E",     2.71828182845904523536,
-	                    "GAMMA", 0.57721566490153286060,
-	                    "DEG",  57.29577951308232087680,
-	                    "PHI",   1.61803398874989484820,
+	                    "pi",    3.14159265358979323846,
+	                    "e",     2.71828182845904523536,
+	                    "gamma", 0.57721566490153286060,
+	                    "deg",  57.29577951308232087680,
+	                    "phi",   1.61803398874989484820,
 	                    "",      0
 	                   };
 
@@ -73,11 +73,20 @@ static struct {
           std::string name ;
 	      int token;
 	      } keyword[] = {
-	                    "print", PRINT,
-	                    "read",  READ,
-						"if",	 IF,   		// NEW in example 17
-						"else",	 ELSE, 		// NEW in example 17
-						"while",  WHILE,	// NEW in example 17
+	                    "escribir", PRINT,
+	                    "leer",  READ,
+	                    "escribir_cadena", PRINT_STRING,
+	                    "leer_cadena", READ_STRING,
+						"si",	 IF,   		// NEW in example 17
+						"si_no",	 ELSE, 		// NEW in example 17
+						"entonces", THEN,
+						"fin_si", END_IF,
+						"mientras",  WHILE,	// NEW in example 17
+						"hacer", DO,
+						"fin_mientras", END_WHILE,
+						"repetir", REPEAT,
+						"hasta", UNTIL,
+						"_borrar", ERASE, 
 	                    "",      0
 	                   };
 

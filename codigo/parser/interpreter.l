@@ -57,14 +57,48 @@ NUMBER1 {DIGIT}+\.?
 
 NUMBER2 {DIGIT}*\.{DIGIT}+
 
-IDENTIFIER  {LETTER}({LETTER}|{DIGIT})*
+NUMBER3 {DIGIT}+(\.{DIGIT}+)?(E[+\-]?{DIGIT}+)?
+
+IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
+
 
 /* NEW in example 3 */
 /* STATE  */
-%x ERROR
-
+%x ERROR ESTADO_COMENTARIO ESTADO_COMENTARIO_SIMPLE ESTADO_CADENA
 /*! \name REGULAR EXPRESSIONS  */
 %%
+ 
+"'"			   {
+			    /* Se activa el reconocimiento de la cadena */
+				yylval.strings = new std::string("");
+			    BEGIN ESTADO_CADENA; 
+			  }
+
+
+<ESTADO_CADENA>"'"  { /* Fin de la cadena: se vuelve al estado por defecto */
+			         BEGIN 0; 
+			         yytext[yyleng-1]='\0';
+				     yylval.strings -> append(std::string(yytext));
+				     return STRING;
+					}      
+
+<ESTADO_CADENA>"\\\'"     {yymore();}
+
+<ESTADO_CADENA>.          {yymore();}
+
+"@"	      	{
+			  		/* Se activa el reconocimiento de un comentario */
+			  		BEGIN ESTADO_COMENTARIO_SIMPLE; 
+			  	}
+<ESTADO_COMENTARIO_SIMPLE>"\n" { /* Fin del comentario: se vuelve al estado por defecto */
+		BEGIN 0;
+		}
+
+"#"			{	BEGIN ESTADO_COMENTARIO; }
+
+<ESTADO_COMENTARIO>[^#]          {;}
+
+<ESTADO_COMENTARIO>"#"          {	BEGIN 0;	}
 
 [ \t] 	{ ; }    /* skip white space and tabular */
 
@@ -88,7 +122,10 @@ IDENTIFIER  {LETTER}({LETTER}|{DIGIT})*
 			return COMMA;
 		}
 
-{NUMBER1}|{NUMBER2}  {
+
+
+
+{NUMBER1}|{NUMBER2}|{NUMBER3}  {
 					  /* MODIFIED in example 4 */
 					  /* Conversion of type and sending of the numerical value to the parser */
 					   yylval.number = atof(yytext); 
@@ -98,6 +135,10 @@ IDENTIFIER  {LETTER}({LETTER}|{DIGIT})*
 
 
 {IDENTIFIER}   		 {
+						for (int i = 0; i < strlen(yytext); ++i)
+						{
+							yytext[i]=tolower(yytext[i]);
+						}
 						 /* NEW in example 7 */
 						 std::string identifier(yytext);
 
@@ -142,6 +183,7 @@ IDENTIFIER  {LETTER}({LETTER}|{DIGIT})*
 							}
                      }
 
+
 "-"		{ return MINUS;  } 			/* NEW in example 3 */
 "+"		{ return PLUS;   } 			/* NEW in example 3 */
 
@@ -151,18 +193,18 @@ IDENTIFIER  {LETTER}({LETTER}|{DIGIT})*
 "("     { return LPAREN; } 			/* NEW in example 3 */
 ")"	    { return RPAREN; } 			/* NEW in example 3 */
 
+(?i:_div)	{ return DIVISION_INT; }
 
+(?i:_mod)     { return MODULO; }			/* NEW in example 5 */
 
-"%"     { return MODULO; }			/* NEW in example 5 */
+"**"	    { return POWER; }			/* NEW in example 5 */
 
-"^"	    { return POWER; }			/* NEW in example 5 */
-
-"=" 	{ return ASSIGNMENT; }		/* NEW in example 7 */
+":=" 	{ return ASSIGNMENT; }		/* NEW in example 7 */
 
 
 "=="	{ return EQUAL; }			/* NEW in example 15 */
 
-"!="	{ return NOT_EQUAL; }		/* NEW in example 15 */
+"<>"	{ return NOT_EQUAL; }		/* NEW in example 15 */
 
 ">="	{ return GREATER_OR_EQUAL; }/* NEW in example 15 */
 
@@ -172,38 +214,16 @@ IDENTIFIER  {LETTER}({LETTER}|{DIGIT})*
 
 "<"		{ return LESS_THAN; }		/* NEW in example 15 */
 
-"!"		{ return NOT; }				/* NEW in example 15 */
+"||"	{ return CONCATENATION;}
 
-"||"	{ return OR; }				/* NEW in example 15 */
+(?i:_no)		{ return NOT; }				/* NEW in example 15 */
 
-"&&"	{ return AND; }				/* NEW in example 15 */
+(?i:_o)	{ return OR; }				/* NEW in example 15 */
 
-"{"		{ return LETFCURLYBRACKET; } 	/* NEW in example 17 */
-
-"}"		{ return RIGHTCURLYBRACKET; }	/* NEW in example 17 */
+(?i:_y)	{ return AND; }				/* NEW in example 15 */
 
 
-
-^# { /* The interpreter finishes when the symbol # is written at the beginning of the line */
-	// std::cout << CLEAR_SCREEN; 
-	//  PLACE(24,10);
-  	  std::cout <<  BIYELLOW;
-   	  std::cout <<  ">>>>>>> End of program <<<<<<<";
- 	  std::cout << std::endl;
-   	  std::cout << RESET;
-	 // PLACE(25,1);
-
-  	  return 0;
-	}
-
-<<EOF>> { /* The interpreter finishes when finds the end of file character */
-		/*  PLACE(24,10);
-	  	  std::cout <<  BICYAN;
-	   	  std::cout <<  ">>>>>>> End of file <<<<<<<";
-	 	  std::cout << std::endl;
-	   	  std::cout << RESET;
-		  PLACE(25,1);
-		*/
+<<EOF>> {
 	  	  return 0;
 	}
 

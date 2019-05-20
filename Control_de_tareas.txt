@@ -19,33 +19,33 @@ NO EXISTEN CONFLICTOS EN LAS REGLAS DE PRODUCCIÓN:		[ ]
 -----------------------------------------------------------------
 PALABRAS RESERVADAS:		[ ]							CHECK
 -----------------------------------------------------------------
-	_mod												[ ]
-	_div												[ ]
+	_mod												[X]
+	_div												[X]
 
-	_o 													[ ]
-	_y													[ ]
-	_no													[ ]
+	_o 													[X]
+	_y													[X]
+	_no													[X]
 
-	leer												[ ]
-	leer_cadena											[ ]
+	leer												[X]
+	leer_cadena											[X]
 
-	escribir											[ ]
-	escribir_cadena										[ ]
+	escribir											[X]
+	escribir_cadena										[X]
 
-	SENTENCIA CONDICIONAL:								[ ]
-		si												[ ]
-		entonces										[ ]
-		si_no											[ ]
-		fin_si											[ ]
+	SENTENCIA CONDICIONAL:								[X]
+		si												[X]
+		entonces										[X]
+		si_no											[X]
+		fin_si											[X]
 
-	SENTENCIA DE BUCLE MIENTRAS:						[ ]
-		mientras										[ ]
-		hacer											[ ]
-		fin_mientras									[ ]
+	SENTENCIA DE BUCLE MIENTRAS:						[X]
+		mientras										[X]
+		hacer											[X]
+		fin_mientras									[X]
 
-	SENTENCIA DE BUCLE REPETIR:							[ ]
-		repetir											[ ]
-		hasta											[ ]
+	SENTENCIA DE BUCLE REPETIR:							[X]
+		repetir											[X]
+		hasta											[X]
 
 	SENTENCIA DE BUCLE PARA:							[ ]
 		para											[ ]
@@ -58,107 +58,107 @@ PALABRAS RESERVADAS:		[ ]							CHECK
 		_borrar											[ ]
 		_lugar											[ ]
 
-	NO SE DISTINGUE ENTRE MAYÚSCULAS Y MINÚSCULAS		[ ]
-	LAS PALABRAS RESERVADAS NO SON IDENTIFICADORES		[ ]
+	NO SE DISTINGUE ENTRE MAYÚSCULAS Y MINÚSCULAS		[X]
+	LAS PALABRAS RESERVADAS NO SON IDENTIFICADORES		[X]
 
 
 -----------------------------------------------------------------
-IDENTIFICADORES:		[ ]								CHECK
+IDENTIFICADORES:		[X]								CHECK
 -----------------------------------------------------------------
-	COMPUESTOS POR LETRAS, DIGITOS Y SUBRAYADOS 		[ ]
-	COMIENZA POR UNA LETRA								[ ]
-	NO TERMINAN  EN SUBRAYADA							[ ]
-	NO CONTIENEN DOS SUBRAYADOS SEGUIDOS				[ ]
+	COMPUESTOS POR LETRAS, DIGITOS Y SUBRAYADOS 		[X]
+	COMIENZA POR UNA LETRA								[X]
+	NO TERMINAN  EN SUBRAYADA							[X]
+	NO CONTIENEN DOS SUBRAYADOS SEGUIDOS				[X]
 
-	NO SE DISTINGUE ENTRE MAYÚSCULAS Y MINÚSCULAS		[ ]
+	NO SE DISTINGUE ENTRE MAYÚSCULAS Y MINÚSCULAS		[X]
 
 
 -----------------------------------------------------------------
 NÚMERO:					[ ]								CHECK
 -----------------------------------------------------------------
-	ENTEROS 											[ ]
-	REALES DE PUNTO FIJO								[ ]
-	REALES NOTACION CIENTIFICA							[ ]
+	ENTEROS 											[X]
+	REALES DE PUNTO FIJO								[X]
+	REALES NOTACION CIENTIFICA							[X]
 
 	TODOS SON TRATADOS COMO NÚMERO						[ ]
 
 -----------------------------------------------------------------
 CADENA:					[ ]								CHECK
 -----------------------------------------------------------------
-	CARACTERES DELIMITADOS POR COMILLAS SIMPLES 		[ ]
+	CARACTERES DELIMITADOS POR COMILLAS SIMPLES 		[X]
 	INCLUYE COMILLA SIMPLE CON \ \'						[ ]
 
-	COMILLAS EXTERIORES NO SON PARTE DE LA CADENA 		[ ]
+	COMILLAS EXTERIORES NO SON PARTE DE LA CADENA 		[X]
 
 -----------------------------------------------------------------
 OPERADORES:				[ ]								CHECK
 -----------------------------------------------------------------
 	NUMERICOS											[ ]
-		ASIGNACION :=									[ ]
-		SUMA +											[ ]
+		ASIGNACION :=									[X]
+		SUMA +											[X]
 			UNARIO +2									[ ]
-			BINARIO 2+3									[ ]
+			BINARIO 2+3									[X]
 		RESTA -											[ ]
 			UNARIO -2									[ ]
-			BINARIO 2-3									[ ]
-		PRODUCTO *										[ ]
-		DIVISION /										[ ]
-		DIVISION_ENTERA _div							[ ]
-		MODULO _mod										[ ]
-		POTENCIA **										[ ]
+			BINARIO 2-3									[X]
+		PRODUCTO *										[X]
+		DIVISION /										[X]
+		DIVISION_ENTERA _div							[X]
+		MODULO _mod										[X]
+		POTENCIA **										[X]
 
-	ALFANUMERICOS										[ ]
-		CONCATENACION ||								[ ]
+	ALFANUMERICOS										[X]
+		CONCATENACION ||								[X]
 
-	RELACIONALES NÚMEROS Y CADENAS						[ ]
-		MENOR QUE <										[ ]
-		MENOR O IGUAL QUE <=							[ ]
-		MAYOR QUE >										[ ]
-		MAYOR O IGUAL QUE >=							[ ]
-		DISTINTO DE <>									[ ]
+	RELACIONALES NÚMEROS Y CADENAS						[X]
+		MENOR QUE <										[X]
+		MENOR O IGUAL QUE <=							[X]
+		MAYOR QUE >										[X]
+		MAYOR O IGUAL QUE >=							[X]
+		DISTINTO DE <>									[X]
 
-	LOGICOS												[ ]
-		DISYUNCIÓN _o									[ ]
-		CONJUNCIÓN _y									[ ]
-		NEGACIÓN   _no									[ ]
+	LOGICOS												[X]
+		DISYUNCIÓN _o									[X]
+		CONJUNCIÓN _y									[X]
+		NEGACIÓN   _no									[X]
 
 -----------------------------------------------------------------
-OTROS:					[ ]								CHECK
+OTROS:					[X]								CHECK
 -----------------------------------------------------------------
-	COMENTARIOS											[ ]
-		VARIAS LINEAS: DELIMITADORES #	.... #			[ ]
-		UNA LÍNEA: DELIMITADOR @						[ ]
+	COMENTARIOS											[X]
+		VARIAS LINEAS: DELIMITADORES #	.... #			[X]
+		UNA LÍNEA: DELIMITADOR @						[X]
 
-	FIN DE LINEA ;										[ ]
+	FIN DE LINEA ;										[X]
 
 -----------------------------------------------------------------
 SENTENCIAS DE CONTROL:	[ ]								CHECK
 -----------------------------------------------------------------
-	ASIGNACION											[ ]
-		IDENTIFICADOR := EXPR NUMÉRICA					[ ]
-		IDENTIFICADOR := EXPR ALFANUMÉRICA				[ ]
+	ASIGNACION											[X]
+		IDENTIFICADOR := EXPR NUMÉRICA					[X]
+		IDENTIFICADOR := EXPR ALFANUMÉRICA				[X]
 
-	LECTURA												[ ]
-		Leer(identificador)								[ ]
-		Leer_cadena(identificador)						[ ]
+	LECTURA												[X]
+		Leer(identificador)								[X]
+		Leer_cadena(identificador)						[X]
 
-	ESCRITURA											[ ]
-		Escribir										[ ]
-		Escribir_cadena									[ ]
+	ESCRITURA											[X]
+		Escribir										[X]
+		Escribir_cadena									[X]
 
-	SENTENCIAS DE CONTROL								[ ]
-		CONDICIONAL SIMPLE								[ ]
+	SENTENCIAS DE CONTROL								[X]
+		CONDICIONAL SIMPLE								[X]
 			si cond
 				entonces sentencias
 			fin_si
 
-		CONDICIONAL COMPUESTA							[ ]
+		CONDICIONAL COMPUESTA							[X]
 			si cond
 				entonces sentencias
 				si_no sentencias
 			fin_si
 
-		BUCLE "mientras"								[ ]
+		BUCLE "mientras"								[X]
 			mientras cond hacer
 						sentencias
 			fin_mientras

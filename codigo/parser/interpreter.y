@@ -50,6 +50,8 @@
 /* NEW in example 15 */
 #include "../table/logicalVariable.hpp"
 
+#include "../table/stringVariable.hpp"
+
 /*******************************************/
 /* NEW in example 11 */
 #include "../table/numericConstant.hpp"
@@ -132,6 +134,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
   char * identifier; 				 /* NEW in example 7 */
   double number;  
   bool logic;						 /* NEW in example 15 */
+  std::string * strings;
   lp::ExpNode *expNode;  			 /* NEW in example 16 */
   std::list<lp::ExpNode *>  *parameters;    // New in example 16; NOTE: #include<list> must be in interpreter.l, init.cpp, interpreter.cpp
   std::list<lp::Statement *> *stmts; /* NEW in example 16 */
@@ -148,8 +151,8 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 %type <stmts> stmtlist
 
-// New in example 17: if, while, block
-%type <st> stmt asgn print read if while block
+// New in example 17: if, while
+%type <st> stmt asgn print read if while repeat erase
 
 %type <prog> program
 
@@ -157,32 +160,19 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 /* Minimum precedence */
 
-/*******************************************/
-/* NEW in example 5 */
 %token SEMICOLON
-/*******************************************/
 
-// NEW in example 17: IF, ELSE, WHILE 
-%token PRINT READ IF ELSE WHILE
+%token PRINT READ PRINT_STRING READ_STRING IF THEN ELSE END_IF WHILE DO END_WHILE REPEAT UNTIL ERASE
 
-// NEW in example 17
-%token LETFCURLYBRACKET RIGHTCURLYBRACKET
-
-/* NEW in example 7 */
 %right ASSIGNMENT
 
-/* NEW in example 14 */
 %token COMMA
 
-/*******************************************/
-/* MODIFIED in example 4 */
 %token <number> NUMBER
-/*******************************************/
 
-/*******************************************/
-/* NEW in example 15 */
 %token <logic> BOOL
-/*******************************************/
+
+%token <strings> STRING
 
 /* MODIFIED in examples 11, 13 */
 %token <identifier> VARIABLE UNDEFINED CONSTANT BUILTIN
@@ -198,13 +188,15 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %nonassoc GREATER_OR_EQUAL LESS_OR_EQUAL GREATER_THAN LESS_THAN  EQUAL NOT_EQUAL
 
 %left NOT
+
+%left MULTIPLE_COMENTARIO SIMPLE_COMENTARIO
 /*******************************************************/
 
 /* MODIFIED in example 3 */
 %left PLUS MINUS 
 
 /* MODIFIED in example 5 */
-%left MULTIPLICATION DIVISION MODULO
+%left MULTIPLICATION DIVISION DIVISION_INT MODULO CONCATENATION 
 
 %left LPAREN RPAREN
 
@@ -294,45 +286,44 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	 }
-	/*  NEW in example 17 */
-	| block 
-	 {
+	| repeat{
 		// Default action
 		// $$ = $1;
-	 }
-;
-
-
-block: LETFCURLYBRACKET stmtlist RIGHTCURLYBRACKET  
-		{
-			// Create a new block of statements node
-			$$ = new lp::BlockStmt($2); 
-		}
+	}
+	| erase{
+		
+	}
 ;
  
 	/*  NEW in example 17 */
 if:	/* Simple conditional statement */
-	IF cond stmt 
+	IF cond THEN stmtlist END_IF
     {
 		// Create a new if statement node
-		$$ = new lp::IfStmt($2, $3);
+		$$ = new lp::IfStmt($2, $4);
 	}
 
 	/* Compound conditional statement */
-	| IF cond stmt  ELSE stmt 
+	| IF cond THEN stmtlist ELSE stmtlist END_IF
 	 {
 		// Create a new if statement node
-		$$ = new lp::IfStmt($2, $3, $5);
+		$$ = new lp::IfStmt($2, $4, $6);
 	 }
 ;
 
 	/*  NEW in example 17 */
-while:  WHILE cond stmt 
+while:  WHILE cond DO stmtlist END_WHILE
 		{
 			// Create a new while statement node
-			$$ = new lp::WhileStmt($2, $3);
+			$$ = new lp::WhileStmt($2, $4);
         }
 ;
+
+repeat: REPEAT stmtlist UNTIL cond
+		{
+			$$=new lp::RepeatStmt($4,$2);
+		}
+;		
 
 	/*  NEW in example 17 */
 cond: 	LPAREN exp RPAREN
@@ -341,6 +332,10 @@ cond: 	LPAREN exp RPAREN
 		}
 ;
 
+erase:	ERASE
+		{
+			$$=new lp::EraseStmt();
+		}
 
 asgn:   VARIABLE ASSIGNMENT exp 
 		{ 
@@ -372,12 +367,24 @@ print:  PRINT exp
 			// Create a new print node
 			 $$ = new lp::PrintStmt($2);
 		}
+		| PRINT_STRING exp
+		{
+			$$ = new lp::PrintStringStmt($2);
+		}
 ;	
 
 read:  READ LPAREN VARIABLE RPAREN  
 		{
 			// Create a new read node
 			 $$ = new lp::ReadStmt($3);
+		}
+
+		|
+
+		READ_STRING LPAREN VARIABLE RPAREN
+		{
+			// Create a new read node
+			 $$ = new lp::ReadStringStmt($3);
 		}
 
   	  /* NEW rule in example 11 */
@@ -388,17 +395,22 @@ read:  READ LPAREN VARIABLE RPAREN
 ;
 
 
+
 exp:	NUMBER 
 		{ 
 			// Create a new number node
 			$$ = new lp::NumberNode($1);
 		}
 
+	|
+		STRING{
+			$$ = new lp::StringNode($1);
+		}
 	| 	exp PLUS exp 
 		{ 
 			// Create a new plus node
 			 $$ = new lp::PlusNode($1, $3);
-		 }
+		}
 
 	| 	exp MINUS exp
       	{
@@ -416,8 +428,12 @@ exp:	NUMBER
 		{
 		  // Create a new division node	
 		  $$ = new lp::DivisionNode($1, $3);
-	   }
-
+	    }
+	|
+		exp DIVISION_INT exp{
+			// Create a new division int node	
+			$$ = new lp::DivisionIntNode($1, $3);
+		}
 	| 	LPAREN exp RPAREN
        	{ 
 		    // just copy up the expression node 
@@ -441,15 +457,19 @@ exp:	NUMBER
 		  // Create a new modulo node	
 
 		  $$ = new lp::ModuloNode($1, $3);
-       }
+        }
 
 	|	exp POWER exp 
      	{ 
 		  // Create a new power node	
   		  $$ = new lp::PowerNode($1, $3);
 		}
-
-	 | VARIABLE
+	|	exp CONCATENATION exp
+		{
+		  // Create a new concatenate node	
+  		  $$ = new lp::ConcatenateNode($1, $3);
+		}
+	| VARIABLE
 		{
 		  // Create a new variable node	
 		  $$ = new lp::VariableNode($1);
