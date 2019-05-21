@@ -1,4 +1,4 @@
-#
+ #
   Asignatura:    Procesadores de Lenguajes
 
   Titulación:    Ingeniería Informática
@@ -92,7 +92,7 @@ repetir
  escribir_cadena('\n Pulse una tecla para continuar --> ');
  leer_cadena(pausa);
  
-hasta (opcion = 0); 
+ hasta (opcion = 0); 
 
 
 @ Despedida final
