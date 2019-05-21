@@ -90,7 +90,6 @@ static struct {
 						"desde", FROM,
 						"paso", STEP,
 						"fin_para", END_FOR, 
-						"_borrar", ERASE,
 	                    "",      0
 	                   };
 

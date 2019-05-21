@@ -38,3 +38,4 @@ escribir_cadena(' El factorial de ');
 escribir(N);
 escribir_cadena(' es ');
 escribir(factorial);
+escribir_cadena('\n');

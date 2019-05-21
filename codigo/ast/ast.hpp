@@ -16,6 +16,7 @@
 
 
 #define ERROR_BOUND 1.0e-6  //!< Error bound for the comparison of real numbers.
+
 /*
 #define NUMBER 1
 #define BOOL 2
@@ -1899,6 +1900,10 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @class      EraseStmt
+ * @brief      Class for erase statement.
+ */
 class EraseStmt : public Statement
 {
 
@@ -1920,16 +1925,58 @@ public:
 	void evaluate();
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @class      PlaceStmt
+ *
+ * @brief      Class for erase statement.
+ */
+class PlaceStmt : public Statement
+{
+private:
+	ExpNode * _exp1; //!< X coordinate of the place statement
+	ExpNode * _exp2; //!< Y coordinate of the place statement
+
+public:
+	
+	/**
+	 * @brief      Contructor of PlaceStmt
+	 *
+	 * @param      exp1  The exponent 1
+	 * @param      exp2  The exponent 2
+	 */
+	PlaceStmt ( ExpNode * exp1, ExpNode * exp2 )
+	{
+		this->_exp1 = exp1;
+		this->_exp2 = exp2;
+	};
+
+	/* !
+	@brief      Print the PlaceStmt
+	@return     void
+	@see        evaluate
+	*/
+	void print();
+
+	/* !
+	 @brief      Evaluate the PlaceStmt
+	 @return     void
+	 @see        print
+	*/
+	void evaluate();
+};
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// NEW in example 17
 
-/*!
-  \class   WhileStmt
-  \brief   Definition of atributes and methods of WhileStmt class
-  \note    WhileStmt Class publicly inherits from Statement class
-		   and adds its own print and evaluate functions
+/* !
+ @class      WhileStmt
+ @brief      Definition of atributes and methods of WhileStmt class
+ @note       WhileStmt Class publicly inherits from Statement class and adds its
+             own print and evaluate functions
 */
 class WhileStmt : public Statement
 {
@@ -1938,11 +1985,12 @@ private:
 	std::list<Statement *> * _stmtlist; //!< Statement of the consequent //!< Statement of the body of the while loop
 
 public:
-	/*!
-		\brief Constructor of  WhileStmt
-		\param condition: ExpNode of the condition
-		\param statement: Statement of the body of the loop
-		\post  A new WhileStmt is created with the parameters
+	/* !
+	 @brief      Constructor of  WhileStmt
+
+	 @param      condition      ExpNode of the condition
+	 @param      statementlist  Statement of the body of the loop
+	 @post       A new WhileStmt is created with the parameters
 	*/
 	WhileStmt ( ExpNode * condition, std::list<Statement *> * statementlist )
 	{
@@ -1951,17 +1999,17 @@ public:
 	}
 
 
-	/*!
-		\brief   Print the WhileStmt
-		\return  void
-		\sa		 evaluate
+	/* !
+	 @brief      Print the WhileStmt
+	 @return     void
+	 @see        evaluate
 	*/
 	void print();
 
-	/*!
-		\brief   Evaluate the WhileStmt
-		\return  void
-		\sa		 print
+	/* !
+	 @brief      Evaluate the WhileStmt
+	 @return     void
+	 @see        print
 	*/
 	void evaluate();
 };
@@ -1969,11 +2017,11 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \class   ForStmt
-  \brief   Definition of atributes and methods of ForStmt class
-  \note    ForStmt Class publicly inherits from Statement class
-		   and adds its own print and evaluate functions
+/* !
+ @class      ForStmt
+ @brief      Definition of atributes and methods of ForStmt class
+ @note       ForStmt Class publicly inherits from Statement class and adds its
+             own print and evaluate functions
 */
 class ForStmt : public Statement
 {
@@ -1985,11 +2033,16 @@ private:
 	std::list<Statement *> * _stmtlist; //!< Statement of the consequent //!< Statement of the body of the for loop
 
 public:
-	/*!
-		\brief Constructor of ForStmt
-		\param condition: ExpNode of the condition
-		\param statement: Statement of the body of the loop
-		\post  A new ForStmt is created with the parameters
+	/* !
+	 @brief      Constructor of ForStmt
+
+	 @param[in]  variable       The variable
+	 @param      from           The from
+	 @param      until          Until
+	 @param      step           The step
+	 @param      statementlist  Statement of the body of the loop
+	 @param      condition:  ExpNode of the condition
+	 @post       A new ForStmt is created with the parameters
 	*/
 	ForStmt ( std::string variable, ExpNode * from, ExpNode * until, ExpNode * step, std::list<Statement *> * statementlist )
 	{
@@ -2000,38 +2053,46 @@ public:
 		this->_stmtlist = statementlist;
 	}
 
+	/**
+	 * @brief      Constructor of ForStmt
+	 *
+	 * @param[in]  variable       The variable
+	 * @param      from           The from
+	 * @param      until          Until
+	 * @param      statementlist  The statementlist
+	 */
 	ForStmt ( std::string variable, ExpNode * from, ExpNode * until, std::list<Statement *> * statementlist )
 	{
 		this->_variable = variable;
 		this->_from = from;
 		this->_until = until;
-		this->_step = new NumberNode(1);
+		this->_step = new NumberNode ( 1 );
 		this->_stmtlist = statementlist;
 	}
 
-	/*!
-		\brief   Print the ForStmt
-		\return  void
-		\sa		 evaluate
+	/* !
+	 @brief      Print the ForStmt
+	 @return     void
+	 @see        evaluate
 	*/
 	void print();
 
-	/*!
-		\brief   Evaluate the ForStmt
-		\return  void
-		\sa		 print
+	/* !
+	 @brief      Evaluate the ForStmt
+	 @return     void
+	 @see        print
 	*/
 	void evaluate();
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-/*!
-  \class   RepeatStmt
-  \brief   Definition of atributes and methods of RepeatStmt class
-  \note    RepeatStmt Class publicly inherits from Statement class
-		   and adds its own print and evaluate functions
-*/
+//------------------------------------------------------------------------------
+/// ////////////////////////////////////////////////////////////////////////////////////////////
+/// /*!
+/// @class      RepeatStmt
+/// @brief      Definition of atributes and methods of RepeatStmt class
+/// @note       RepeatStmt Class publicly inherits from Statement class and adds
+///             its own print and evaluate functions */
+///
 class RepeatStmt : public Statement
 {
 private:

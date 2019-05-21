@@ -86,13 +86,7 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 <ESTADO_CADENA>.          {yymore();}
 
-"@"	      	{
-			  		/* Se activa el reconocimiento de un comentario */
-			  		BEGIN ESTADO_COMENTARIO_SIMPLE; 
-			  	}
-<ESTADO_COMENTARIO_SIMPLE>"\n" { /* Fin del comentario: se vuelve al estado por defecto */
-		BEGIN 0;
-		}
+"@"([^(\n)])*\n 		{;}
 
 "#"			{	BEGIN ESTADO_COMENTARIO; }
 
@@ -132,9 +126,13 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
                        return NUMBER; 
                       }
-"_borrar"			 {
+(?i:_borrar)			 {
 	return ERASE;
 }
+(?i:_lugar)			 {
+	return PLACE;
+}
+
 
 {IDENTIFIER}   		 {
 						for (int i = 0; i < strlen(yytext); ++i)
@@ -204,7 +202,7 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 ":=" 	{ return ASSIGNMENT; }		/* NEW in example 7 */
 
 
-"=="	{ return EQUAL; }			/* NEW in example 15 */
+"="	{ return EQUAL; }			/* NEW in example 15 */
 
 "<>"	{ return NOT_EQUAL; }		/* NEW in example 15 */
 

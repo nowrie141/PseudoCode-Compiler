@@ -152,7 +152,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %type <stmts> stmtlist
 
 // New in example 17: if, while
-%type <st> stmt asgn print read if while repeat for erase
+%type <st> stmt asgn print read if while repeat for erase place
 
 %type <prog> program
 
@@ -162,7 +162,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 %token SEMICOLON
 
-%token PRINT READ PRINT_STRING READ_STRING IF THEN ELSE END_IF WHILE DO END_WHILE REPEAT UNTIL FOR FROM STEP END_FOR ERASE
+%token PRINT READ PRINT_STRING READ_STRING IF THEN ELSE END_IF WHILE DO END_WHILE REPEAT UNTIL FOR FROM STEP END_FOR ERASE PLACE
 
 %right ASSIGNMENT
 
@@ -185,11 +185,10 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 %left AND
 
-%nonassoc GREATER_OR_EQUAL LESS_OR_EQUAL GREATER_THAN LESS_THAN  EQUAL NOT_EQUAL
+%nonassoc GREATER_OR_EQUAL LESS_OR_EQUAL GREATER_THAN LESS_THAN EQUAL NOT_EQUAL
 
 %left NOT
 
-%left MULTIPLE_COMENTARIO SIMPLE_COMENTARIO
 /*******************************************************/
 
 /* MODIFIED in example 3 */
@@ -294,6 +293,9 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 	| erase{
 		// Default action
 	}
+	| place{
+
+	}
 ;
 
 for: FOR VARIABLE FROM exp UNTIL exp STEP exp DO stmtlist END_FOR
@@ -345,6 +347,12 @@ cond: 	LPAREN exp RPAREN
 erase:	ERASE
 		{
 			$$=new lp::EraseStmt();
+		}
+;
+
+place:	PLACE LPAREN exp COMMA exp RPAREN
+		{
+			$$=new lp::PlaceStmt($3, $5);
 		}
 ;
 

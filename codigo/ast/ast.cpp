@@ -86,7 +86,7 @@ double lp::VariableNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Runtime error in evaluateNumber(): the variable is not numeric",
+		warning ( "Error de ejecución in evaluateNumber(): the variable is not numeric",
 		          this->_id );
 	}
 
@@ -109,7 +109,7 @@ bool lp::VariableNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error in evaluateBool(): the variable is not boolean",
+		warning ( "Error de ejecución in evaluateBool(): the variable is not boolean",
 		          this->_id );
 	}
 
@@ -131,7 +131,7 @@ std::string lp::VariableNode::evaluateString()
 	}
 	else
 	{
-		warning ( "Runtime error in evaluateBool(): the variable is not boolean",
+		warning ( "Error de ejecución in evaluateBool(): the variable is not boolean",
 		          this->_id );
 	}
 
@@ -173,7 +173,7 @@ double lp::ConstantNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Runtime error in evaluateNumber(): the constant is not numeric",
+		warning ( "Error de ejecución in evaluateNumber(): the constant is not numeric",
 		          this->_id );
 	}
 
@@ -195,7 +195,7 @@ bool lp::ConstantNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error in evaluateBool(): the constant is not boolean",
+		warning ( "Error de ejecución in evaluateBool(): the constant is not boolean",
 		          this->_id );
 	}
 
@@ -258,7 +258,7 @@ int lp::NumericUnaryOperatorNode::getType()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types for", "Numeric Unary Operator" );
+		warning ( "Error de ejecución: incompatible types for", "Numeric Unary Operator" );
 	}
 
 	return result;
@@ -277,7 +277,7 @@ int lp::LogicalUnaryOperatorNode::getType()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types for", "Logical Unary Operator" );
+		warning ( "Error de ejecución: incompatible types for", "Logical Unary Operator" );
 	}
 
 	return result;
@@ -294,7 +294,7 @@ int lp::NumericOperatorNode::getType()
 	if ( ( this->_left->getType() == NUMBER ) and ( this->_right->getType() == NUMBER ) )
 		result = NUMBER;
 	else
-		warning ( "Runtime error: incompatible types for", "Numeric Operator" );
+		warning ( "Error de ejecución: incompatible types for", "Numeric Operator" );
 
 	return	result;
 }
@@ -309,7 +309,7 @@ int lp::StringOperatorNode::getType()
 	if ( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
 		result = STRING;
 	else
-		warning ( "Runtime error: incompatible types for", "Numeric Operator" );
+		warning ( "Error de ejecución: incompatible types for", "String Operator" );
 
 	return	result;
 }
@@ -327,7 +327,7 @@ int lp::RelationalOperatorNode::getType()
 	else if ( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
 		result = BOOL;
 	else
-		warning ( "Runtime error: incompatible types for", "Relational Operator" );
+		warning ( "Error de ejecución: incompatible types for", "Relational Operator" );
 
 	return	result;
 }
@@ -346,7 +346,7 @@ int lp::LogicalOperatorNode:: getType()
 		result = BOOL;
 	}
 	else
-		warning ( "Runtime error: incompatible types for", "Logical Operator" );
+		warning ( "Error de ejecución: incompatible types for", "Logical Operator" );
 
 	return	result;
 }
@@ -375,7 +375,7 @@ double lp::UnaryMinusNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Runtime error: the expressions are not numeric for ", "UnaryMinus" );
+		warning ( "Error de ejecución: the expressions are not numeric for ", "UnaryMinus" );
 	}
 
 	return result;
@@ -403,7 +403,7 @@ double lp::UnaryPlusNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Runtime error: the expressions are not numeric for ", "UnaryPlus" );
+		warning ( "Error de ejecución: the expressions are not numeric for ", "UnaryPlus" );
 	}
 
 	return result;
@@ -432,7 +432,7 @@ double lp::PlusNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Runtime error: the expressions are not numeric for ", "Plus" );
+		warning ( "Error de ejecución: the expressions are not numeric for ", "Plus" );
 	}
 
 	return result;
@@ -461,7 +461,7 @@ std::string lp::ConcatenateNode::evaluateString()
 	}
 	else
 	{
-		warning ( "Runtime error: the expressions are not numeric for ", "Concatenate" );
+		warning ( "Error de ejecución: the expressions are not numeric for ", "Concatenate" );
 	}
 
 	return result;
@@ -490,7 +490,7 @@ double lp::MinusNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Runtime error: the expressions are not numeric for ", "Minus" );
+		warning ( "Error de ejecución: the expressions are not numeric for ", "Minus" );
 	}
 
 	return result;
@@ -519,7 +519,7 @@ double lp::MultiplicationNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Runtime error: the expressions are not numeric for ", "Multiplication" );
+		warning ( "Error de ejecución: the expressions are not numeric for ", "Multiplication" );
 	}
 
 	return result;
@@ -557,12 +557,12 @@ double lp::DivisionNode::evaluateNumber()
 		}
 		else
 		{
-			warning ( "Runtime error", "Division by zero" );
+			warning ( "Error de ejecución", "Division by zero" );
 		}
 	}
 	else
 	{
-		warning ( "Runtime error: the expressions are not numeric for", "Division" );
+		warning ( "Error de ejecución: the expressions are not numeric for", "Division" );
 	}
 
 	return result;
@@ -598,12 +598,12 @@ double lp::DivisionIntNode::evaluateNumber()
 		}
 		else
 		{
-			warning ( "Runtime error", "Division by zero" );
+			warning ( "Error de ejecución", "Division by zero" );
 		}
 	}
 	else
 	{
-		warning ( "Runtime error: the expressions are not numeric for", "Division" );
+		warning ( "Error de ejecución: the expressions are not numeric for", "Division" );
 	}
 
 	return result;
@@ -637,11 +637,11 @@ double lp::ModuloNode::evaluateNumber()
 		if ( std::abs ( rightNumber ) > ERROR_BOUND )
 			result = ( int ) leftNumber % ( int ) rightNumber;
 		else
-			warning ( "Runtime error", "Division by zero" );
+			warning ( "Error de ejecución", "Division by zero" );
 	}
 	else
 	{
-		warning ( "Runtime error: the expressions are not numeric for", "Modulo" );
+		warning ( "Error de ejecución: the expressions are not numeric for", "Modulo" );
 	}
 
 	return result;
@@ -671,7 +671,7 @@ double lp::PowerNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Runtime error: the expressions are not numeric for", "Power" );
+		warning ( "Error de ejecución: the expressions are not numeric for", "Power" );
 	}
 
 	return result;
@@ -712,7 +712,7 @@ int lp::BuiltinFunctionNode_1::getType()
 	if ( this->_exp->getType() == NUMBER )
 		result = NUMBER;
 	else
-		warning ( "Runtime error: incompatible type for", "BuiltinFunctionNode_1" );
+		warning ( "Error de ejecución: incompatible type for", "BuiltinFunctionNode_1" );
 
 	return	result;
 }
@@ -741,7 +741,7 @@ double lp::BuiltinFunctionNode_1::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible type of parameter for ", this->_id );
+		warning ( "Error de ejecución: incompatible type of parameter for ", this->_id );
 	}
 
 	return result;
@@ -758,7 +758,7 @@ int lp::BuiltinFunctionNode_2::getType()
 	if ( this->_exp1->getType() == this->_exp2->getType() )
 		result = this->_exp1->getType();
 	else
-		warning ( "Runtime error: incompatible types for", "BuiltinFunctionNode_2" );
+		warning ( "Error de ejecución: incompatible types for", "BuiltinFunctionNode_2" );
 
 	return	result;
 }
@@ -790,7 +790,7 @@ double lp::BuiltinFunctionNode_2::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types of parameters for ", this->_id );
+		warning ( "Error de ejecución: incompatible types of parameters for ", this->_id );
 	}
 
 	return result;
@@ -823,7 +823,7 @@ bool lp::GreaterThanNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types of parameters for ", "operator Greater than" );
+		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Greater than" );
 	}
 
 	return result;
@@ -855,7 +855,7 @@ bool lp::GreaterOrEqualNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types of parameters for ", "operator Greater or equal than" );
+		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Greater or equal than" );
 	}
 
 	return result;
@@ -888,7 +888,7 @@ bool lp::LessThanNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types of parameters for ", "operator Less than" );
+		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Less than" );
 	}
 
 	return result;
@@ -920,7 +920,7 @@ bool lp::LessOrEqualNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types of parameters for ", "operator Less or equal than" );
+		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Less or equal than" );
 	}
 
 	return result;
@@ -954,7 +954,7 @@ bool lp::EqualNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types of parameters for ", "operator Equal" );
+		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Equal" );
 	}
 
 	return result;
@@ -998,7 +998,7 @@ bool lp::NotEqualNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types of parameters for ", "operator Not equal" );
+		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Not equal" );
 	}
 
 	return result;
@@ -1032,7 +1032,7 @@ bool lp::AndNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types of parameters for ", "operator And" );
+		warning ( "Error de ejecución: incompatible types of parameters for ", "operator And" );
 	}
 
 	return result;
@@ -1066,7 +1066,7 @@ bool lp::OrNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types of parameters for ", "operator Or" );
+		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Or" );
 	}
 
 	return result;
@@ -1094,7 +1094,7 @@ bool lp::NotNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible types of parameters for ", "operator Not" );
+		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Not" );
 	}
 
 	return result;
@@ -1221,7 +1221,7 @@ void lp::AssignmentStmt::evaluate()
 		break;
 
 		default:
-			warning ( "Runtime error: incompatible type of expression for ", "Assigment" );
+			warning ( "Error de ejecución: incompatible type of expression for ", "Assigment" );
 		}
 
 	}
@@ -1335,7 +1335,7 @@ void lp::AssignmentStmt::evaluate()
 		}
 		break;
 		default:
-			warning ( "Runtime error: incompatible type of expression for ", "Assigment" );
+			warning ( "Error de ejecución: incompatible type of expression for ", "Assigment" );
 		}
 	}
 }
@@ -1368,7 +1368,7 @@ void lp::PrintStmt::evaluate()
 
 		break;
 	default:
-		warning ( "Runtime error: incompatible type for ", "print" );
+		warning ( "Error de ejecución: incompatible type for ", "print" );
 	}
 }
 
@@ -1402,6 +1402,11 @@ void lp::PrintStringStmt::evaluate()
 				std::cout << "'";
 				i++;
 			}
+			else if ( auxiliar->at ( i ) == '\\' && auxiliar->at ( i + 1 ) == 't' )
+			{
+				std::cout << "\t";
+				i++;
+			}
 			else
 			{
 				std::cout << auxiliar->at ( i );
@@ -1412,7 +1417,7 @@ void lp::PrintStringStmt::evaluate()
 	}
 	else
 	{
-		warning ( "Runtime error: incompatible type for ", "escribir_cadena" );
+		warning ( "Error de ejecución: incompatible type for ", "escribir_cadena" );
 	}
 }
 
@@ -1637,16 +1642,13 @@ void lp::ForStmt::evaluate()
 {
 	// Get the identifier in the table of symbols as NumericVariable
 	lp::Variable * var = ( lp::Variable * ) table.getSymbol ( this->_variable );
-	int indexValue = this->_from->evaluateNumber(), stopValue = this->_until->evaluateNumber(), stepValue = this->_step->evaluateNumber();
+	int indexValue = 0, stopValue = 0, stepValue = 0;
 	lp::NumericVariable * v;
-	bool declared = true;
 	// Check the type of the first varible
 	if ( var->getType() == NUMBER )
 	{
 		// Get the identifier in the table of symbols as NumericVariable
 		v = ( lp::NumericVariable * ) table.getSymbol ( this->_variable );
-		// While the condition is true. the body is run
-		// Assignment the value to the identifier in the table of symbols
 	}
 	// The type of variable is not NUMBER or is declared
 	else
@@ -1659,24 +1661,39 @@ void lp::ForStmt::evaluate()
 		v = new lp::NumericVariable ( this->_variable,
 		                              VARIABLE, NUMBER, indexValue );
 		table.installSymbol ( v );
-		declared = false;
 	}
-
-	for ( indexValue = this->_from->evaluateNumber() ; indexValue < stopValue; indexValue = indexValue + stepValue )
+	if ( ( this->_from->getType() == NUMBER )
+	        and ( this->_from->getType() == NUMBER )
+	        and ( this->_from->getType() == NUMBER ) )
 	{
-		v->setValue ( indexValue );
-		//Run the stmtlist
-		std::list<Statement *>::iterator stmtIter;
-		for ( stmtIter = this->_stmtlist->begin(); stmtIter != this->_stmtlist->end(); stmtIter++ )
+		//Recogemos los valores para la iteración del for
+		indexValue = this->_from->evaluateNumber();
+		stopValue = this->_until->evaluateNumber();
+		stepValue = this->_step->evaluateNumber();
+
+		if ( ( ( indexValue > stopValue ) and ( stepValue > 0 ) )
+		        or ( ( indexValue < stopValue ) and ( stepValue < 0 ) ) )
 		{
-			( *stmtIter )->evaluate();
+			warning ( "Error de ejecución: incompatible values to iterate", "para" );
+		}
+		else
+		{
+			for ( indexValue = this->_from->evaluateNumber() ; indexValue <= stopValue; indexValue = indexValue + stepValue )
+			{
+				v->setValue ( indexValue );
+				//Run the stmtlist
+				std::list<Statement *>::iterator stmtIter;
+				for ( stmtIter = this->_stmtlist->begin(); stmtIter != this->_stmtlist->end(); stmtIter++ )
+				{
+					( *stmtIter )->evaluate();
+				}
+			}
 		}
 	}
-	if ( declared == false )
+	else
 	{
-		table.eraseSymbol ( this->_variable );
+		warning ( "Error de ejecución: incompatible types for", "para" );
 	}
-	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1751,5 +1768,26 @@ void lp::EraseStmt::print()
 
 void lp::EraseStmt::evaluate()
 {
-	system ( "clear" );
+	std::cout << CLEAR_SCREEN << std::endl;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void lp::PlaceStmt::print()
+{
+	std::cout << "EraseStmt"  << std::endl;
+}
+
+void lp::PlaceStmt::evaluate()
+{
+	if ( ( this->_exp1->getType() == NUMBER ) and ( this->_exp2->getType() == NUMBER ) )
+	{
+		PLACE ( ( int ) this->_exp1->evaluateNumber(), ( int ) this->_exp2->evaluateNumber() );
+	}
+	else
+	{
+		warning ( "Error de ejecución: incompatible values for", "_lugar" );
+	}
+}
+

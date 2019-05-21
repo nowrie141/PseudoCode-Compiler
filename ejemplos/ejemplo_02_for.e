@@ -5,6 +5,8 @@ escribir(a);
 escribir_cadena(' ');
 fin_para;
 
+leer_cadena(a);
+_borrar;
 
 escribir_cadena('\nb\n');
 b:=8;

@@ -11,6 +11,11 @@ escribir_cadena('Introduce la cadena 1: ');
 leer_cadena(a);
 escribir_cadena('Introduce la cadena 2: ');
 leer_cadena(b);
+a:=b;
+num1:=num2;
+escribir_cadena(a);
+escribir(num1);
+#
 si(num1 > 2 _O num2 < 3)
 entonces
 	si(num1<>num2)
@@ -42,3 +47,5 @@ entonces
 		fin_si
 	fin_si
 fin_si
+#
+
