@@ -1940,7 +1940,7 @@ private:
 	ExpNode * _exp2; //!< Y coordinate of the place statement
 
 public:
-	
+
 	/**
 	 * @brief      Contructor of PlaceStmt
 	 *

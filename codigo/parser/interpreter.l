@@ -256,7 +256,7 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 								yyless(yyleng-1); 
 
 								/* Display the error message */
-								warning("Lexical error", yytext);
+								warning("Error léxico", yytext);
 
 								/* Restore the initial state */
    								BEGIN(INITIAL);

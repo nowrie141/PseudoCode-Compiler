@@ -86,7 +86,7 @@ double lp::VariableNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Error de ejecución in evaluateNumber(): the variable is not numeric",
+		warning ( "Error de ejecución en evaluateNumber(): la variable no es numérica",
 		          this->_id );
 	}
 
@@ -109,7 +109,7 @@ bool lp::VariableNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución in evaluateBool(): the variable is not boolean",
+		warning ( "Error de ejecución in evaluateBool(): la variable no es booleana",
 		          this->_id );
 	}
 
@@ -131,7 +131,7 @@ std::string lp::VariableNode::evaluateString()
 	}
 	else
 	{
-		warning ( "Error de ejecución in evaluateBool(): the variable is not boolean",
+		warning ( "Error de ejecución in evaluateBool(): la variable no es booleana",
 		          this->_id );
 	}
 
@@ -173,7 +173,7 @@ double lp::ConstantNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Error de ejecución in evaluateNumber(): the constant is not numeric",
+		warning ( "Error de ejecución in evaluateNumber(): la constante no es numérica",
 		          this->_id );
 	}
 
@@ -195,7 +195,7 @@ bool lp::ConstantNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución in evaluateBool(): the constant is not boolean",
+		warning ( "Error de ejecución in evaluateBool(): la constante no es booleana",
 		          this->_id );
 	}
 
@@ -258,7 +258,7 @@ int lp::NumericUnaryOperatorNode::getType()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types for", "Numeric Unary Operator" );
+		warning ( "Error de ejecución: tipo incompatible para", "Numeric Unary Operator" );
 	}
 
 	return result;
@@ -277,7 +277,7 @@ int lp::LogicalUnaryOperatorNode::getType()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types for", "Logical Unary Operator" );
+		warning ( "Error de ejecución: tipo incompatible para", "Logical Unary Operator" );
 	}
 
 	return result;
@@ -294,7 +294,7 @@ int lp::NumericOperatorNode::getType()
 	if ( ( this->_left->getType() == NUMBER ) and ( this->_right->getType() == NUMBER ) )
 		result = NUMBER;
 	else
-		warning ( "Error de ejecución: incompatible types for", "Numeric Operator" );
+		warning ( "Error de ejecución: tipo incompatible para", "Numeric Operator" );
 
 	return	result;
 }
@@ -309,7 +309,7 @@ int lp::StringOperatorNode::getType()
 	if ( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
 		result = STRING;
 	else
-		warning ( "Error de ejecución: incompatible types for", "String Operator" );
+		warning ( "Error de ejecución: tipo incompatible para", "String Operator" );
 
 	return	result;
 }
@@ -327,7 +327,7 @@ int lp::RelationalOperatorNode::getType()
 	else if ( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
 		result = BOOL;
 	else
-		warning ( "Error de ejecución: incompatible types for", "Relational Operator" );
+		warning ( "Error de ejecución: tipo incompatible para", "Relational Operator" );
 
 	return	result;
 }
@@ -346,7 +346,7 @@ int lp::LogicalOperatorNode:: getType()
 		result = BOOL;
 	}
 	else
-		warning ( "Error de ejecución: incompatible types for", "Logical Operator" );
+		warning ( "Error de ejecución: tipo incompatible para", "Logical Operator" );
 
 	return	result;
 }
@@ -375,7 +375,7 @@ double lp::UnaryMinusNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Error de ejecución: the expressions are not numeric for ", "UnaryMinus" );
+		warning ( "Error de ejecución: las expresiones no son numéricas para ", "UnaryMinus" );
 	}
 
 	return result;
@@ -403,7 +403,7 @@ double lp::UnaryPlusNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Error de ejecución: the expressions are not numeric for ", "UnaryPlus" );
+		warning ( "Error de ejecución: las expresiones no son numéricas para ", "UnaryPlus" );
 	}
 
 	return result;
@@ -432,7 +432,7 @@ double lp::PlusNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Error de ejecución: the expressions are not numeric for ", "Plus" );
+		warning ( "Error de ejecución: las expresiones no son numéricas para ", "Plus" );
 	}
 
 	return result;
@@ -461,7 +461,7 @@ std::string lp::ConcatenateNode::evaluateString()
 	}
 	else
 	{
-		warning ( "Error de ejecución: the expressions are not numeric for ", "Concatenate" );
+		warning ( "Error de ejecución: las expresiones no son numéricas para ", "Concatenate" );
 	}
 
 	return result;
@@ -490,7 +490,7 @@ double lp::MinusNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Error de ejecución: the expressions are not numeric for ", "Minus" );
+		warning ( "Error de ejecución: las expresiones no son numéricas para ", "Minus" );
 	}
 
 	return result;
@@ -519,7 +519,7 @@ double lp::MultiplicationNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Error de ejecución: the expressions are not numeric for ", "Multiplication" );
+		warning ( "Error de ejecución: las expresiones no son numéricas para ", "Multiplication" );
 	}
 
 	return result;
@@ -557,12 +557,12 @@ double lp::DivisionNode::evaluateNumber()
 		}
 		else
 		{
-			warning ( "Error de ejecución", "Division by zero" );
+			warning ( "Error de ejecución", "Division por cero" );
 		}
 	}
 	else
 	{
-		warning ( "Error de ejecución: the expressions are not numeric for", "Division" );
+		warning ( "Error de ejecución: las expresiones no son numéricas para ", "Division" );
 	}
 
 	return result;
@@ -598,12 +598,12 @@ double lp::DivisionIntNode::evaluateNumber()
 		}
 		else
 		{
-			warning ( "Error de ejecución", "Division by zero" );
+			warning ( "Error de ejecución", "Division por cero" );
 		}
 	}
 	else
 	{
-		warning ( "Error de ejecución: the expressions are not numeric for", "Division" );
+		warning ( "Error de ejecución: las expresiones no son numéricas para ", "Division" );
 	}
 
 	return result;
@@ -637,11 +637,11 @@ double lp::ModuloNode::evaluateNumber()
 		if ( std::abs ( rightNumber ) > ERROR_BOUND )
 			result = ( int ) leftNumber % ( int ) rightNumber;
 		else
-			warning ( "Error de ejecución", "Division by zero" );
+			warning ( "Error de ejecución", "Division por cero" );
 	}
 	else
 	{
-		warning ( "Error de ejecución: the expressions are not numeric for", "Modulo" );
+		warning ( "Error de ejecución: las expresiones no son numéricas para ", "Modulo" );
 	}
 
 	return result;
@@ -671,7 +671,7 @@ double lp::PowerNode::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Error de ejecución: the expressions are not numeric for", "Power" );
+		warning ( "Error de ejecución: las expresiones no son numéricas para ", "Power" );
 	}
 
 	return result;
@@ -712,7 +712,7 @@ int lp::BuiltinFunctionNode_1::getType()
 	if ( this->_exp->getType() == NUMBER )
 		result = NUMBER;
 	else
-		warning ( "Error de ejecución: incompatible type for", "BuiltinFunctionNode_1" );
+		warning ( "Error de ejecución: tipo incompatible para", "BuiltinFunctionNode_1" );
 
 	return	result;
 }
@@ -741,7 +741,7 @@ double lp::BuiltinFunctionNode_1::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible type of parameter for ", this->_id );
+		warning ( "Error de ejecución: tipo incompatible de parámetro para", this->_id );
 	}
 
 	return result;
@@ -758,7 +758,7 @@ int lp::BuiltinFunctionNode_2::getType()
 	if ( this->_exp1->getType() == this->_exp2->getType() )
 		result = this->_exp1->getType();
 	else
-		warning ( "Error de ejecución: incompatible types for", "BuiltinFunctionNode_2" );
+		warning ( "Error de ejecución: tipo incompatible para", "BuiltinFunctionNode_2" );
 
 	return	result;
 }
@@ -790,7 +790,7 @@ double lp::BuiltinFunctionNode_2::evaluateNumber()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types of parameters for ", this->_id );
+		warning ( "Error de ejecución: tipos incompatibles de parámetros para ", this->_id );
 	}
 
 	return result;
@@ -823,7 +823,7 @@ bool lp::GreaterThanNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Greater than" );
+		warning ( "Error de ejecución: tipos incompatibles de parámetros para ", "operator Greater than" );
 	}
 
 	return result;
@@ -855,7 +855,7 @@ bool lp::GreaterOrEqualNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Greater or equal than" );
+		warning ( "Error de ejecución: tipos incompatibles de parámetros para ", "operator Greater or equal than" );
 	}
 
 	return result;
@@ -888,7 +888,7 @@ bool lp::LessThanNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Less than" );
+		warning ( "Error de ejecución: tipos incompatibles de parámetros para ", "operator Less than" );
 	}
 
 	return result;
@@ -920,7 +920,7 @@ bool lp::LessOrEqualNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Less or equal than" );
+		warning ( "Error de ejecución: tipos incompatibles de parámetros para ", "operator Less or equal than" );
 	}
 
 	return result;
@@ -954,7 +954,7 @@ bool lp::EqualNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Equal" );
+		warning ( "Error de ejecución: tipos incompatibles de parámetros para ", "operator Equal" );
 	}
 
 	return result;
@@ -998,7 +998,7 @@ bool lp::NotEqualNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Not equal" );
+		warning ( "Error de ejecución: tipos incompatibles de parámetros para ", "operator Not equal" );
 	}
 
 	return result;
@@ -1032,7 +1032,7 @@ bool lp::AndNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types of parameters for ", "operator And" );
+		warning ( "Error de ejecución: tipos incompatibles de parámetros para ", "operator And" );
 	}
 
 	return result;
@@ -1066,7 +1066,7 @@ bool lp::OrNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Or" );
+		warning ( "Error de ejecución: tipos incompatibles de parámetros para ", "operator Or" );
 	}
 
 	return result;
@@ -1094,7 +1094,7 @@ bool lp::NotNode::evaluateBool()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types of parameters for ", "operator Not" );
+		warning ( "Error de ejecución: tipos incompatibles de parámetros para ", "operator Not" );
 	}
 
 	return result;
@@ -1229,7 +1229,7 @@ void lp::AssignmentStmt::evaluate()
 	//////////////////////////////////////////////
 	// Allow multiple assigment -> a = b = c = 2;
 
-	else // this->_asgn is not NULL
+	else   // this->_asgn is not NULL
 	{
 		// IMPORTANT
 		//  evaluate the assigment child
@@ -1368,7 +1368,7 @@ void lp::PrintStmt::evaluate()
 
 		break;
 	default:
-		warning ( "Error de ejecución: incompatible type for ", "print" );
+		warning ( "Error de ejecución: tipo incompatible para ", "escribir" );
 	}
 }
 
@@ -1417,7 +1417,7 @@ void lp::PrintStringStmt::evaluate()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible type for ", "escribir_cadena" );
+		warning ( "Error de ejecución: tipo incompatible para ", "escribir_cadena" );
 	}
 }
 
@@ -1692,7 +1692,7 @@ void lp::ForStmt::evaluate()
 	}
 	else
 	{
-		warning ( "Error de ejecución: incompatible types for", "para" );
+		warning ( "Error de ejecución: tipo incompatible para", "para" );
 	}
 }
 

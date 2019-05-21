@@ -371,12 +371,12 @@ asgn:   VARIABLE ASSIGNMENT exp
 	   /* NEW in example 11 */ 
 	| CONSTANT ASSIGNMENT exp 
 		{   
- 			execerror("Semantic error in assignment: it is not allowed to modify a constant ", $1);
+ 			execerror("Error semático en la asignación: no está permitido modificar una constante ", $1);
 		}
 	   /* NEW in example 11 */ 
 	| CONSTANT ASSIGNMENT asgn 
 		{   
- 			execerror("Semantic error in multiple assignment: it is not allowed to modify a constant ",$1);
+ 			execerror("Error semático en la asignación multiple: no está permitido modificar una constante ",$1);
 		}
 ;
 
@@ -409,7 +409,7 @@ read:  READ LPAREN VARIABLE RPAREN
   	  /* NEW rule in example 11 */
 	| READ LPAREN CONSTANT RPAREN  
 		{   
- 			execerror("Semantic error in \"read statement\": it is not allowed to modify a constant ",$3);
+ 			execerror("Error semático en \"read statement\": no está permitido modificar una constante ",$3);
 		}
 ;
 
@@ -541,11 +541,11 @@ exp:	NUMBER
 						break;
 
 					default:
-				  			 execerror("Syntax error: too many parameters for function ", $1);
+				  			 execerror("Error sintáctico: demasiados parámetros para la función", $1);
 				} 
 			}
 			else
-	  			 execerror("Syntax error: incompatible number of parameters for function", $1);
+	  			 execerror("Error sintáctico: número de parámetros incompatibles con la función", $1);
 		}
 
 	| exp GREATER_THAN exp
