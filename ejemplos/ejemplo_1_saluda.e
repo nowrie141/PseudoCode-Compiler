@@ -1,4 +1,19 @@
+#
+  Asignatura:    Procesadores de Lenguajes
 
+  Titulación:    Ingeniería Informática
+  Especialidad:  Computación
+  Curso:         Tercero
+  Cuatrimestre:  Segundo
+
+  Departamento:  Informática y Análisis Numérico
+  Centro:        Escuela Politécnica Superior de Córdoba
+  Universidad de Córdoba
+ 
+  Curso académico: 2018 - 2019
+
+  Fichero de ejemplo nº 1 para el intérprete de pseudocódigo en español: ipe.exe
+#
 
 @ Bienvenida
 
