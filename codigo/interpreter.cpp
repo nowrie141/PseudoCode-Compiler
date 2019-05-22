@@ -1,16 +1,16 @@
-/*! 
+/*!
   \file interpreter.cpp
   \brief Main program
 */
 
 /*!
  \mainpage Flex and Bison: example 17
- \author   
+ \author
  \date     2018 - 4 - 26
  \version  1.0
  \note Novelties
-	+ AST: intermidiate code
-	+ New statements: if, while, block
+  + AST: intermidiate code
+  + New statements: if, while, block
 */
 
 
@@ -18,11 +18,12 @@
 // New in example 2
 #include <stdio.h>
 #include <string>
+#include <string.h>
 //
 
 /////////////////////////////
-/* 
-  NEW in example 16 
+/*
+  NEW in example 16
   AST class
   IMPORTANT: must be written before interpreter.tab.h
 */
@@ -38,27 +39,27 @@ bool interactiveMode; //!< Control the interactive mode of execution of the inte
 
 
 // New in example 2
-extern FILE * yyin; //!< Standard input device for yylex() 
+extern FILE * yyin; //!< Standard input device for yylex()
 std::string progname; //!<  Program name
 //
 
 
 //////////////////////////////////////////////
-// NEW in example 6 
+// NEW in example 6
 
-// Use for recovery of runtime errors 
+// Use for recovery of runtime errors
 #include <setjmp.h>
 #include <signal.h>
 
-// Error recovery functions 
+// Error recovery functions
 #include "error/error.hpp"
 
 
-lp::AST *root; //!< Root of the abstract syntax tree AST
-///////////////////////////////////////////// 
+lp::AST * root; //!< Root of the abstract syntax tree AST
+/////////////////////////////////////////////
 
 //////////////////////////////////////////////
-// NEW in example 10 
+// NEW in example 10
 
 #include "table/init.hpp"
 
@@ -68,10 +69,10 @@ lp::AST *root; //!< Root of the abstract syntax tree AST
     This is an array type capable of storing the information of a calling environment to be restored later.
    This information is filled by calling macro setjmp and can be restored by calling function longjmp.
 */
-extern jmp_buf begin; //!<  It enables recovery of runtime errors 
+extern jmp_buf begin; //!<  It enables recovery of runtime errors
 
 //////////////////////////////////////////////
-// NEW in example 7 
+// NEW in example 7
 
 #include "table/table.hpp"
 
@@ -85,67 +86,87 @@ lp::Table table; //!< Table of Symbols
 
 //! \name Main program
 
-/*! 
-	\brief  Main function
-	\param  argc: number of command line parameters
-	\param  argv: values of command line parameters
-	\return int
-	\note   C++ requires that main returns an int value
-	\sa     yyparse, yylex
+/* !
+ @brief      Main function
+
+ @param      argc  number of command line parameters
+ @param      argv  values of command line parameters
+
+ @return     int
+ @note       C++ requires that main returns an int value
+ @see        yyparse, yylex
 */
-int main(int argc, char *argv[])
+int main ( int argc, char * argv[] )
 {
- // Option -t needed
- // yydebug = 1;
- 
- /* 
-   If the input file exists 
-      then 
-           it is set as input device for yylex();
-      otherwise
-            the input device is the keyboard (stdin)
- */
- if (argc == 2) 
- {
-     yyin = fopen(argv[1],"r");
+// Option -t needed
+// yydebug = 1;
 
-	 interactiveMode = false;
- }
-else
- {
-	interactiveMode = true;
- }
+  /*
+    If the input file exists
+       then
+            it is set as input device for yylex();
+       otherwise
+             the input device is the keyboard (stdin)
+  */
+  if ( argc == 2 )
+  {
+    yyin = fopen ( argv[1], "r" );
+    if ( FILE * file = fopen ( argv[1], "r" ) )
+    {
+      fclose ( file );
+      std::string * filename = new std::string ( argv[1] );
+      std::size_t found = filename->find_last_of ( "." );
+      std::string extension = filename->substr ( found + 1, filename->length() );
+      if ( extension != "e" )
+      {
+        warning ( "Error en el fichero: ", "Extension no valida" );
+        return 0;
+      }
 
- // Copy the name of the interpreter 
-	progname = argv[0];
 
- /* Number of decimal places */ 
- std::cout.precision(7);
+    }
+    else
+    {
+      warning ( "Error en el fichero: ", "El fichero no existe" );
+      return 0;
+    }
+    interactiveMode = false;
+  }
+  else
+  {
+    interactiveMode = true;
+  }
 
- /* 
-   Table of symbols initialization 
-   Must be written before the recovery sentence: setjmp
- */
-   init(table);
+// Copy the name of the interpreter
+  progname = argv[0];
 
-/* Sets a viable state to continue after a runtime error */
- setjmp(begin);
+  /* Number of decimal places */
+  std::cout.precision ( 7 );
 
- /* The name of the function to handle floating-point errors is set */
- signal(SIGFPE,fpecatch);
+  /*
+    Table of symbols initialization
+    Must be written before the recovery sentence: setjmp
+  */
+  init ( table );
 
- // Parser function
+  /* Sets a viable state to continue after a runtime error */
+  setjmp ( begin );
+
+  /* The name of the function to handle floating-point errors is set */
+  signal ( SIGFPE, fpecatch );
+
+// Parser function
   yyparse();
 
- if (interactiveMode == false)
- {
-  /* NEW in example 15 */
-  /*  root->print(); */
-   root->evaluate();
- }
+  if ( interactiveMode == false )
+  {
+    /* NEW in example 15 */
+    /*  root->print(); */
+    root->evaluate();
+  }
 
- /* End of program */
- return 0;
+  /* End of program */
+  return 0;
 }
 
 

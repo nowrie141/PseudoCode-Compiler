@@ -199,7 +199,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 %left LPAREN RPAREN
 
-%nonassoc  UNARY
+%nonassoc  UNARY UNARY_PLUS UNARY_MINUS
 
 // Maximum precedence 
 /* MODIFIED in example 5 */
@@ -378,6 +378,22 @@ asgn:   VARIABLE ASSIGNMENT exp
 		{   
  			execerror("Error semático en la asignación multiple: no está permitido modificar una constante ",$1);
 		}
+	|
+		UNARY_PLUS VARIABLE %prec UNARY{
+			$$ = new lp::UnaryAddStmt($2);
+		}
+	|
+		UNARY_MINUS VARIABLE %prec UNARY{
+			$$ = new lp::UnarySubstractStmt($2);
+		}
+	|
+		VARIABLE UNARY_PLUS %prec UNARY{
+			$$ = new lp::UnaryAddStmt($1);
+		}
+	|
+		VARIABLE UNARY_MINUS %prec UNARY{
+			$$ = new lp::UnarySubstractStmt($1);
+		}
 ;
 
 
@@ -425,6 +441,7 @@ exp:	NUMBER
 		STRING{
 			$$ = new lp::StringNode($1);
 		}
+
 	| 	exp PLUS exp 
 		{ 
 			// Create a new plus node
@@ -458,13 +475,27 @@ exp:	NUMBER
 		    // just copy up the expression node 
 			$$ = $2;
 		 }
-
+	|
+		UNARY_PLUS VARIABLE %prec UNARY{
+			$$ = new lp::UnaryAddNode($2);
+		}
+	|
+		UNARY_MINUS VARIABLE %prec UNARY{
+			$$ = new lp::UnarySubstractNode($2);
+		}
+	|
+		VARIABLE UNARY_PLUS %prec UNARY{
+			$$ = new lp::UnaryAddNode($1);
+		}
+	|
+		VARIABLE UNARY_MINUS %prec UNARY{
+			$$ = new lp::UnarySubstractNode($1);
+		}
   	| 	PLUS exp %prec UNARY
 		{ 
 		  // Create a new unary plus node	
   		  $$ = new lp::UnaryPlusNode($2);
 		}
-
 	| 	MINUS exp %prec UNARY
 		{ 
 		  // Create a new unary minus node	

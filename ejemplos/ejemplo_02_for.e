@@ -1,5 +1,5 @@
 escribir_cadena('a\n');
-para a desde 0 hasta 10 paso 1
+para a desde 0 hasta 10 paso 0
 hacer
 escribir(a);
 escribir_cadena(' ');

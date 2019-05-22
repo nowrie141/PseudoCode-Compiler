@@ -35,7 +35,7 @@ void warning(std::string errorMessage1,std::string errorMessage2)
   std::cerr << IGREEN; 
   std::cerr << " Programa: " << progname << std::endl;
   std::cerr << BIRED; 
-  std::cerr << " Error en la ínea " << lineNumber 
+  std::cerr << " Error en la línea " << lineNumber 
             << " --> " << errorMessage1 << std::endl;
   std::cerr << RESET; 
 

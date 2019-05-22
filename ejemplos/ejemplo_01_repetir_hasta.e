@@ -1,6 +1,5 @@
-a:=1;
+a:=0;
 repetir
-escribir(a);
+escribir(a++);
 escribir_cadena('\n');
-a:=a+(a*0.25);
-hasta (a<5);
+hasta ( a < 5);

@@ -356,6 +356,61 @@ int lp::LogicalOperatorNode:: getType()
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
+void lp::UnaryAddNode::print()
+{
+	std::cout << "UnaryAddNode: "  << std::endl;
+	std::cout << identifier << std::endl;
+}
+
+double lp::UnaryAddNode::evaluateNumber()
+{
+	double result = 0;
+	// Ckeck the type of the expression
+	if ( this->getType() == NUMBER )
+	{
+		lp::NumericVariable * v = ( lp::NumericVariable * ) table.getSymbol ( identifier );
+		result = v->getValue() + 1;
+		v->setValue ( result );
+	}
+	else
+	{
+		warning ( "Error de ejecución: la expresion no es numérica para ", "UnaryAddNode" );
+	}
+
+	return result;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void lp::UnarySubstractNode::print()
+{
+	std::cout << "UnarySubstractNode: "  << std::endl;
+	std::cout << identifier << std::endl;
+}
+
+double lp::UnarySubstractNode::evaluateNumber()
+{
+	double result = 0;
+	// Ckeck the type of the expression
+	if ( this->getType() == NUMBER )
+	{
+		lp::NumericVariable * v = ( lp::NumericVariable * ) table.getSymbol ( identifier );
+		result = v->getValue() - 1;
+		v->setValue ( result );
+	}
+	else
+	{
+		warning ( "Error de ejecución: la expresion no es numérica para ", "UnaryAddNode" );
+	}
+
+	return result;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
 void lp::UnaryMinusNode::print()
 {
 	std::cout << "UnaryMinusNode: "  << std::endl;
@@ -945,12 +1000,22 @@ bool lp::EqualNode::evaluateBool()
 
 	if ( this->getType() == BOOL )
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		if ( ( this->_left->getType() == NUMBER ) and ( this->_right->getType() == NUMBER ) )
+		{
+			double leftNumber, rightNumber;
+			leftNumber = this->_left->evaluateNumber();
+			rightNumber = this->_right->evaluateNumber();
 
-		// ERROR_BOUND to control the precision of real numbers
-		result = std::abs ( ( leftNumber - rightNumber ) < ERROR_BOUND );
+			// ERROR_BOUND to control the precision of real numbers
+			result = std::abs ( ( leftNumber - rightNumber ) < ERROR_BOUND );
+		}
+		else if ( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
+		{
+			std::string leftString, rightString;
+			leftString = this->_left->evaluateString();
+			rightString = this->_right->evaluateString();
+			result = ( leftString == rightString );
+		}
 	}
 	else
 	{
@@ -1340,6 +1405,60 @@ void lp::AssignmentStmt::evaluate()
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void lp::UnaryAddStmt::print()
+{
+	std::cout << "UnaryAddStmt: "  << std::endl;
+	std::cout << identifier << std::endl;
+}
+
+void lp::UnaryAddStmt::evaluate()
+{
+	double result = 0;
+	// Ckeck the type of the expression
+	lp::Variable * var = ( lp::Variable * ) table.getSymbol ( this->identifier );
+	if ( var->getType() == NUMBER )
+	{
+		lp::NumericVariable * v = ( lp::NumericVariable * ) table.getSymbol ( identifier );
+		result = v->getValue() + 1;
+		v->setValue ( result );
+	}
+	else
+	{
+		warning ( "Error de ejecución: la expresion no es numérica para ", "UnaryAddNode" );
+	}
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void lp::UnarySubstractStmt::print()
+{
+	std::cout << "UnarySubstractStmt: "  << std::endl;
+	std::cout << identifier << std::endl;
+}
+
+void lp::UnarySubstractStmt::evaluate()
+{
+	double result = 0;
+	// Ckeck the type of the expression
+	lp::Variable * var = ( lp::Variable * ) table.getSymbol ( this->identifier );
+	if ( var->getType() == NUMBER )
+	{
+		lp::NumericVariable * v = ( lp::NumericVariable * ) table.getSymbol ( identifier );
+		result = v->getValue() - 1;
+		v->setValue ( result );
+	}
+	else
+	{
+		warning ( "Error de ejecución: la expresion no es numérica para ", "UnaryAddNode" );
+	}
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1670,24 +1789,30 @@ void lp::ForStmt::evaluate()
 		indexValue = this->_from->evaluateNumber();
 		stopValue = this->_until->evaluateNumber();
 		stepValue = this->_step->evaluateNumber();
-
-		if ( ( ( indexValue > stopValue ) and ( stepValue > 0 ) )
-		        or ( ( indexValue < stopValue ) and ( stepValue < 0 ) ) )
+		if ( stepValue != 0 )
 		{
-			warning ( "Error de ejecución: incompatible values to iterate", "para" );
+			if ( ( ( indexValue > stopValue ) and ( stepValue > 0 ) )
+			        or ( ( indexValue < stopValue ) and ( stepValue < 0 ) ) )
+			{
+				warning ( "Error de ejecución: incompatible values to iterate", "para" );
+			}
+			else
+			{
+				for ( indexValue = this->_from->evaluateNumber() ; indexValue <= stopValue; indexValue = indexValue + stepValue )
+				{
+					v->setValue ( indexValue );
+					//Run the stmtlist
+					std::list<Statement *>::iterator stmtIter;
+					for ( stmtIter = this->_stmtlist->begin(); stmtIter != this->_stmtlist->end(); stmtIter++ )
+					{
+						( *stmtIter )->evaluate();
+					}
+				}
+			}
 		}
 		else
 		{
-			for ( indexValue = this->_from->evaluateNumber() ; indexValue <= stopValue; indexValue = indexValue + stepValue )
-			{
-				v->setValue ( indexValue );
-				//Run the stmtlist
-				std::list<Statement *>::iterator stmtIter;
-				for ( stmtIter = this->_stmtlist->begin(); stmtIter != this->_stmtlist->end(); stmtIter++ )
-				{
-					( *stmtIter )->evaluate();
-				}
-			}
+			warning ( "Error de ejecución: paso incompatible para", "para" );
 		}
 	}
 	else

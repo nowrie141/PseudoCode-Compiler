@@ -501,7 +501,90 @@ public:
 	double evaluateNumber();
 };
 
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
+/*!
+  \class   UnaryAddNode
+  \brief   Definition of atributes and methods of UnaryAddNode class
+  \note    UnaryAddNode Class publicly inherits from NumericUnaryOperatorNode class
+*/
+class UnaryAddNode : public VariableNode
+{
+private:
+	std::string identifier;
+
+public:
+
+	/*!
+		\brief Constructor of UnaryAddNode uses NumericUnaryOperatorNode's constructor as member initializer
+		\param expression: pointer to ExpNode
+		\post  A new UnaryAddNode is created with the parameter
+	*/
+	UnaryAddNode ( std::string id ) : VariableNode ( id )
+	{
+		identifier = id;
+	}
+
+	/*!
+		\brief   Print the expression
+		\return  void
+		\sa		 evaluate()
+	*/
+	void print();
+
+	/*!
+		\brief   Evaluate the expression
+		\return  double
+		\sa		 print
+	*/
+	double evaluateNumber();
+};
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+/* !
+ @class      UnarySubstractNode
+ @brief      Definition of atributes and methods of UnarySubstractNode class
+ @note       UnarySubstractNode Class publicly inherits from
+             NumericUnaryOperatorNode class
+*/
+class UnarySubstractNode : public VariableNode
+{
+private:
+	std::string identifier;
+
+public:
+
+	/* !
+	 @brief      Constructor of UnarySubstractNode uses NumericUnaryOperatorNode's
+	             constructor as member initializer
+
+	 @param      id    The identifier
+	 @param      expression:  pointer to ExpNode
+	 @post       A new UnarySubstractNode is created with the parameter
+	*/
+	UnarySubstractNode ( std::string id ) : VariableNode ( id )
+	{
+		identifier = id;
+	}
+
+	/* !
+	 @brief      Print the expression
+	 @return     void
+	 @see        evaluate()
+	*/
+	void print();
+
+	/* !
+	 @brief      Evaluate the expression
+
+	 @return     double
+	 @see        print
+	*/
+	double evaluateNumber();
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -539,31 +622,35 @@ public:
 //////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \class   NumericOperatorNode
-  \brief   Definition of atributes and methods of NumericOperatorNode class
-  \note    NumericOperatorNode Class publicly inherits from OperatorNode class
-  \warning Abstract class, because it does not redefine the print method of ExpNode
+/* !
+ @class      NumericOperatorNode
+ @brief      Definition of atributes and methods of NumericOperatorNode class
+ @note       NumericOperatorNode Class publicly inherits from OperatorNode class
+ @warning    Abstract class, because it does not redefine the print method of
+             ExpNode
 */
 class NumericOperatorNode : public OperatorNode
 {
 public:
 
-	/*!
-		\brief Constructor of NumericOperatorNode uses OperatorNode's constructor as members initializer
-		\param L: pointer to ExpNode
-		\param R: pointer to ExpNode
-		\post  A new NumericOperatorNode is created with the parameters
+	/* !
+	 @brief      Constructor of NumericOperatorNode uses OperatorNode's constructor
+	             as members initializer
+
+	 @param      L     pointer to ExpNode
+	 @param      R     pointer to ExpNode
+	 @post       A new NumericOperatorNode is created with the parameters
 	*/
 	NumericOperatorNode ( ExpNode * L, ExpNode * R ) : OperatorNode ( L, R )
 	{
 		//	Empty
 	}
 
-	/*!
-	\brief   Get the type of the children expressions
-	\return  int
-	\sa		 print()
+	/* !
+	@brief      Get the type of the children expressions
+
+	@return     int
+	@see        print()
 	*/
 	int getType();
 };
@@ -1625,6 +1712,94 @@ public:
 	*/
 	void evaluate();
 
+};
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+/* !
+ @class      UnaryAddNode
+ @brief      Definition of atributes and methods of UnaryAddNode class
+ @note       UnaryAddNode Class publicly inherits from NumericUnaryOperatorNode
+             class
+*/
+class UnaryAddStmt : public Statement
+{
+private:
+	std::string identifier;
+
+public:
+
+	/* !
+	 @brief      Constructor of UnaryAddNode uses NumericUnaryOperatorNode's
+	             constructor as member initializer
+	
+	 @param[in]  id    The identifier
+	 @param      expression:  pointer to ExpNode
+	 @post       A new UnaryAddNode is created with the parameter
+	*/
+	UnaryAddStmt ( std::string id ) : identifier ( id )
+	{
+
+	}
+
+	/* !
+	 @brief      Print the expression
+	 @return     void
+	 @see        evaluate()
+	*/
+	void print();
+
+	/* !
+	 @brief      Evaluate the expression
+	 @return     double
+	 @see        print
+	*/
+	void evaluate();
+};
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+/* !
+ @class      UnarySubstractNode
+ @brief      Definition of atributes and methods of UnarySubstractNode class
+ @note       UnarySubstractNode Class publicly inherits from
+             NumericUnaryOperatorNode class
+*/
+class UnarySubstractStmt : public Statement
+{
+private:
+	std::string identifier;
+
+public:
+
+	/* !
+	 @brief      Constructor of UnaryAddNode uses NumericUnaryOperatorNode's
+	             constructor as member initializer
+	
+	 @param[in]  id    The identifier
+	 @param      expression:  pointer to ExpNode
+	 @post       A new UnaryAddNode is created with the parameter
+	*/
+	UnarySubstractStmt ( std::string id ) : identifier ( id )
+	{
+
+	}
+
+	/* !
+	 @brief      Print the expression
+	 @return     void
+	 @see        evaluate()
+	*/
+	void print();
+
+	/* !
+	 @brief      Evaluate the expression
+	 @return     double
+	 @see        print
+	*/
+	void evaluate();
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

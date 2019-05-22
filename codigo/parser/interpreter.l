@@ -6,7 +6,7 @@
 #include <iostream>
 
 /*********************/
-/* NEW in example 4 */
+
 /* atof */
 #include <stdlib.h>
 /*********************/
@@ -27,13 +27,13 @@
 #include "interpreter.tab.h"
 
 /********************/
-/* NEW in example 3 */
+
 #include "../error/error.hpp"
 /********************/
 
 
 /*********************************************/
-/* NEW in example 7 */
+
 /* Table of symbols */
 #include "../table/table.hpp"
 
@@ -61,8 +61,9 @@ NUMBER3 {DIGIT}+(\.{DIGIT}+)?(E[+\-]?{DIGIT}+)?
 
 IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
+WRONGIDENTIFIER1	[^{LETTER}]+{IDENTIFIER}
 
-/* NEW in example 3 */
+
 /* STATE  */
 %x ERROR ESTADO_COMENTARIO ESTADO_COMENTARIO_SIMPLE ESTADO_CADENA
 /*! \name REGULAR EXPRESSIONS  */
@@ -86,7 +87,11 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 
 <ESTADO_CADENA>.          {yymore();}
 
-"@"([^(\n)])*\n 		{;}
+"@"			{	BEGIN ESTADO_COMENTARIO_SIMPLE; }
+
+<ESTADO_COMENTARIO_SIMPLE>[^"\n"]          {;}
+
+<ESTADO_COMENTARIO_SIMPLE>"\n"          {	BEGIN 0;	}
 
 "#"			{	BEGIN ESTADO_COMENTARIO; }
 
@@ -106,13 +111,13 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
         }
 
 ";"		{
-			/* NEW in example 5 */
+			
 			return SEMICOLON;
 		}
 
 
 ","		{
-			/* NEW in example 14 */
+			
 			return COMMA;
 		}
 
@@ -139,7 +144,7 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 						{
 							yytext[i]=tolower(yytext[i]);
 						}
-						 /* NEW in example 7 */
+						 
 						 std::string identifier(yytext);
 
 						/* 
@@ -184,43 +189,45 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
                      }
 
 
-"-"		{ return MINUS;  } 			/* NEW in example 3 */
-"+"		{ return PLUS;   } 			/* NEW in example 3 */
+"-"		{ return MINUS;  } 			
+"+"		{ return PLUS;   } 			
 
-"*"	    { return MULTIPLICATION; } 	/* NEW in example 3 */
-"/"     { return DIVISION; } 		/* NEW in example 3 */
+"*"	    { return MULTIPLICATION; } 	
+"/"     { return DIVISION; } 		
 
-"("     { return LPAREN; } 			/* NEW in example 3 */
-")"	    { return RPAREN; } 			/* NEW in example 3 */
+"("     { return LPAREN; } 			
+")"	    { return RPAREN; } 			
+
+"--"		{ return UNARY_MINUS;  }
+"++"		{ return UNARY_PLUS;   }
 
 (?i:_div)	{ return DIVISION_INT; }
 
-(?i:_mod)     { return MODULO; }			/* NEW in example 5 */
+(?i:_mod)     { return MODULO; }			
 
-"**"	    { return POWER; }			/* NEW in example 5 */
+"**"	    { return POWER; }			
 
-":=" 	{ return ASSIGNMENT; }		/* NEW in example 7 */
+":=" 	{ return ASSIGNMENT; }		
 
+"="	{ return EQUAL; }			
 
-"="	{ return EQUAL; }			/* NEW in example 15 */
+"<>"	{ return NOT_EQUAL; }		
 
-"<>"	{ return NOT_EQUAL; }		/* NEW in example 15 */
+">="	{ return GREATER_OR_EQUAL; }
 
-">="	{ return GREATER_OR_EQUAL; }/* NEW in example 15 */
+"<="	{ return LESS_OR_EQUAL; }	
 
-"<="	{ return LESS_OR_EQUAL; }	/* NEW in example 15 */
+">"		{ return GREATER_THAN; }	
 
-">"		{ return GREATER_THAN; }	/* NEW in example 15 */
-
-"<"		{ return LESS_THAN; }		/* NEW in example 15 */
+"<"		{ return LESS_THAN; }		
 
 "||"	{ return CONCATENATION;}
 
-(?i:_no)		{ return NOT; }				/* NEW in example 15 */
+(?i:_no)		{ return NOT; }				
 
-(?i:_o)	{ return OR; }				/* NEW in example 15 */
+(?i:_o)	{ return OR; }				
 
-(?i:_y)	{ return AND; }				/* NEW in example 15 */
+(?i:_y)	{ return AND; }				
 
 
 <<EOF>> {
@@ -241,8 +248,9 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 									yymore();  
 								}
 
+
 <ERROR>[^0-9+\-*/()\^% \t\n\;a-zA-Z=<>!&]	{ /* MODIFIED in examples 5, 7, 15 */
-								  /* NEW in example 3 */
+								  
 								  /* 
 									The current value of yytext 
 									will be concatenated with the next character
@@ -250,8 +258,20 @@ IDENTIFIER  {LETTER}(({LETTER}|{DIGIT})|(_({LETTER}|{DIGIT})))*
 									yymore(); 
 								}
 
+<ERROR>{WRONGIDENTIFIER1}		{
+								
+								/* Rewind one position */
+								yyless(yyleng-1); 
+
+								/* Display the error message */
+								warning("Error léxico: Identificador no válido", yytext);
+
+								/* Restore the initial state */
+   								BEGIN(INITIAL);
+}
+
 <ERROR>(.|\n)                { 
-								/* NEW in example 3 */
+								
 								/* Rewind one position */
 								yyless(yyleng-1); 
 

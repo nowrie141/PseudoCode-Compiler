@@ -47,16 +47,16 @@ PALABRAS RESERVADAS:		[ ]							CHECK
 		repetir											[X]
 		hasta											[X]
 
-	SENTENCIA DE BUCLE PARA:							[ ]
-		para											[ ]
-		desde											[ ]
-		hasta											[ ]
-		paso											[ ]
-		fin_para										[ ]
+	SENTENCIA DE BUCLE PARA:							[X]
+		para											[X]
+		desde											[X]
+		hasta											[X]
+		paso											[X]
+		fin_para										[X]
 
-	MACROS:												[ ]
+	MACROS:												[X]
 		_borrar											[X]
-		_lugar											[ ]
+		_lugar											[X]
 
 	NO SE DISTINGUE ENTRE MAYÚSCULAS Y MINÚSCULAS		[X]
 	LAS PALABRAS RESERVADAS NO SON IDENTIFICADORES		[X]
@@ -80,13 +80,13 @@ NÚMERO:					[ ]								CHECK
 	REALES DE PUNTO FIJO								[X]
 	REALES NOTACION CIENTIFICA							[X]
 
-	TODOS SON TRATADOS COMO NÚMERO						[ ]
+	TODOS SON TRATADOS COMO NÚMERO						[X]
 
 -----------------------------------------------------------------
 CADENA:					[ ]								CHECK
 -----------------------------------------------------------------
 	CARACTERES DELIMITADOS POR COMILLAS SIMPLES 		[X]
-	INCLUYE COMILLA SIMPLE CON \ \'						[ ]
+	INCLUYE COMILLA SIMPLE CON \ \'						[X]
 
 	COMILLAS EXTERIORES NO SON PARTE DE LA CADENA 		[X]
 
@@ -95,7 +95,7 @@ OPERADORES:				[ ]								CHECK
 -----------------------------------------------------------------
 	NUMERICOS											[ ]
 		ASIGNACION :=									[X]
-		SUMA +											[X]
+		SUMA +											[ ]
 			UNARIO +2									[ ]
 			BINARIO 2+3									[X]
 		RESTA -											[ ]
@@ -163,12 +163,12 @@ SENTENCIAS DE CONTROL:	[ ]								CHECK
 						sentencias
 			fin_mientras
 
-		BUCLE "repetir"									[ ]
+		BUCLE "repetir"									[X]
 			repetir
 				sentencias
 			hasta cond
 
-		BUCLE "para"									[ ]
+		BUCLE "para"									[XS]
 			para identificador
 				desde expr numerica 1
 				hasta expr numerica 2
@@ -178,15 +178,15 @@ SENTENCIAS DE CONTROL:	[ ]								CHECK
 			fin_para
 
 -----------------------------------------------------------------
-COMANDOS ESPECIALES:	[ ]								CHECK
+COMANDOS ESPECIALES:	[X]								CHECK
 -----------------------------------------------------------------
-	_borrar												[ ]
-	_lugar(expr numérica 1, expr numérica 2)			[ ]
+	_borrar												[X]
+	_lugar(expr numérica 1, expr numérica 2)			[X]
 
 -----------------------------------------------------------------
-OBSERVACIONES:			[ ]								CHECK
+OBSERVACIONES:			[X]								CHECK
 -----------------------------------------------------------------
-	CAMBIO DE TIPO DINÁMICO								[ ]
+	CAMBIO DE TIPO DINÁMICO								[X]
 
 
 -----------------------------------------------------------------
@@ -194,7 +194,7 @@ CONTROL DE ERRORES:		[ ]								CHECK
 -----------------------------------------------------------------
 	LÉXICOS
 		IDENTIFICADOR MAL ESCRITO 						[ ]
-		SIMBOLO NO PERMITIDO							[ ]
+		SIMBOLO NO PERMITIDO							[X]
 		OTROS											[ ]
 
 	SINTÁCTICOS											[ ]
@@ -207,20 +207,20 @@ CONTROL DE ERRORES:		[ ]								CHECK
 
 	DE EJECUCIÓN										[ ]
 		SENTENCIA "PARA" CON BUCLE INFINITO				[ ]
-		FICHERO INEXISTENTE								[ ]
-		FICHERO CON EXTENSIÓN INCORRECTA				[ ]
+		FICHERO INEXISTENTE								[X]
+		FICHERO CON EXTENSIÓN INCORRECTA				[X]
 		OTROS											[ ]
 
 -----------------------------------------------------------------
-MODOS DE EJECUCIÓN:		[ ]								CHECK
+MODOS DE EJECUCIÓN:		[X]								CHECK
 -----------------------------------------------------------------
-	INTERACTIVO											[ ]
-	DESDE FICHERO										[ ]
+	INTERACTIVO											[X]
+	DESDE FICHERO										[X]
 
 -----------------------------------------------------------------
 OPCIONALES:				[ ]								CHECK
 -----------------------------------------------------------------
-	OPERADORES UNARIOS (++, --, etc)					[ ]
+	OPERADORES UNARIOS (++, --, etc)					[X]
 	OPERADIRES ARITMETICOS Y ASIGNACION (+:=,-:=)		[ ]
 
 	SENTENCIA "segun"									[ ]
