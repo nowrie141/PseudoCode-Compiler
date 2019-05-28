@@ -11,3 +11,6 @@ codigo/parser/lex\.yy\.c
 
 
 codigo/interpreter\.exe
+codigo/
+
+ejemplos/
