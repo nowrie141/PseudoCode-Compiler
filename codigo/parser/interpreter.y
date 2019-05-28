@@ -298,13 +298,41 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 	}
 ;
 
-for: FOR VARIABLE FROM exp UNTIL exp STEP exp DO stmtlist END_FOR
+for:	FOR VARIABLE FROM exp UNTIL exp STEP exp DO stmtlist END_FOR
 	{
-		$$ =new lp::ForStmt($2, $4, $6, $8, $10);
+			$$ =new lp::ForStmt($2, $4, $6, $8, $10);
 	}
-	| FOR VARIABLE FROM exp UNTIL exp DO stmtlist END_FOR
+	|	FOR VARIABLE FROM exp UNTIL exp DO stmtlist END_FOR
 	{
-		$$ =new lp::ForStmt($2, $4, $6, $8);
+			$$ =new lp::ForStmt($2, $4, $6, $8);
+	}
+	|	FOR FROM exp UNTIL exp STEP exp DO stmtlist END_FOR
+	{
+			execerror("Error sintáctico","bucle para, recibe una variable");
+	}
+	|	FOR FROM exp UNTIL exp DO stmtlist END_FOR
+	{
+			execerror("Error sintáctico","bucle para, recibe una variable");
+	}
+	|	FOR VARIABLE exp UNTIL exp STEP exp DO stmtlist END_FOR
+	{
+			warning("Error sintáctico","bucle para, falta sentencia \"desde\"");
+			$$ =new lp::ForStmt($2, $3, $5, $7, $9);
+	}
+	|	FOR VARIABLE exp UNTIL exp DO stmtlist END_FOR
+	{
+			warning("Error sintáctico","bucle para, falta sentencia \"desde\"");
+			$$ =new lp::ForStmt($2, $3, $5, $7);
+	}
+	|	FOR VARIABLE FROM exp UNTIL exp STEP exp stmtlist END_FOR
+	{
+			warning("Error sintáctico","bucle para, falta sentencia \"hacer\"");
+			$$ =new lp::ForStmt($2, $4, $6, $8, $9);
+	}
+	|	FOR VARIABLE FROM exp UNTIL exp stmtlist END_FOR
+	{
+			warning("Error sintáctico","bucle para, falta sentencia \"hacer\"");
+			$$ =new lp::ForStmt($2, $4, $6, $7);
 	}
  
 	/*  NEW in example 17 */
@@ -354,6 +382,15 @@ place:	PLACE LPAREN exp COMMA exp RPAREN
 		{
 			$$=new lp::PlaceStmt($3, $5);
 		}
+		|
+		PLACE LPAREN COMMA RPAREN
+		{
+			execerror("Error semático:", "La función \"lugar\" recibe dos parámetros");
+		}
+		PLACE LPAREN COMMA RPAREN
+		{
+			execerror("Error semático:", "La función \"lugar\" recibe dos parámetros");
+		}
 ;
 
 asgn:   VARIABLE ASSIGNMENT exp 
@@ -377,22 +414,6 @@ asgn:   VARIABLE ASSIGNMENT exp
 	| CONSTANT ASSIGNMENT asgn 
 		{   
  			execerror("Error semático en la asignación multiple: no está permitido modificar una constante ",$1);
-		}
-	|
-		UNARY_PLUS VARIABLE %prec UNARY{
-			$$ = new lp::UnaryAddStmt($2);
-		}
-	|
-		UNARY_MINUS VARIABLE %prec UNARY{
-			$$ = new lp::UnarySubstractStmt($2);
-		}
-	|
-		VARIABLE UNARY_PLUS %prec UNARY{
-			$$ = new lp::UnaryAddStmt($1);
-		}
-	|
-		VARIABLE UNARY_MINUS %prec UNARY{
-			$$ = new lp::UnarySubstractStmt($1);
 		}
 ;
 
@@ -423,9 +444,23 @@ read:  READ LPAREN VARIABLE RPAREN
 		}
 
   	  /* NEW rule in example 11 */
-	| READ LPAREN CONSTANT RPAREN  
+		| READ LPAREN CONSTANT RPAREN  
 		{   
- 			execerror("Error semático en \"read statement\": no está permitido modificar una constante ",$3);
+ 			execerror("Error semático en \"escribir\": no está permitido modificar una constante ",$3);
+		}
+		| READ VARIABLE RPAREN
+		{
+ 			warning("Error sintáctico", "sentencia \"escribir\": falta parentesis derecho");
+ 			$$ = new lp::ReadStmt($2);
+		}
+		| READ LPAREN VARIABLE
+		{
+ 			warning("Error sintáctico", "sentencia \"escribir\": falta parentesis izquierdo");
+			$$ = new lp::ReadStmt($3);
+		}
+		| READ LPAREN RPAREN
+		{
+			execerror("Error semático:", "La función \"escribir\" recibe un parámetro");
 		}
 ;
 

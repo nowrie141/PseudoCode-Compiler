@@ -1405,60 +1405,6 @@ void lp::AssignmentStmt::evaluate()
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-
-void lp::UnaryAddStmt::print()
-{
-	std::cout << "UnaryAddStmt: "  << std::endl;
-	std::cout << identifier << std::endl;
-}
-
-void lp::UnaryAddStmt::evaluate()
-{
-	double result = 0;
-	// Ckeck the type of the expression
-	lp::Variable * var = ( lp::Variable * ) table.getSymbol ( this->identifier );
-	if ( var->getType() == NUMBER )
-	{
-		lp::NumericVariable * v = ( lp::NumericVariable * ) table.getSymbol ( identifier );
-		result = v->getValue() + 1;
-		v->setValue ( result );
-	}
-	else
-	{
-		warning ( "Error de ejecución: la expresion no es numérica para ", "UnaryAddNode" );
-	}
-
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-
-void lp::UnarySubstractStmt::print()
-{
-	std::cout << "UnarySubstractStmt: "  << std::endl;
-	std::cout << identifier << std::endl;
-}
-
-void lp::UnarySubstractStmt::evaluate()
-{
-	double result = 0;
-	// Ckeck the type of the expression
-	lp::Variable * var = ( lp::Variable * ) table.getSymbol ( this->identifier );
-	if ( var->getType() == NUMBER )
-	{
-		lp::NumericVariable * v = ( lp::NumericVariable * ) table.getSymbol ( identifier );
-		result = v->getValue() - 1;
-		v->setValue ( result );
-	}
-	else
-	{
-		warning ( "Error de ejecución: la expresion no es numérica para ", "UnaryAddNode" );
-	}
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1738,14 +1684,17 @@ void lp::ForStmt::print()
 {
 	std::cout << "ForStmt: "  << std::endl;
 	// Variable
-	std::cout << this->_variable << std::endl;
+	std::cout << "para " << this->_variable << " desde ";
 	this->_from->print();
+	std::cout << " hasta ";
 	this->_until->print();
+
 	if ( this->_step != NULL )
 	{
+		std::cout << " paso ";
 		this->_step->print();
 	}
-
+	std::cout << std::endl;
 	// Body of the for loop
 	std::list<Statement *>::iterator stmtIter;
 	for ( stmtIter = this->_stmtlist->begin(); stmtIter != this->_stmtlist->end(); stmtIter++ )
@@ -1794,7 +1743,7 @@ void lp::ForStmt::evaluate()
 			if ( ( ( indexValue > stopValue ) and ( stepValue > 0 ) )
 			        or ( ( indexValue < stopValue ) and ( stepValue < 0 ) ) )
 			{
-				warning ( "Error de ejecución: incompatible values to iterate", "para" );
+				warning ( "Error de ejecución: valores incompatibles para iterar", "para" );
 			}
 			else
 			{

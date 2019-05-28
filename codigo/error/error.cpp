@@ -46,7 +46,7 @@ void warning(std::string errorMessage1,std::string errorMessage2)
 
 void yyerror(std::string errorMessage)
 {
-	warning("Parser error",errorMessage);
+	warning("Error sintáctico",errorMessage);
 }
 
 
@@ -59,7 +59,7 @@ void execerror(std::string errorMessage1,std::string errorMessage2)
 
 void fpecatch(int signum)     
 {
- execerror("Ejecución","error de punto flotante");
+ execerror("Error de ejecución","error de punto flotante");
 }
 
 

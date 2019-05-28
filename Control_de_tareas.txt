@@ -93,13 +93,13 @@ CADENA:					[ ]								CHECK
 -----------------------------------------------------------------
 OPERADORES:				[ ]								CHECK
 -----------------------------------------------------------------
-	NUMERICOS											[ ]
+	NUMERICOS											[X]
 		ASIGNACION :=									[X]
-		SUMA +											[ ]
-			UNARIO +2									[ ]
+		SUMA +											[X]
+			UNARIO +2									[X]
 			BINARIO 2+3									[X]
-		RESTA -											[ ]
-			UNARIO -2									[ ]
+		RESTA -											[X]
+			UNARIO -2									[X]
 			BINARIO 2-3									[X]
 		PRODUCTO *										[X]
 		DIVISION /										[X]
@@ -168,7 +168,7 @@ SENTENCIAS DE CONTROL:	[ ]								CHECK
 				sentencias
 			hasta cond
 
-		BUCLE "para"									[XS]
+		BUCLE "para"									[X]
 			para identificador
 				desde expr numerica 1
 				hasta expr numerica 2
@@ -193,20 +193,20 @@ OBSERVACIONES:			[X]								CHECK
 CONTROL DE ERRORES:		[ ]								CHECK
 -----------------------------------------------------------------
 	LÉXICOS
-		IDENTIFICADOR MAL ESCRITO 						[ ]
+		IDENTIFICADOR MAL ESCRITO 						[X]
 		SIMBOLO NO PERMITIDO							[X]
 		OTROS											[ ]
 
 	SINTÁCTICOS											[ ]
 		SENTENCIA DE CONTROL MAL ESCRITA				[ ]
-		SENTENCIA CON ARGUMENTOS INCOMPATIBLES			[ ]
+		SENTENCIA CON ARGUMENTOS INCOMPATIBLES			[X]
 		OTROS											[ ]
 
-	SEMÁNTICOS											[ ]
-		ARGUMENTOS U OPERANDOS INCOMPATIBLES			[ ]
+	SEMÁNTICOS											[X]
+		ARGUMENTOS U OPERANDOS INCOMPATIBLES			[X]
 
 	DE EJECUCIÓN										[ ]
-		SENTENCIA "PARA" CON BUCLE INFINITO				[ ]
+		SENTENCIA "PARA" CON BUCLE INFINITO				[X]
 		FICHERO INEXISTENTE								[X]
 		FICHERO CON EXTENSIÓN INCORRECTA				[X]
 		OTROS											[ ]
