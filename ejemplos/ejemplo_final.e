@@ -33,6 +33,9 @@ mientras (opc<>0) hacer
     _lugar(12,10);
     escribir_cadena(' Ejemplo 3: Obtener los N primeros términos de la serie de Fibbonacci ');
 
+    _lugar(13,10);
+    escribir_cadena(' Ejemplo 4: Determinar si un número es perfecto (Sus divisores suman el mismo) ');
+
     _lugar(14,10);
     escribir_cadena(' Finalizar ---------------> 0 ');
 
@@ -44,6 +47,7 @@ mientras (opc<>0) hacer
 
         si (opc = 1)
           entonces
+		_borrar;
   	        _lugar(5,5);
   	        escribir_cadena('Escribe el rango numerico: ');
   	        escribir_cadena('Desde A = ');
@@ -88,7 +92,7 @@ mientras (opc<>0) hacer
 
                             para k
                             desde 0
-                            hasta L
+                            hasta L-1
                             hacer
 
                               term1:=3*(K+4);
@@ -106,12 +110,14 @@ mientras (opc<>0) hacer
         					fin_para;
 
   				    fin_si;
-
-            leer(D);
+		escribir_cadena(' \n ');
+              escribir_cadena('Escribe cualquier letra para continuar: ');
+            leer_cadena(D);
 
             si_no    
                 si(opc = 2)
                   entonces
+			           _borrar;
                      _lugar(5,5);
                       escribir_cadena('Escribe el número por el que la suma de los catetos debe ser divisible: ');
                       escribir_cadena('N = ');
@@ -122,7 +128,7 @@ mientras (opc<>0) hacer
                       leer(K);
                       _borrar;
 
-                      si(n > 0)
+                      si(N > 0)
 
                         _lugar(5,5);
                         escribir_cadena(' Trigangulos encontrados: \n');
@@ -160,14 +166,18 @@ mientras (opc<>0) hacer
                               fin_para;
 
                             fin_para;
-                            leer(D);
+                        
                       fin_si;
+                       escribir_cadena('Escribe cualquier letra para continuar: ');
+                      leer_cadena(D);
+                     
                 si_no
                   si(opc = 3)
                     entonces
+			_borrar;
                       _lugar(5,5);
                       escribir_cadena('Escribe el numero de terminos de la serie: ');
-                      _leer(T);
+                      leer(T);
 
                       si(T > 0)
                         entonces
@@ -196,16 +206,53 @@ mientras (opc<>0) hacer
                           fin_para;
 
                       fin_si
-
+                        escribir_cadena('Escribe cualquier letra para continuar: ');
+                        leer_cadena(D);
                   si_no
                     si(opc = 4)
                       entonces
-                        escribir_cadena('estoy en el ejemplo 4');
+			_borrar;
+                        _lugar(5,5);
+                        escribir_cadena('Introduce un número y sabremos si es perfecto o no: ');
+                        leer(V);
+                        sumaDiv:=0;
+                        _borrar;
+
+                          para i
+                          desde 1
+                          hasta V-1
+                          hacer
+
+                            si(i _mod V = 0)
+                              entonces
+
+                                sumaDiv:=sumaDiv+i;
+
+                            fin_si;
+
+                          fin_para;
+
+                            si(sumaDiv = V)
+                              entonces
+
+                                escribir_cadena(' El número es perfecto');
+                              
+                              si_no
+                                si(sumaDiv <> V)
+                                  entonces
+
+                                  escribir_cadena(' El número no es perfecto ');
+
+                                fin_si;
+
+                            fin_si;
+
                     fin_si;
                   @Para meter mas ifs quitar el fin si de justo arriba y seguir con si_no, al terminar todas las opciones poner otro fin_si
           fin_si;
 
-          leer(D);
+          escribir_cadena('\nEscribe cualquier letra para continuar: ');
+          leer_cadena(D);
 
             
 
