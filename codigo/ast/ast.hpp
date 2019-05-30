@@ -17,30 +17,27 @@
 
 #define ERROR_BOUND 1.0e-6  //!< Error bound for the comparison of real numbers.
 
-/*
-#define NUMBER 1
-#define BOOL 2
-*/
-
-
-
 namespace lp
 {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-/*!
-  \class   ExpNode
-  \brief   Definition of atributes and methods of ExpNode class
-  \warning Abstract class
+
+/* !
+ \class      ExpNode
+
+ \brief      Definition of atributes and methods of ExpNode class
+ \warning    Abstract class
 */
 class ExpNode
 {
 public:
-	/*!
-		\brief   Type of  the expression
-		\warning Pure virtual function: must be redefined in the heir classes
-		\return  int
-		\sa		 print
+	/* !
+
+	 \brief      Type of  the expression
+	 \warning    Pure virtual function: must be redefined in the heir classes
+
+	 \return     int
+	 \see        print
 	*/
 	virtual int getType() = 0;
 
@@ -94,10 +91,11 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \class VariableNode
-  \brief Definition of atributes and methods of VariableNode class
-  \note  VariableNode Class publicly inherits from ExpNode class
+/* !
+ \class      VariableNode
+
+ \brief      Definition of atributes and methods of VariableNode class
+ \note       VariableNode Class publicly inherits from ExpNode class
 */
 class VariableNode : public ExpNode
 {
@@ -106,49 +104,61 @@ private:
 
 public:
 
-	/*!
-		\brief Constructor of VariableNode
-		\param value: double
-		\post  A new NumericVariableNode is created with the name of the parameter
-		\note  Inline function
+	/* !
+	
+	 \brief      Constructor of VariableNode
+	
+	 \param      value  double
+	 \post       A new NumericVariableNode is created with the name of the
+	             parameter
+	 \note       Inline function
 	*/
 	VariableNode ( std::string const &value )
 	{
 		this->_id = value;
 	}
 
-	/*!
-		\brief   Type of the Variable
-		\return  int
-		\sa		 print
+	/* !
+	
+	 \brief      Type of the Variable
+	
+	 \return     int
+	 \see        print
 	*/
 	int getType();
 
-	/*!
-		\brief   Print the Variable
-		\return  void
-		\sa		 evaluate()
+	/* !
+	
+	 \brief      Print the Variable
+	 \return     void
+	 \see        evaluate()
 	*/
 	void print();
 
-	/*!
-		\brief   Evaluate the Variable as NUMBER
-		\return  double
-		\sa		 print
+	/* !
+	
+	 \brief      Evaluate the Variable as NUMBER
+	
+	 \return     double
+	 \see        print
 	*/
 	double evaluateNumber();
 
-	/*!
-		\brief   Evaluate the Variable as BOOL
-		\return  bool
-		\sa		 print
+	/* !
+	
+	 \brief      Evaluate the Variable as BOOL
+	
+	 \return     bool
+	 \see        print
 	*/
 	bool evaluateBool();
 
-	/*!
-	\brief   Evaluate the expression
-	\return  string
-	\sa		 print
+	/* !
+	
+	\brief      Evaluate the expression
+	
+	\return     string
+	\see        print
 	*/
 	std::string evaluateString();
 
@@ -159,10 +169,11 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \class ConstantNode
-  \brief Definition of atributes and methods of ConstantNode class
-  \note  ConstantNode Class publicly inherits from ExpNode class
+/* !
+ \class      ConstantNode
+
+ \brief      Definition of atributes and methods of ConstantNode class
+ \note       ConstantNode Class publicly inherits from ExpNode class
 */
 class ConstantNode : public ExpNode
 {
@@ -171,41 +182,50 @@ private:
 
 public:
 
-	/*!
-		\brief Constructor of ConstantNode
-		\param value: double
-		\post  A new ConstantNode is created with the name of the parameter
+	/* !
+	
+	 \brief      Constructor of ConstantNode
+	
+	 \param      value  double
+	 \post       A new ConstantNode is created with the name of the parameter
 	*/
 	ConstantNode ( std::string value )
 	{
 		this->_id = value;
 	}
 
-	/*!
-		\brief   Type of the Constant
-		\return  int
-		\sa		 print
+	/* !
+	
+	 \brief      Type of the Constant
+	
+	 \return     int
+	 \see        print
 	*/
 	int getType();
 
-	/*!
-		\brief   Print the Constant
-		\return  void
-		\sa		 evaluate()
+	/* !
+	
+	 \brief      Print the Constant
+	 \return     void
+	 \see        evaluate()
 	*/
 	void print();
 
-	/*!
-		\brief   Evaluate the Constant as NUMBER
-		\return  double
-		\sa		 print
+	/* !
+	
+	 \brief      Evaluate the Constant as NUMBER
+	
+	 \return     double
+	 \see        print
 	*/
 	double evaluateNumber();
 
-	/*!
-		\brief   Evaluate the Constant as BOOL
-		\return  bool
-		\sa		 print
+	/* !
+	
+	 \brief      Evaluate the Constant as BOOL
+	
+	 \return     bool
+	 \see        print
 	*/
 	bool evaluateBool();
 
@@ -217,10 +237,11 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \class NumberNode
-  \brief Definition of atributes and methods of NumberNode class
-  \note  NumberNode Class publicly inherits from ExpNode class
+/* !
+ \class      NumberNode
+
+ \brief      Definition of atributes and methods of NumberNode class
+ \note       NumberNode Class publicly inherits from ExpNode class
 */
 class NumberNode : public ExpNode
 {
@@ -229,36 +250,45 @@ private:
 
 public:
 
-	/*!
-		\brief Constructor of NumberNode
-		\param value: double
-		\post  A new NumberNode is created with the value of the parameter
-		\note  Inline function
+	/* !
+	
+	 \brief      Constructor of NumberNode
+	
+	 \param      value  double
+	 \post       A new NumberNode is created with the value of the parameter
+	 \note       Inline function
 	*/
 	NumberNode ( double value )
 	{
 		this->_number = value;
 	}
 
-	/*!
-	\brief   Get the type of the expression: NUMBER
-	\return  int
-	\sa		 print
+	/* !
+	
+	\brief      Get the type of the expression: NUMBER
+	
+	\return     int
+	\see        print
 	*/
 	int getType();
 
-	/*!
-		\brief   Print the expression
-		\return  void
-		\sa		 evaluate()
+	/* !
+	
+	 \brief      Print the expression
+	 \return     void
+	 \see        evaluate()
 	*/
 	void print();
 
-	/*!
-		\brief   Evaluate the expression
-		\return  double
-		\sa		 print
-	*/
+	/**
+	 *
+	 * !
+	 *
+	 * \brief      Evaluate the expression
+	 *
+	 * \return     double
+	 * \see        print
+	 */
 	double evaluateNumber();
 };
 
@@ -267,10 +297,11 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \class StringNode
-  \brief Definition of atributes and methods of StringNode class
-  \note  StringNode Class publicly inherits from ExpNode class
+/* !
+ \class      StringNode
+
+ \brief      Definition of atributes and methods of StringNode class
+ \note       StringNode Class publicly inherits from ExpNode class
 */
 class StringNode : public ExpNode
 {
@@ -279,35 +310,42 @@ private:
 
 public:
 
-	/*!
-		\brief Constructor of StringNode
-		\param value: double
-		\post  A new StringNode is created with the value of the parameter
-		\note  Inline function
+	/* !
+	
+	 \brief      Constructor of StringNode
+	
+	 \param      value  double
+	 \post       A new StringNode is created with the value of the parameter
+	 \note       Inline function
 	*/
 	StringNode ( std::string * value )
 	{
 		this->_string = value;
 	}
 
-	/*!
-	\brief   Get the type of the expression: STRING
-	\return  int
-	\sa		 print
+	/* !
+	
+	\brief      Get the type of the expression: STRING
+	
+	\return     int
+	\see        print
 	*/
 	int getType();
 
-	/*!
-		\brief   Print the expression
-		\return  void
-		\sa		 evaluate()
+	/* !
+	
+	 \brief      Print the expression
+	 \return     void
+	 \see        evaluate()
 	*/
 	void print();
 
-	/*!
-		\brief   Evaluate the expression
-		\return  string
-		\sa		 print
+	/* !
+	
+	 \brief      Evaluate the expression
+	
+	 \return     string
+	 \see        print
 	*/
 	std::string evaluateString();
 
@@ -318,11 +356,13 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \class   UnaryOperatorNode
-  \brief   Definition of atributes and methods of UnaryOperatorNode class
-  \note    UnaryOperatorNode Class publicly inherits from ExpNode class
-  \warning Abstract class, because it does not redefine the print method of ExpNode
+/* !
+ \class      UnaryOperatorNode
+
+ \brief      Definition of atributes and methods of UnaryOperatorNode class
+ \note       UnaryOperatorNode Class publicly inherits from ExpNode class
+ \warning    Abstract class, because it does not redefine the print method of
+             ExpNode
 */
 class UnaryOperatorNode : public ExpNode
 {
@@ -331,22 +371,26 @@ protected:
 
 public:
 
-	/*!
-		\brief Constructor of UnaryOperatorNode links the node to it child,
-	           and stores the character representation of the operator.
-		\param expression: pointer to ExpNode
-		\post  A new OperatorNode is created with the parameters
-		\note  Inline function
+	/* !
+	
+	 \brief      Constructor of UnaryOperatorNode links the node to it child,
+	             and stores the character representation of the operator.
+	
+	 \param      expression  pointer to ExpNode
+	 \post       A new OperatorNode is created with the parameters
+	 \note       Inline function
 	*/
 	UnaryOperatorNode ( ExpNode * expression )
 	{
 		this->_exp = expression;
 	}
 
-	/*!
-	\brief   Get the type of the child expression
-	\return  int
-	\sa		 print
+	/* !
+	
+	\brief      Get the type of the child expression
+	
+	\return     int
+	\see        print
 	*/
 	inline int getType()
 	{
@@ -358,31 +402,39 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \class   NumericUnaryOperatorNode
-  \brief   Definition of atributes and methods of UnaryOperatorNode class
-  \note    UnaryOperatorNode Class publicly inherits from UnaryOperatorNode class
-  \warning Abstract class, because it does not redefine the print method of ExpNode
+/* !
+ \class      NumericUnaryOperatorNode
+
+ \brief      Definition of atributes and methods of UnaryOperatorNode class
+ \note       UnaryOperatorNode Class publicly inherits from UnaryOperatorNode
+             class
+ \warning    Abstract class, because it does not redefine the print method of
+             ExpNode
 */
 class NumericUnaryOperatorNode : public UnaryOperatorNode
 {
 public:
 
-	/*!
-		\brief Constructor of NumericUnaryOperatorNode uses UnaryOperatorNode's constructor as member initializer
-		\param expression: pointer to ExpNode
-		\post  A new NumericUnaryOperatorNode is created with the parameters
-		\note  Inline function
+	/* !
+	
+	 \brief      Constructor of NumericUnaryOperatorNode uses
+	             UnaryOperatorNode's constructor as member initializer
+	
+	 \param      expression  pointer to ExpNode
+	 \post       A new NumericUnaryOperatorNode is created with the parameters
+	 \note       Inline function
 	*/
 	NumericUnaryOperatorNode ( ExpNode * expression ) : UnaryOperatorNode ( expression )
 	{
 		// Empty
 	}
 
-	/*!
-	\brief   Get the type of the child expression
-	\return  int
-	\sa		 print
+	/* !
+	
+	\brief      Get the type of the child expression
+	
+	\return     int
+	\see        print
 	*/
 	int getType();
 
@@ -392,31 +444,39 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \class   LogicalUnaryOperatorNode
-  \brief   Definition of atributes and methods of UnaryOperatorNode class
-  \note    UnaryOperatorNode Class publicly inherits from UnaryOperatorNode class
-  \warning Abstract class, because it does not redefine the print method of ExpNode
+/* !
+ \class      LogicalUnaryOperatorNode
+
+ \brief      Definition of atributes and methods of UnaryOperatorNode class
+ \note       UnaryOperatorNode Class publicly inherits from UnaryOperatorNode
+             class
+ \warning    Abstract class, because it does not redefine the print method of
+             ExpNode
 */
 class LogicalUnaryOperatorNode : public UnaryOperatorNode
 {
 public:
 
-	/*!
-		\brief Constructor of LogicalUnaryOperatorNode uses UnaryOperatorNode's constructor as member initializer
-		\param expression: pointer to ExpNode
-		\post  A new NumericUnaryOperatorNode is created with the parameters
-		\note  Inline function
+	/* !
+	
+	 \brief      Constructor of LogicalUnaryOperatorNode uses
+	             UnaryOperatorNode's constructor as member initializer
+	
+	 \param      expression  pointer to ExpNode
+	 \post       A new NumericUnaryOperatorNode is created with the parameters
+	 \note       Inline function
 	*/
 	LogicalUnaryOperatorNode ( ExpNode * expression ) : UnaryOperatorNode ( expression )
 	{
 		// Empty
 	}
 
-	/*!
-	\brief   Get the type of the child expression
-	\return  int
-	\sa		 print
+	/* !
+	
+	\brief      Get the type of the child expression
+	
+	\return     int
+	\see        print
 	*/
 	int getType();
 
@@ -427,116 +487,47 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \class   UnaryMinusNode
-  \brief   Definition of atributes and methods of UnaryMinusNode class
-  \note    UnaryMinusNode Class publicly inherits from NumericUnaryOperatorNode class
+/* !
+ \class      UnaryMinusNode
+
+ \brief      Definition of atributes and methods of UnaryMinusNode class
+ \note       UnaryMinusNode Class publicly inherits from
+             NumericUnaryOperatorNode class
 */
 class UnaryMinusNode : public NumericUnaryOperatorNode
 {
 
 public:
 
-	/*!
-		\brief Constructor of UnaryMinusNode uses NumericUnaryOperatorNode's constructor as member initializer.
-		\param expression: pointer to ExpNode
-		\post  A new UnaryMinusNode is created with the parameter
-		\note  Inline function: the NumericUnaryOperatorNode's constructor is used ad member initializer
+	/* !
+	
+	 \brief      Constructor of UnaryMinusNode uses NumericUnaryOperatorNode's
+	             constructor as member initializer.
+	
+	 \param      expression  pointer to ExpNode
+	 \post       A new UnaryMinusNode is created with the parameter
+	 \note       Inline function: the NumericUnaryOperatorNode's constructor is
+	             used ad member initializer
 	*/
 	UnaryMinusNode ( ExpNode * expression ) : NumericUnaryOperatorNode ( expression )
 	{
 		// empty
 	}
 
-	/*!
-		\brief   Print the expression
-		\return  void
-		\sa		 evaluate()
+	/* !
+	
+	 \brief      Print the expression
+	 \return     void
+	 \see        evaluate()
 	*/
 	void print();
 
-	/*!
-		\brief   Evaluate the expression
-		\return  double
-		\sa		 print
-	*/
-	double evaluateNumber();
-};
-
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
-
-/*!
-  \class   UnaryPlusNode
-  \brief   Definition of atributes and methods of UnaryPlusNode class
-  \note    UnaryPlusNode Class publicly inherits from NumericUnaryOperatorNode class
-*/
-class UnaryPlusNode : public NumericUnaryOperatorNode
-{
-
-public:
-
-	/*!
-		\brief Constructor of UnaryPlusNode uses NumericUnaryOperatorNode's constructor as member initializer
-		\param expression: pointer to ExpNode
-		\post  A new UnaryPlusNode is created with the parameter
-	*/
-	UnaryPlusNode ( ExpNode * expression ) : NumericUnaryOperatorNode ( expression )
-	{
-		// empty
-	}
-
-	/*!
-		\brief   Print the expression
-		\return  void
-		\sa		 evaluate()
-	*/
-	void print();
-
-	/*!
-		\brief   Evaluate the expression
-		\return  double
-		\sa		 print
-	*/
-	double evaluateNumber();
-};
-
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
-
-/*!
-  \class   UnaryAddNode
-  \brief   Definition of atributes and methods of UnaryAddNode class
-  \note    UnaryAddNode Class publicly inherits from NumericUnaryOperatorNode class
-*/
-class UnaryAddNode : public VariableNode
-{
-private:
-	std::string identifier;
-
-public:
-
-	/*!
-		\brief Constructor of UnaryAddNode uses NumericUnaryOperatorNode's constructor as member initializer
-		\param expression: pointer to ExpNode
-		\post  A new UnaryAddNode is created with the parameter
-	*/
-	UnaryAddNode ( std::string id ) : VariableNode ( id )
-	{
-		identifier = id;
-	}
-
-	/*!
-		\brief   Print the expression
-		\return  void
-		\sa		 evaluate()
-	*/
-	void print();
-
-	/*!
-		\brief   Evaluate the expression
-		\return  double
-		\sa		 print
+	/* !
+	
+	 \brief      Evaluate the expression
+	
+	 \return     double
+	 \see        print
 	*/
 	double evaluateNumber();
 };
@@ -545,9 +536,104 @@ public:
 //////////////////////////////////////////////////////////////////////////////
 
 /* !
- @class      UnarySubstractNode
- @brief      Definition of atributes and methods of UnarySubstractNode class
- @note       UnarySubstractNode Class publicly inherits from
+ \class      UnaryPlusNode
+
+ \brief      Definition of atributes and methods of UnaryPlusNode class
+ \note       UnaryPlusNode Class publicly inherits from NumericUnaryOperatorNode
+             class
+*/
+class UnaryPlusNode : public NumericUnaryOperatorNode
+{
+
+public:
+
+	/* !
+	
+	 \brief      Constructor of UnaryPlusNode uses NumericUnaryOperatorNode's
+	             constructor as member initializer
+	
+	 \param      expression  pointer to ExpNode
+	 \post       A new UnaryPlusNode is created with the parameter
+	*/
+	UnaryPlusNode ( ExpNode * expression ) : NumericUnaryOperatorNode ( expression )
+	{
+		// empty
+	}
+
+	/* !
+	
+	 \brief      Print the expression
+	 \return     void
+	 \see        evaluate()
+	*/
+	void print();
+
+	/* !
+	
+	 \brief      Evaluate the expression
+	
+	 \return     double
+	 \see        print
+	*/
+	double evaluateNumber();
+};
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+/* !
+ \class      UnaryAddNode
+
+ \brief      Definition of atributes and methods of UnaryAddNode class
+ \note       UnaryAddNode Class publicly inherits from NumericUnaryOperatorNode
+             class
+*/
+class UnaryAddNode : public VariableNode
+{
+private:
+	std::string identifier;
+
+public:
+
+	/* !
+	
+	 \brief      Constructor of UnaryAddNode uses NumericUnaryOperatorNode's
+	             constructor as member initializer
+	
+	 \param[in]  id    The identifier
+	 \post       A new UnaryAddNode is created with the parameter
+	*/
+	UnaryAddNode ( std::string id ) : VariableNode ( id )
+	{
+		identifier = id;
+	}
+
+	/* !
+	
+	 \brief      Print the expression
+	 \return     void
+	 \see        evaluate()
+	*/
+	void print();
+
+	/* !
+	
+	 \brief      Evaluate the expression
+	
+	 \return     double
+	 \see        print
+	*/
+	double evaluateNumber();
+};
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+/* !
+ \class      UnarySubstractNode
+
+ \brief      Definition of atributes and methods of UnarySubstractNode class
+ \note       UnarySubstractNode Class publicly inherits from
              NumericUnaryOperatorNode class
 */
 class UnarySubstractNode : public VariableNode
@@ -558,12 +644,12 @@ private:
 public:
 
 	/* !
-	 @brief      Constructor of UnarySubstractNode uses NumericUnaryOperatorNode's
-	             constructor as member initializer
-
-	 @param      id    The identifier
-	 @param      expression:  pointer to ExpNode
-	 @post       A new UnarySubstractNode is created with the parameter
+	
+	 \brief      Constructor of UnarySubstractNode uses
+	             NumericUnaryOperatorNode's constructor as member initializer
+	
+	 \param      id    The identifier
+	 \post       A new UnarySubstractNode is created with the parameter
 	*/
 	UnarySubstractNode ( std::string id ) : VariableNode ( id )
 	{
@@ -571,17 +657,19 @@ public:
 	}
 
 	/* !
-	 @brief      Print the expression
-	 @return     void
-	 @see        evaluate()
+	
+	 \brief      Print the expression
+	 \return     void
+	 \see        evaluate()
 	*/
 	void print();
 
 	/* !
-	 @brief      Evaluate the expression
-
-	 @return     double
-	 @see        print
+	
+	 \brief      Evaluate the expression
+	
+	 \return     double
+	 \see        print
 	*/
 	double evaluateNumber();
 };
@@ -622,35 +710,36 @@ public:
 //////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-/* !
- @class      NumericOperatorNode
- @brief      Definition of atributes and methods of NumericOperatorNode class
- @note       NumericOperatorNode Class publicly inherits from OperatorNode class
- @warning    Abstract class, because it does not redefine the print method of
-             ExpNode
+/*
+ \class      NumericOperatorNode
+
+ \brief      Definition of atributes and methods of NumericOperatorNode class
+ \note       NumericOperatorNode Class publicly inherits from OperatorNode class
 */
 class NumericOperatorNode : public OperatorNode
 {
+
 public:
 
-	/* !
-	 @brief      Constructor of NumericOperatorNode uses OperatorNode's constructor
-	             as members initializer
-
-	 @param      L     pointer to ExpNode
-	 @param      R     pointer to ExpNode
-	 @post       A new NumericOperatorNode is created with the parameters
+	/*!
+	 \brief      Constructor of NumericOperatorNode uses OperatorNode's
+	             constructor as members initializer
+	
+	 \param      L     pointer to ExpNode
+	 \param      R     pointer to ExpNode
+	 \post       A new NumericOperatorNode is created with the parameters
 	*/
 	NumericOperatorNode ( ExpNode * L, ExpNode * R ) : OperatorNode ( L, R )
 	{
 		//	Empty
 	}
 
-	/* !
-	@brief      Get the type of the children expressions
+	/*!
 
-	@return     int
-	@see        print()
+	\brief      Get the type of the children expressions
+
+	\return     int
+	\see        print()
 	*/
 	int getType();
 };
@@ -663,27 +752,31 @@ public:
   \class   StringOperatorNode
   \brief   Definition of atributes and methods of StringOperatorNode class
   \note    StringOperatorNode Class publicly inherits from OperatorNode class
-  \warning Abstract class, because it does not redefine the print method of ExpNode
 */
 class StringOperatorNode : public OperatorNode
 {
 public:
 
-	/*!
-		\brief Constructor of StringOperatorNode uses OperatorNode's constructor as members initializer
-		\param L: pointer to ExpNode
-		\param R: pointer to ExpNode
-		\post  A new StringOperatorNode is created with the parameters
+	/*
+
+	 \brief      Constructor of StringOperatorNode uses OperatorNode's
+	             constructor as members initializer
+
+	 \param      L     pointer to ExpNode
+	 \param      R     pointer to ExpNode
+	 \post       A new StringOperatorNode is created with the parameters
 	*/
 	StringOperatorNode ( ExpNode * L, ExpNode * R ) : OperatorNode ( L, R )
 	{
 		//	Empty
 	}
 
-	/*!
-	\brief   Get the type of the children expressions
-	\return  int
-	\sa		 print()
+	/*
+
+	\brief      Get the type of the children expressions
+
+	\return     int
+	\see        print()
 	*/
 	int getType();
 };
@@ -1988,8 +2081,9 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @class      EraseStmt
- * @brief      Class for erase statement.
+ * \class      EraseStmt
+ *
+ * \brief      Class for erase statement.
  */
 class EraseStmt : public Statement
 {
@@ -2016,9 +2110,9 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @class      PlaceStmt
+ * \class      PlaceStmt
  *
- * @brief      Class for erase statement.
+ * \brief      Class for erase statement.
  */
 class PlaceStmt : public Statement
 {
@@ -2029,10 +2123,10 @@ private:
 public:
 
 	/**
-	 * @brief      Contructor of PlaceStmt
+	 * \brief      Contructor of PlaceStmt
 	 *
-	 * @param      exp1  The exponent 1
-	 * @param      exp2  The exponent 2
+	 * \param      exp1  The exponent 1
+	 * \param      exp2  The exponent 2
 	 */
 	PlaceStmt ( ExpNode * exp1, ExpNode * exp2 )
 	{
@@ -2041,16 +2135,18 @@ public:
 	};
 
 	/* !
-	@brief      Print the PlaceStmt
-	@return     void
-	@see        evaluate
+	
+	\brief      Print the PlaceStmt
+	\return     void
+	\see        evaluate
 	*/
 	void print();
 
 	/* !
-	 @brief      Evaluate the PlaceStmt
-	 @return     void
-	 @see        print
+	
+	 \brief      Evaluate the PlaceStmt
+	 \return     void
+	 \see        print
 	*/
 	void evaluate();
 };
@@ -2060,9 +2156,10 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 /* !
- @class      WhileStmt
- @brief      Definition of atributes and methods of WhileStmt class
- @note       WhileStmt Class publicly inherits from Statement class and adds its
+ \class      WhileStmt
+
+ \brief      Definition of atributes and methods of WhileStmt class
+ \note       WhileStmt Class publicly inherits from Statement class and adds its
              own print and evaluate functions
 */
 class WhileStmt : public Statement
@@ -2073,11 +2170,12 @@ private:
 
 public:
 	/* !
-	 @brief      Constructor of  WhileStmt
-
-	 @param      condition      ExpNode of the condition
-	 @param      statementlist  Statement of the body of the loop
-	 @post       A new WhileStmt is created with the parameters
+	
+	 \brief      Constructor of  WhileStmt
+	
+	 \param      condition      ExpNode of the condition
+	 \param      statementlist  Statement of the body of the loop
+	 \post       A new WhileStmt is created with the parameters
 	*/
 	WhileStmt ( ExpNode * condition, std::list<Statement *> * statementlist )
 	{
@@ -2087,16 +2185,18 @@ public:
 
 
 	/* !
-	 @brief      Print the WhileStmt
-	 @return     void
-	 @see        evaluate
+	
+	 \brief      Print the WhileStmt
+	 \return     void
+	 \see        evaluate
 	*/
 	void print();
 
 	/* !
-	 @brief      Evaluate the WhileStmt
-	 @return     void
-	 @see        print
+	
+	 \brief      Evaluate the WhileStmt
+	 \return     void
+	 \see        print
 	*/
 	void evaluate();
 };
@@ -2105,9 +2205,10 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 /* !
- @class      ForStmt
- @brief      Definition of atributes and methods of ForStmt class
- @note       ForStmt Class publicly inherits from Statement class and adds its
+ \class      ForStmt
+
+ \brief      Definition of atributes and methods of ForStmt class
+ \note       ForStmt Class publicly inherits from Statement class and adds its
              own print and evaluate functions
 */
 class ForStmt : public Statement
@@ -2121,15 +2222,16 @@ private:
 
 public:
 	/* !
-	 @brief      Constructor of ForStmt
-
-	 @param[in]  variable       The variable
-	 @param      from           The from
-	 @param      until          Until
-	 @param      step           The step
-	 @param      statementlist  Statement of the body of the loop
-	 @param      condition:  ExpNode of the condition
-	 @post       A new ForStmt is created with the parameters
+	
+	 \brief      Constructor of ForStmt
+	
+	 \param[in]  variable       The variable
+	 \param      from           The from
+	 \param      until          Until
+	 \param      step           The step
+	 \param      statementlist  Statement of the body of the loop
+	 \param      condition:  ExpNode of the condition
+	 \post       A new ForStmt is created with the parameters
 	*/
 	ForStmt ( std::string variable, ExpNode * from, ExpNode * until, ExpNode * step, std::list<Statement *> * statementlist )
 	{
@@ -2141,12 +2243,12 @@ public:
 	}
 
 	/**
-	 * @brief      Constructor of ForStmt
+	 * \brief      Constructor of ForStmt
 	 *
-	 * @param[in]  variable       The variable
-	 * @param      from           The from
-	 * @param      until          Until
-	 * @param      statementlist  The statementlist
+	 * \param[in]  variable       The variable
+	 * \param      from           The from
+	 * \param      until          Until
+	 * \param      statementlist  The statementlist
 	 */
 	ForStmt ( std::string variable, ExpNode * from, ExpNode * until, std::list<Statement *> * statementlist )
 	{
@@ -2158,28 +2260,36 @@ public:
 	}
 
 	/* !
-	 @brief      Print the ForStmt
-	 @return     void
-	 @see        evaluate
+	
+	 \brief      Print the ForStmt
+	 \return     void
+	 \see        evaluate
 	*/
 	void print();
 
 	/* !
-	 @brief      Evaluate the ForStmt
-	 @return     void
-	 @see        print
+	
+	 \brief      Evaluate the ForStmt
+	 \return     void
+	 \see        print
 	*/
 	void evaluate();
 };
 
 //------------------------------------------------------------------------------
-/// ////////////////////////////////////////////////////////////////////////////////////////////
-/// /*!
-/// @class      RepeatStmt
-/// @brief      Definition of atributes and methods of RepeatStmt class
-/// @note       RepeatStmt Class publicly inherits from Statement class and adds
-///             its own print and evaluate functions */
 ///
+
+
+/// /*!
+
+
+/**
+\class      RepeatStmt
+
+\brief      Definition of atributes and methods of RepeatStmt class
+\note       RepeatStmt Class publicly inherits from Statement class and adds its
+            own print and evaluate functions
+*/
 class RepeatStmt : public Statement
 {
 private:

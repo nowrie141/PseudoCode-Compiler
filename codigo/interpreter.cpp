@@ -4,29 +4,21 @@
 */
 
 /*!
- \mainpage Flex and Bison: example 17
+ \mainpage Flex and Bison: Práctica final
  \author
- \date     2018 - 4 - 26
+ \date     2019 - 5 - 29
  \version  1.0
- \note Novelties
-  + AST: intermidiate code
-  + New statements: if, while, block
 */
 
 
 
-// New in example 2
+
 #include <stdio.h>
 #include <string>
 #include <string.h>
 //
 
 /////////////////////////////
-/*
-  NEW in example 16
-  AST class
-  IMPORTANT: must be written before interpreter.tab.h
-*/
 #include "ast/ast.hpp"
 ////////////////////////////////////////
 
@@ -34,18 +26,19 @@
 
 int lineNumber = 1; //!< Line counter
 
-/* NEW in example 15 */
+
 bool interactiveMode; //!< Control the interactive mode of execution of the interpreter
 
+int control = 0;
 
-// New in example 2
+
 extern FILE * yyin; //!< Standard input device for yylex()
 std::string progname; //!<  Program name
 //
 
 
 //////////////////////////////////////////////
-// NEW in example 6
+
 
 // Use for recovery of runtime errors
 #include <setjmp.h>
@@ -160,8 +153,8 @@ int main ( int argc, char * argv[] )
 
   if ( interactiveMode == false )
   {
-    /* NEW in example 15 */
-    /*  root->print(); */
+    
+    /*root->print();*/
     root->evaluate();
   }
 

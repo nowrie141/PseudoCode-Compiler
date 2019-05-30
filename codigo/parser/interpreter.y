@@ -9,13 +9,11 @@
 #include <string>
 
 /*******************************************/
-/* NEW in example 5 */
 /* pow */
 #include <math.h>
 /*******************************************/
 
 /*******************************************/
-/* NEW in example 6 */
 /* Use for recovery of runtime errors */
 #include <setjmp.h>
 #include <signal.h>
@@ -28,18 +26,9 @@
 #include "../includes/macros.hpp"
 
 
-/*******************************************/
-/* 
-  NEW in example 16
-  AST class
-  IMPORTANT: this file must be before init.hpp
-*/
 #include "../ast/ast.hpp"
 
-
 /*******************************************/
-/* NEW in example 7 */
-/* Table of symbol */
 #include "../table/table.hpp"
 /*******************************************/
 
@@ -47,35 +36,28 @@
 #include "../table/numericVariable.hpp"
 /*******************************************/
 
-/* NEW in example 15 */
-#include "../table/logicalVariable.hpp"
 
+#include "../table/logicalVariable.hpp"
 #include "../table/stringVariable.hpp"
 
 /*******************************************/
-/* NEW in example 11 */
 #include "../table/numericConstant.hpp"
 /*******************************************/
 
 /*******************************************/
-/* NEW in example 15 */
 #include "../table/logicalConstant.hpp"
 /*******************************************/
 
 /*******************************************/
-/* NEW in example 13 */
 #include "../table/builtinParameter1.hpp"
 /*******************************************/
 
 /*******************************************/
-/* NEW in example 14 */
 #include "../table/builtinParameter0.hpp"
 #include "../table/builtinParameter2.hpp"
 /*******************************************/
 
-
 /*******************************************/
-/* NEW in example 10 */
 #include "../table/init.hpp"
 /*******************************************/
 
@@ -87,19 +69,20 @@
 */
 int yylex();
 
+extern int control;
+
 extern int lineNumber; //!< External line counter
 
-/* NEW in example 15 */
 extern bool interactiveMode; //!< Control the interactive mode of execution of the interpreter
 
 
 /***********************************************************/
-/* NEW in example 2 */
+
 extern std::string progname; //!<  Program name
 /***********************************************************/
 
 /*******************************************/
-/* NEW in example 6 */
+
 /*
  jhmp_buf
     This is an array type capable of storing the information of a calling environment to be restored later.
@@ -133,7 +116,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %union {
   char * identifier; 				 /* NEW in example 7 */
   double number;  
-  bool logic;						 /* NEW in example 15 */
+  bool logic;						 
   std::string * strings;
   lp::ExpNode *expNode;  			 /* NEW in example 16 */
   std::list<lp::ExpNode *>  *parameters;    // New in example 16; NOTE: #include<list> must be in interpreter.l, init.cpp, interpreter.cpp
@@ -143,15 +126,12 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 }
 
 /* Type of the non-terminal symbols */
-// New in example 17: cond
 %type <expNode> exp cond 
 
-/* New in example 14 */
 %type <parameters> listOfExp  restOfListOfExp
 
 %type <stmts> stmtlist
 
-// New in example 17: if, while
 %type <st> stmt asgn print read if while repeat for erase place
 
 %type <prog> program
@@ -180,7 +160,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 /* Left associativity */
 
 /*******************************************************/
-/* NEW in example 15 */
+
 %left OR
 
 %left AND
@@ -191,10 +171,10 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 
 /*******************************************************/
 
-/* MODIFIED in example 3 */
+
 %left PLUS MINUS 
 
-/* MODIFIED in example 5 */
+
 %left MULTIPLICATION DIVISION DIVISION_INT MODULO CONCATENATION 
 
 %left LPAREN RPAREN
@@ -202,7 +182,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 %nonassoc  UNARY UNARY_PLUS UNARY_MINUS
 
 // Maximum precedence 
-/* MODIFIED in example 5 */
+
 %right POWER
 
 
@@ -237,7 +217,7 @@ stmtlist:  /* empty: epsilon rule */
 			$$->push_back($2);
 
 			// Control the interative mode of execution of the interpreter
-			if (interactiveMode == true)
+			if ( (interactiveMode == true) && (control == 0) )
  			   $2->evaluate();
            }
 
@@ -273,7 +253,7 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	  }
-	/*  NEW in example 17 */
+	
 	| if 
 	 {
 		// Default action
@@ -298,13 +278,21 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 	}
 ;
 
-for:	FOR VARIABLE FROM exp UNTIL exp STEP exp DO stmtlist END_FOR
+controlSymbol: {
+	control++;
+}
+
+for:/* For statement with step */
+	FOR controlSymbol VARIABLE FROM exp UNTIL exp STEP exp DO stmtlist END_FOR
 	{
-			$$ =new lp::ForStmt($2, $4, $6, $8, $10);
+			$$ =new lp::ForStmt($3, $5, $7, $9, $11);
+			control--;
 	}
-	|	FOR VARIABLE FROM exp UNTIL exp DO stmtlist END_FOR
+	/* For statement without step */
+	|	FOR controlSymbol VARIABLE FROM exp UNTIL exp DO stmtlist END_FOR
 	{
-			$$ =new lp::ForStmt($2, $4, $6, $8);
+			$$ =new lp::ForStmt($3, $5, $7, $9);
+			control--;
 	}
 	|	FOR FROM exp UNTIL exp STEP exp DO stmtlist END_FOR
 	{
@@ -314,58 +302,66 @@ for:	FOR VARIABLE FROM exp UNTIL exp STEP exp DO stmtlist END_FOR
 	{
 			execerror("Error sintáctico","bucle para, recibe una variable");
 	}
-	|	FOR VARIABLE exp UNTIL exp STEP exp DO stmtlist END_FOR
+	|	FOR controlSymbol VARIABLE exp UNTIL exp STEP exp DO stmtlist END_FOR
 	{
 			warning("Error sintáctico","bucle para, falta sentencia \"desde\"");
-			$$ =new lp::ForStmt($2, $3, $5, $7, $9);
+			$$ =new lp::ForStmt($3, $4, $6, $8, $10);
+			control--;
 	}
-	|	FOR VARIABLE exp UNTIL exp DO stmtlist END_FOR
+	|	FOR controlSymbol VARIABLE exp UNTIL exp DO stmtlist END_FOR
 	{
 			warning("Error sintáctico","bucle para, falta sentencia \"desde\"");
-			$$ =new lp::ForStmt($2, $3, $5, $7);
+			$$ =new lp::ForStmt($3, $4, $6, $8);
+			control--;
 	}
-	|	FOR VARIABLE FROM exp UNTIL exp STEP exp stmtlist END_FOR
+	|	FOR controlSymbol VARIABLE FROM exp UNTIL exp STEP exp stmtlist END_FOR
 	{
 			warning("Error sintáctico","bucle para, falta sentencia \"hacer\"");
-			$$ =new lp::ForStmt($2, $4, $6, $8, $9);
+			$$ =new lp::ForStmt($3, $5, $7, $9, $10);
+			control--;
 	}
-	|	FOR VARIABLE FROM exp UNTIL exp stmtlist END_FOR
+	|	FOR controlSymbol VARIABLE FROM exp UNTIL exp stmtlist END_FOR
 	{
 			warning("Error sintáctico","bucle para, falta sentencia \"hacer\"");
-			$$ =new lp::ForStmt($2, $4, $6, $7);
+			$$ =new lp::ForStmt($3, $5, $7, $8);
+			control--;
 	}
  
-	/*  NEW in example 17 */
+	
 if:	/* Simple conditional statement */
-	IF cond THEN stmtlist END_IF
+	IF controlSymbol cond THEN stmtlist END_IF
     {
 		// Create a new if statement node
-		$$ = new lp::IfStmt($2, $4);
+		$$ = new lp::IfStmt($3, $5);
+		control--;
 	}
 
 	/* Compound conditional statement */
-	| IF cond THEN stmtlist ELSE stmtlist END_IF
+	| IF controlSymbol cond THEN stmtlist ELSE stmtlist END_IF
 	 {
 		// Create a new if statement node
-		$$ = new lp::IfStmt($2, $4, $6);
+		$$ = new lp::IfStmt($3, $5, $7);
+		control--;
 	 }
 ;
 
-	/*  NEW in example 17 */
-while:  WHILE cond DO stmtlist END_WHILE
+	
+while:  WHILE controlSymbol cond DO stmtlist END_WHILE
 		{
 			// Create a new while statement node
-			$$ = new lp::WhileStmt($2, $4);
+			$$ = new lp::WhileStmt($3, $5);
+			control--;
         }
 ;
 
-repeat: REPEAT stmtlist UNTIL cond
+repeat: REPEAT controlSymbol stmtlist UNTIL cond
 		{
-			$$=new lp::RepeatStmt($4,$2);
+			$$=new lp::RepeatStmt($5,$3);
+			control--;
 		}
 ;		
 
-	/*  NEW in example 17 */
+	
 cond: 	LPAREN exp RPAREN
 		{ 
 			$$ = $2;
@@ -405,12 +401,12 @@ asgn:   VARIABLE ASSIGNMENT exp
 			$$ = new lp::AssignmentStmt($1, (lp::AssignmentStmt *) $3);
 		}
 
-	   /* NEW in example 11 */ 
+	   
 	| CONSTANT ASSIGNMENT exp 
 		{   
  			execerror("Error semático en la asignación: no está permitido modificar una constante ", $1);
 		}
-	   /* NEW in example 11 */ 
+	   
 	| CONSTANT ASSIGNMENT asgn 
 		{   
  			execerror("Error semático en la asignación multiple: no está permitido modificar una constante ",$1);
@@ -443,7 +439,7 @@ read:  READ LPAREN VARIABLE RPAREN
 			 $$ = new lp::ReadStringStmt($3);
 		}
 
-  	  /* NEW rule in example 11 */
+  	  
 		| READ LPAREN CONSTANT RPAREN  
 		{   
  			execerror("Error semático en \"escribir\": no está permitido modificar una constante ",$3);

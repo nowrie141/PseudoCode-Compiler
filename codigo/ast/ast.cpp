@@ -1007,14 +1007,14 @@ bool lp::EqualNode::evaluateBool()
 			rightNumber = this->_right->evaluateNumber();
 
 			// ERROR_BOUND to control the precision of real numbers
-			result = std::abs ( ( leftNumber - rightNumber ) < ERROR_BOUND );
+			result = std::abs ( ( leftNumber - rightNumber ) ) < ERROR_BOUND ;
 		}
 		else if ( ( this->_left->getType() == STRING ) and ( this->_right->getType() == STRING ) )
 		{
 			std::string leftString, rightString;
 			leftString = this->_left->evaluateString();
 			rightString = this->_right->evaluateString();
-			result = ( leftString == rightString );
+			result = ( leftString.compare(rightString) == 0 );
 		}
 	}
 	else
@@ -1688,12 +1688,9 @@ void lp::ForStmt::print()
 	this->_from->print();
 	std::cout << " hasta ";
 	this->_until->print();
+	std::cout << " paso ";
+	this->_step->print();
 
-	if ( this->_step != NULL )
-	{
-		std::cout << " paso ";
-		this->_step->print();
-	}
 	std::cout << std::endl;
 	// Body of the for loop
 	std::list<Statement *>::iterator stmtIter;
@@ -1803,7 +1800,7 @@ void lp::RepeatStmt::evaluate()
 			( *stmtIter )->evaluate();
 		}
 	}
-	while ( this->_cond->evaluateBool() == true );
+	while ( this->_cond->evaluateBool() != true );
 
 }
 
