@@ -204,10 +204,10 @@ mientras (opc<>0) hacer
                             term2:=term3;
 
                           fin_para;
-
-                      fin_si
-                        escribir_cadena('Escribe cualquier letra para continuar: ');
+                          escribir_cadena('Escribe cualquier letra para continuar: ');
                         leer_cadena(D);
+                      fin_si
+                        
                   si_no
                     si(opc = 4)
                       entonces
