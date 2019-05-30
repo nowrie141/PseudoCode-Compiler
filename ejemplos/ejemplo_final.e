@@ -246,13 +246,13 @@ mientras (opc<>0) hacer
                                 fin_si;
 
                             fin_si;
-
+                             escribir_cadena('\nEscribe cualquier letra para continuar: ');
+                            leer_cadena(D);
                     fin_si;
                   @Para meter mas ifs quitar el fin si de justo arriba y seguir con si_no, al terminar todas las opciones poner otro fin_si
           fin_si;
 
-          escribir_cadena('\nEscribe cualquier letra para continuar: ');
-          leer_cadena(D);
+         
 
             
 
