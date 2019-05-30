@@ -166,17 +166,17 @@ mientras (opc<>0) hacer
                               fin_para;
 
                             fin_para;
-                        
-                      fin_si;
-                       escribir_cadena('Escribe cualquier letra para continuar: ');
+                      escribir_cadena('Escribe cualquier letra para continuar: ');
                       leer_cadena(D);
+                      fin_si;
+
                      
                 si_no
                   si(opc = 3)
                     entonces
-			_borrar;
+			           _borrar;
                       _lugar(5,5);
-                      escribir_cadena('Escribe el numero de terminos de la serie: ');
+                      escribir_cadena('Escribe el numero de iteraciones de la serie: ');
                       leer(T);
 
                       si(T > 0)
@@ -237,17 +237,10 @@ mientras (opc<>0) hacer
 
                                 escribir_cadena(' El número es perfecto');
                               
-                              si_no
-                                si(sumaDiv <> V)
-                                  entonces
-
-                                  escribir_cadena(' El número no es perfecto ');
-
-                                fin_si;
-
                             fin_si;
                              escribir_cadena('\nEscribe cualquier letra para continuar: ');
                             leer_cadena(D);
+                            fin_si;
                     fin_si;
                   @Para meter mas ifs quitar el fin si de justo arriba y seguir con si_no, al terminar todas las opciones poner otro fin_si
           fin_si;
