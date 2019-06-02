@@ -13,11 +13,11 @@
 
 
 -----------------------------------------------------------------
-NO EXISTEN CONFLICTOS EN LAS REGLAS DE PRODUCCIÓN:		[ ]
+NO EXISTEN CONFLICTOS EN LAS REGLAS DE PRODUCCIÓN:		[X]
 -----------------------------------------------------------------
 
 -----------------------------------------------------------------
-PALABRAS RESERVADAS:		[ ]							CHECK
+PALABRAS RESERVADAS:		[X]							CHECK
 -----------------------------------------------------------------
 	_mod												[X]
 	_div												[X]
@@ -190,26 +190,26 @@ OBSERVACIONES:			[X]								CHECK
 
 
 -----------------------------------------------------------------
-CONTROL DE ERRORES:		[ ]								CHECK
+CONTROL DE ERRORES:		[X]								CHECK
 -----------------------------------------------------------------
 	LÉXICOS
 		IDENTIFICADOR MAL ESCRITO 						[X]
 		SIMBOLO NO PERMITIDO							[X]
-		OTROS											[ ]
+		OTROS											[X]
 
-	SINTÁCTICOS											[ ]
-		SENTENCIA DE CONTROL MAL ESCRITA				[ ]
+	SINTÁCTICOS											[X]
+		SENTENCIA DE CONTROL MAL ESCRITA				[X]
 		SENTENCIA CON ARGUMENTOS INCOMPATIBLES			[X]
-		OTROS											[ ]
+		OTROS											[X]
 
 	SEMÁNTICOS											[X]
 		ARGUMENTOS U OPERANDOS INCOMPATIBLES			[X]
 
-	DE EJECUCIÓN										[ ]
+	DE EJECUCIÓN										[X]
 		SENTENCIA "PARA" CON BUCLE INFINITO				[X]
 		FICHERO INEXISTENTE								[X]
 		FICHERO CON EXTENSIÓN INCORRECTA				[X]
-		OTROS											[ ]
+		OTROS											[X]
 
 -----------------------------------------------------------------
 MODOS DE EJECUCIÓN:		[X]								CHECK
@@ -218,7 +218,7 @@ MODOS DE EJECUCIÓN:		[X]								CHECK
 	DESDE FICHERO										[X]
 
 -----------------------------------------------------------------
-OPCIONALES:				[ ]								CHECK
+OPCIONALES:				[X]								CHECK
 -----------------------------------------------------------------
 	OPERADORES UNARIOS (++, --, etc)					[X]
 	OPERADIRES ARITMETICOS Y ASIGNACION (+:=,-:=)		[ ]

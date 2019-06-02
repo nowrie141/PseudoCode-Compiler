@@ -16,7 +16,10 @@
 
 
 #define ERROR_BOUND 1.0e-6  //!< Error bound for the comparison of real numbers.
-
+/*!	
+	\namespace lp
+	\brief Name space for the subject Language Processors
+*/
 namespace lp
 {
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1648,7 +1651,7 @@ class OrNode : public LogicalOperatorNode
 public:
 
 	/*!
-		\brief Constructor of AndNode uses LogicalOperatorNode's constructor as members initializer
+		\brief Constructor of OrNode uses LogicalOperatorNode's constructor as members initializer
 		\param L: pointer to ExpNode
 		\param R: pointer to ExpNode
 		\post  A new AndNode is created with the parameter
@@ -2300,7 +2303,7 @@ public:
 	/*!
 		\brief Constructor of  RepeatStmt
 		\param condition: ExpNode of the condition
-		\param statement: Statement of the body of the loop
+		\param statementlist: Statement of the body of the loop
 		\post  A new RepeatStmt is created with the parameters
 	*/
 	RepeatStmt ( ExpNode * condition, std::list<Statement *> * statementlist )

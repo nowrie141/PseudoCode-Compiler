@@ -1,3 +1,19 @@
+#
+  Asignatura:    Procesadores de Lenguajes
+
+  Titulación:    Ingeniería Informática
+  Especialidad:  Computación
+  Curso:         Tercero
+  Cuatrimestre:  Segundo
+
+  Departamento:  Informática y Análisis Numérico
+  Centro:        Escuela Politécnica Superior de Córdoba
+  Universidad de Córdoba
+ 
+  Curso académico: 2018 - 2019
+
+  Fichero de ejemplo para el proyecto final de Procesadores de Lenguajes
+#
 _borrar;
 _lugar(5,5);
                       escribir_cadena('Escribe el numero de iteraciones de la serie: ');

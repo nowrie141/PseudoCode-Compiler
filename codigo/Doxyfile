@@ -6,6 +6,8 @@ OUTPUT_LANGUAGE        = English
 # The private atributes and functions are shown
 EXTRACT_PRIVATE        = YES
 
+EXTRACT_ALL						 = YES
+
 # The C++ files are shown: "cpp" files
 SOURCE_BROWSER         = YES
 
